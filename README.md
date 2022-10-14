@@ -30,7 +30,7 @@ Before running the script, install the Miniconda distribution to get access to r
 https://docs.conda.io/en/latest/miniconda.html  
 Keep all the settings on default **except** the checkmark asking to put Miniconda on your Path variable. That is off by default, turn it on.  
 After installing, open Powershell and install the two modules required by the program, as described in **Dependencies**.  
-With all that, the script should run when double-clicked.
+With all that, the script should run when double-clicked. If it asks you for the program to run it with, choose to select an application and navigate to C:\Users\<your username>\miniconda3 and select *python.exe*. Now you can just double-click on the script to run it.
 
 ## Solutions for potential issues:
 - If you get an error reading .doc files on Windows, you need to download *Antiword* and set it in your PATH environmental variable.
