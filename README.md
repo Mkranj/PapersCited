@@ -41,10 +41,10 @@ Guide: https://stackoverflow.com/questions/51727237/reading-doc-file-in-python-u
 Note that **PDF is tehnically supported, but not recommended!** Differently encoded PDFs can result in new lines breaking citations, or certain characters being read inaccurately. 
 
 ## Known limitations:
-- Citations with three or more authors in the text. Note that this is incorrect citing according to APA 7, and you should use "*First author et al.*" instead. If your document still has this old way of citing, only the last two authors will be recorded.
-- Secondary citations ("*XY 2010, as cited in ZZ 2012*"). *ZZ 2012* gets detected correctly, which is important. However, *XY* also gets detected as a primary source. *XY* should not be included in the reference list.
+- Citations with three or more authors in the text. Note that this is incorrect citing according to APA 7, and you should use "*First author et al.*" instead. If your document still has this old way of citing, **only the last two authors** will be recorded.
+- Secondary citations ("*XX 2010, as cited in YY 2012*"). *YY 2012* gets detected correctly. However, *XX 2010* also gets detected as a primary source. *XY 2010* should not be included in the reference list.
 - In Croatian, different declinations of the author's surnames get detected as different authors.
-- Multiple surnames such as van der Flier will get recorded only as the last word - *Van Selm and Jankowski (2006)* will be recorded as *Selm & Jankowski 2006*. *Kappe and van der Flier (2010)* will be recorded as *Flier 2010*, ignoring the first author! These require special attention when writing or reviewing a reference list. Multiple surnames with an "-", however, will be recorded correctly.
+- Multiple surnames such as Van Selm will get recorded only as the last word - *Van Selm and Jankowski (2006)* will be recorded as *Selm & Jankowski 2006*. *Kappe and van der Flier (2010)* will be recorded as *Flier 2010*, **skipping the first author**! These require special attention when writing or reviewing a reference list. Multiple surnames with an "-", however, will be recorded correctly.
 - Similarly to the last point, when citing organizations, laws and other documents, it possible that only the end of the full name gets recorded. *World Health Organization (2000)* will be recorded as *Organization (2000)*. (*WHO 2000* would be fine, though.) I can't find a workaround that wouldn't also catch lots of unnecessary words. So if you are working with these kinds of sources, extra attention is needed.
 
 ## Lastly...
