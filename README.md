@@ -28,7 +28,9 @@ The first column is empty so you can easily mark certain citations as "OK" or "d
 ## What if I don't have Python?
 Before running the script, install the Miniconda distribution to get access to running Python scripts on your computer: 
 https://docs.conda.io/en/latest/miniconda.html  
-Keep all the settings on default **except** the checkmark asking to put Miniconda on your Path variable. That is off by default, turn it on. After installing, the script should run when double-clicked.
+Keep all the settings on default **except** the checkmark asking to put Miniconda on your Path variable. That is off by default, turn it on.  
+After installing, open Powershell and install the two modules required by the program, as described in **Dependencies**.  
+With all that, the script should run when double-clicked.
 
 ## Solutions for potential issues:
 - If you get an error reading .doc files on Windows, you need to download *Antiword* and set it in your PATH environmental variable.
