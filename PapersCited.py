@@ -156,8 +156,8 @@ chars_to_remove = [",", "(", ")", ";", "."]
 # Several phrases in the final list should be adjusted:
 phrases_to_adjust = {
     # Et al. and sur. need a dot at the end
-    " sur ": " sur. ",
     " et al ": " et al. ",
+    " sur ": " sur. ",
     # A1 and A2 is the same as A1 & A2, default to &
     " and ": " & ",
     # For the purposes of detecting duplicates, "sur." and "suradnici" are the same
@@ -193,8 +193,6 @@ for index_no, citation in enumerate(complete_list):
 complete_list = to_keep
 # Sort the list alphabetically, ignoring case
 complete_list.sort(key=str.casefold)
-complete_list
-
 
 # Outputting in Excel ----
 
