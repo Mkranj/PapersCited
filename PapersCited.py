@@ -96,12 +96,10 @@ regex_case2 = re.findall(
 second_authors = []
 for index_no, citation in enumerate(regex_case2):
     second_authors.append(
-        (
-            re.findall(
-                " (?:and+|[i&]+)+ " + rx_author_name + "[\s,(]+" + rx_years,
-                citation,
-                re.IGNORECASE,
-            )
+        re.findall(
+            " (?:and+|[i&]+)+ " + rx_author_name + "[\s,(]+" + rx_years,
+            citation,
+            re.IGNORECASE,
         )
     )
 
