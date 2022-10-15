@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
 # For reading doc files
-import enum
 import textract
+
 # regex in Python
 import re
+
 # writing to XLSX
 import xlsxwriter
 import os
@@ -42,11 +43,9 @@ except:
     print("\nPress Enter to exit the program.")
     input()
     sys.exit()
-    
-# UTF-8 encoding so it recognises foreign characters
-# IMPORTANT - it needs to be in SINGLE QUOTES!
-target_document = target_document.decode('utf-8')
 
+# UTF-8 encoding so it recognises foreign characters
+target_document = target_document.decode("utf-8")
 
 
 # These are the ways a source can be cited in text:
@@ -75,37 +74,53 @@ rx_years = "(?:\(?\d\d\d\d,?\s?;?)+"
 # Catching individual types of citation ----
 
 # 1) One author
-regex_case1 = re.findall(rx_author_name + "[\s,(]+" + rx_years, target_document, re.IGNORECASE)
+regex_case1 = re.findall(
+    rx_author_name + "[\s,(]+" + rx_years,
+    target_document,
+    re.IGNORECASE,
+)
 
 
 # 2) Author & author / author and author / author i author
 # Note that the part before rx_years now includes a dot in the character set [\s,.]+
 # This catches the Croatian part "i sur." in citations.
-regex_case2 = re.findall(rx_author_name + ",? (?:and+|[i&]+)+ " + rx_author_name + "[\s,.(]+" + rx_years, target_document, re.IGNORECASE)
+regex_case2 = re.findall(
+    rx_author_name + ",? (?:and+|[i&]+)+ " + rx_author_name + "[\s,.(]+" + rx_years,
+    target_document,
+    re.IGNORECASE,
+)
 
 # Which authors detected in 1) as solo authors are actually part of "Author & author / author and author"?
 # Detect the pattern starting with " and/&/i " in 2)
 
 second_authors = []
 for index_no, citation in enumerate(regex_case2):
-    second_authors.append((re.findall(" (?:and+|[i&]+)+ " + rx_author_name + "[\s,(]+" + rx_years, citation, re.IGNORECASE)))
+    second_authors.append(
+        (
+            re.findall(
+                " (?:and+|[i&]+)+ " + rx_author_name + "[\s,(]+" + rx_years,
+                citation,
+                re.IGNORECASE,
+            )
+        )
+    )
 
 # It's a list of lists, turn it into a list of strings
-second_authors = [''.join(citation) for citation in second_authors]
+second_authors = ["".join(citation) for citation in second_authors]
 
 # Some strings in second_authors might be empty.
 # That's because it detected "i sur." in case 2), which has no meaning on its own.
 # These should be dropped from the second_authors list.
 second_authors = list(filter(None, second_authors))
 
-# Strip the start of lines from "and/&/i". For safety, the count of things to be replaced is 1.
+# Strip "and/&/i" from the start of lines. For safety, the count of things to be replaced is 1.
 # Note that the words are enclosed with spaces!
-
+starts_with_and = [" and ", " & ", " i "]
 
 for index_no, citation in enumerate(second_authors):
-    second_authors[index_no] = second_authors[index_no].replace(" i ", "", 1)
-    second_authors[index_no] = second_authors[index_no].replace(" & ", "", 1)
-    second_authors[index_no] = second_authors[index_no].replace(" and ", "", 1)
+    # Citation by citation, check and change all listed symbols
+    for phrase in starts_with_and:
+        second_authors[index_no] = second_authors[index_no].replace(phrase, "", 1)
 
 # Now we have two lists, all authors with year detected and only those who occur after an i/&
 # For each occuring in the second list, delete ONE from the first - so if theres A & B 2000 and also B 2000,
@@ -126,43 +141,50 @@ for author in second_authors:
 
 # 3) Author et al.
 # Note that the dot doesn't need to be escaped inside of a [character set]
-regex_case3 = re.findall(rx_author_name + " et al[\s,.(]+" + rx_years, target_document, re.IGNORECASE)
+regex_case3 = re.findall(
+    rx_author_name + " et al[\s,.(]+" + rx_years,
+    target_document,
+    re.IGNORECASE,
+)
 
 # Combine all found cases into a single list
 complete_list = regex_case1 + regex_case2 + regex_case3
 
 # Editing the list ----
 
-# For clarity and spotting duplicates, remove the following from citations: ,;()
+# For clarity and spotting duplicates, remove the following from citations:
+chars_to_remove = [",", "(", ")", ";", "."]
+
+# Several phrases in the final list should be adjusted:
+phrases_to_adjust = {
+    # Et al. and sur. need a dot at the end
+    " sur ": " sur. ",
+    " et al ": " et al. ",
+    # A1 and A2 is the same as A1 & A2, default to &
+    " and ": " & ",
+    # For the purposes of detecting duplicates, "sur." and "suradnici" are the same
+    "suradnici": "sur.",
+    "suradnika": "sur.",
+}
 
 for index_no, citation in enumerate(complete_list):
-    # We don't actually use "citation", but rather list[index_no]
-    # Because if multiple operations are needed on the same citation,
-    # It would only do one! Because the "citation" object is not updated.
-    complete_list[index_no] = complete_list[index_no].replace(",", "")
-    complete_list[index_no] = complete_list[index_no].replace("(", "")
-    complete_list[index_no] = complete_list[index_no].replace(")", "")
-    complete_list[index_no] = complete_list[index_no].replace(";", "")
-    complete_list[index_no] = complete_list[index_no].replace(".", "")
-    # Et al. and sur. need a dot, it will be removed from other occurences.
-    complete_list[index_no] = complete_list[index_no].replace(" sur ", " sur. ")
-    complete_list[index_no] = complete_list[index_no].replace(" et al ", " et al. ")
-    # For the purposes of detecting duplicates, "sur." and "suradnici" are the same, so we'll equalize them here.
-    complete_list[index_no] = complete_list[index_no].replace("suradnici", "sur.")
-    complete_list[index_no] = complete_list[index_no].replace("suradnika", "sur.")
-    # For citing in English, "and" and "&" are the same thing, default to &
-    complete_list[index_no] = complete_list[index_no].replace(" and ", " & ")
-    # Also remove leading and trailing spaces with strip() to not confuse the duplicate detection
+    # Remove uneccessary characters
+    for char in chars_to_remove:
+        complete_list[index_no] = complete_list[index_no].replace(char, "")
+    # Change several phrases
+    for key in phrases_to_adjust:
+        complete_list[index_no] = complete_list[index_no].replace(key, phrases_to_adjust[key])
+    # Remove leading and trailing spaces with strip() to not confuse the duplicate detection
     complete_list[index_no] = complete_list[index_no].strip()
 
 
 # Remove duplicates
 # To keep - elements to keep
 to_keep = []
-# Temporary file - we'll put casefold strings (case insensitive) in here so we can check repeating citations!
+# Temporary file - we'll put casefold strings (case insensitive) in here so we can check repeating citations
 tmp = []
 for index_no, citation in enumerate(complete_list):
-    # If the current citation HASN'T been mentioned yet, add it to the list of citations to keep 
+    # If the current citation HASN'T been mentioned yet, add it to the list of citations to keep
     # - these will end up in the output file.
     # Furthermore, turn that same citation casefold and add it to the object which stores all gathered citations
     # in lowercase, for comparison. We need a separate file since we cannot return from all lowercase to actual case automatically.
@@ -178,7 +200,7 @@ complete_list
 
 # Outputting in Excel ----
 
-output_filename = 'citations.xlsx'
+output_filename = "citations.xlsx"
 
 # Create a file
 workbook = xlsxwriter.Workbook(output_filename)
@@ -196,10 +218,9 @@ row = 0
 for item in complete_list:
     # Perform writing in specified cell
     worksheet1.write(row, column, item)
- 
     # Increment the value of row by one with each iteration.
     row += 1
-     
+
 workbook.close()
 
 print(f"Success! A file called {output_filename} has been created.")
