@@ -1,0 +1,29 @@
+This file contains instructions on installing additional libraries so PapersCited can read more file types.
+
+# .doc files
+NOT REQUIRED FOR .docx FILES!
+
+If you get an error reading .doc files on Windows, you need to download Antiword and set it in your PATH environmental variable. Steps adapted from: https://stackoverflow.com/questions/51727237/reading-doc-file-in-python-using-antiword-in-windows-also-docx/51727238#51727238
+
+1) Download Antiword from https://www.softpedia.com/get/Office-tools/Other-Office-Tools/Antiword.shtml
+2) Extract the downloaded file
+3) Move the "antiword" folder into your "C:/" drive, at root level.
+4) Now you need to add it to %PATH%. To do so, open the Windows start menu and type "Edit the system environment variables", then select it.
+5) On the "Advanced" tab, select "Environment Variables..."
+6) One row should be labelled "Path". Select it, and press the "Edit..." button below.
+7) On the right side of the window press "New". Paste the following: "C:\antiword".
+8) Press "OK".
+9) Restart the computer.
+
+With this, you have added the Antiword libraries to your %PATH% variable, so programs, including PapersCited, can access it to manipulate .doc files. 
+
+# .pdf files
+The procedure is very similar to the one described for .doc files.
+
+1) Download poppler-0.68.0_x86 from https://blog.alivate.com.au/poppler-windows/
+2) Extract the file and move the "poppler-0.68.0" folder to  
+"C:\Program Files"
+3) Edit the %PATH% like in steps 4)-6) for .doc files.
+7) Press "New" and paste the following: "C:\Program Files\poppler-0.68.0\bin"
+8) Press "OK".
+9) Restart the computer.
