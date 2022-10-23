@@ -1,18 +1,20 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/env python 
-# V 1.1 2022-10-18
+# V 1.0
 
 import locale
 import os
+import sys
+import textract
+import xlsxwriter
+
 # regex in Python
 import re
-import sys
+
 # GUI elements - for the file dialog. Explicitly import the filedialog submodule.
 import tkinter
 from tkinter import filedialog
 
-import textract
-import xlsxwriter
+
 
 # Open a file dialog to select a file to process.
 def getfile():
