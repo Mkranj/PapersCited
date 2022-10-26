@@ -16,7 +16,7 @@ Tested on Windows using .doc, .docx, .txt and .pdf files.
 This program is appropriate for texts written in **English** and **Croatian**. Some sources may be detected incorrectly in other languages. The software is written with **APA style** citations in mind, but **Chicago style** would probably work as well.
 
 ## Instructions:
-- Download **PapersCited.py**.
+- Download **PapersCited.py** (From the *Releases* tab, or click *Code* -> *Download Zip* on this page).
 - Run the .py file. If you have already used Python, you can probably double-click the file to run the program.
 - When prompted, select the document you want to search for citations.
 
