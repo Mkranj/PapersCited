@@ -1,5 +1,5 @@
 # PapersCited
-## v1.0.0
+## v1.1.0
 Write an Excel file containing all citations found in a document, so they can be used to check or build a reference list.
 
 ## Dependencies:
@@ -13,7 +13,7 @@ To install them in Powershell, type "*pip install textract*", followed by "*pip 
 With that file, you can easily go through your reference list and note if you cited something but didn't include it in references or, conversely, you have a reference that isn't cited anywhere in the article. It is also handy for writing a reference list from stratch. You no longer need to manually go over the whole article and note all the times you cite another source.
 
 Tested on Windows using .doc, .docx, .txt and .pdf files. 
-This program is appropriate for texts written in **English** and **Croatian**. Some sources may be detected incorrectly in other languages. The software is written with **APA style** citations in mind, but **Chicago style** would probably work as well.
+This program is appropriate for texts written in **English** and **Croatian**. Some sources may be detected incorrectly in other languages. The software is written with **APA style** citations in mind, but **Chicago style** and similar would work as well.
 
 ## Instructions:
 - Download **PapersCited.py** (From the *Releases* tab, or click *Code* -> *Download Zip* on this page).
