@@ -78,8 +78,7 @@ def get_file():
     # Make the main window of tkinter invisible since we only need the dialog.
     root.withdraw()
     root.attributes("-topmost", True)
-    filename = filedialog.askopenfilename(
-        title="Select a document to search for citations:")
+    filename = filedialog.askopenfilename(title="Select a document to search for citations:")
     root.destroy()
     return(filename)
 
@@ -197,8 +196,7 @@ def get_matches(target_document):
     for index_no, citation in enumerate(second_authors):
         # Citation by citation, check and change all listed symbols
         for phrase in starts_with_and:
-            second_authors[index_no] = second_authors[index_no].replace(
-                phrase, "", 1)
+            second_authors[index_no] = second_authors[index_no].replace(phrase, "", 1)
 
     # Now we have two lists, all authors with year detected and only those who occur after an 'i'/'&'
     # For each occuring in the second list, delete ONE from the first - so if theres A & B 2000 and also B 2000,
@@ -224,8 +222,7 @@ def get_matches(target_document):
     )
 
     # Combine all found cases into a single list
-    all_found_citations = matches_single_author + \
-        matches_multiple_authors + matches_author_et_al
+    all_found_citations = matches_single_author + matches_multiple_authors + matches_author_et_al
     return(all_found_citations)
 
 
@@ -233,13 +230,11 @@ def remove_characters_adjust_phrases(list_of_matches, characters_to_remove, phra
     for index_no, citation in enumerate(list_of_matches):
         # Remove uneccessary characters
         for char in characters_to_remove:
-            list_of_matches[index_no] = list_of_matches[index_no].replace(
-                char, "")
+            list_of_matches[index_no] = list_of_matches[index_no].replace(char, "")
 
         # Change several phrases
         for key in phrases_to_adjust:
-            list_of_matches[index_no] = list_of_matches[index_no].replace(
-                key, phrases_to_adjust[key])
+            list_of_matches[index_no] = list_of_matches[index_no].replace(key, phrases_to_adjust[key])
 
         # Remove leading and trailing spaces with strip() to not confuse the duplicate detection
         list_of_matches[index_no] = list_of_matches[index_no].strip()
@@ -326,8 +321,7 @@ def write_excel(list_of_matches, filename):
     workbook.close()
 
     print(f"Success! A file has been created at {output_filename}.")
-    print(
-        f"A total of {len(list_of_matches)} different citations have been recorded.")
+    print(f"A total of {len(list_of_matches)} different citations have been recorded.")
     input("\nPress Enter to exit the program.")
 
 # MAIN ----
