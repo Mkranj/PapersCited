@@ -328,7 +328,7 @@ def write_excel(list_of_matches, filename):
 # Using the defined lists of phrases/characters as arguments
 
 
-def main(characters_to_remove, phrases_to_adjust, croatian_excluded_phrases, english_excluded_phrases):
+def main(characters_to_remove, phrases_to_adjust, phrases_to_exclude):
     filename = get_file()
     check_file(filename)
     document = read_document(filename)
@@ -337,11 +337,11 @@ def main(characters_to_remove, phrases_to_adjust, croatian_excluded_phrases, eng
         matches, characters_to_remove, phrases_to_adjust)
     matches = remove_duplicates(matches)
     matches = exclude_phrases(
-        matches, croatian_excluded_phrases + english_excluded_phrases)
+        matches, phrases_to_exclude)
     matches = sort_citations(matches)
     write_excel(matches, filename)
 
 
 if __name__ == "__main__":
     main(characters_to_remove, phrases_to_adjust,
-         croatian_excluded_phrases, english_excluded_phrases)
+        phrases_to_exclude = croatian_excluded_phrases + english_excluded_phrases)
