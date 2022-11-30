@@ -1,0 +1,13 @@
+U .gitignore staviti **\nfm*
+kao "not for main"
+
+U listi citata - staviti razmak između imena i godine ako nema
+regex - [characters][digits] u "[characters] [digits]
+
+-> naučit kako kopirati "grupe"
+
+regex izraze - kao zasebna klasa! Pa da se može koristiti u svim funkcijama, ne samo definirati u svakoj zasebno
+
+regex_expressions.word
+regex_expressions.year
+regex_expressions.and
