@@ -1,0 +1,18 @@
+AuthorFirst & AuthorSecond 1999
+AuthorFourth 1999
+AuthorOne 2022
+AuthorSecond & AuthorThird 1999
+AuthorThird 1999
+Brainiac 2007
+brainiac 2008
+Darko i Bubamarko 2011
+genius i Brainiac 2008
+Kolege i sur. 1999
+Lucky i sur. 2007
+Manman i sur. 2022
+ProlificAuthor 2007 2008a 2010
+ProlificAuthor 2008b
+Spacey 1999
+Šverko i sur. 1989
+Writerly 2001
+Zanzibar 2011
