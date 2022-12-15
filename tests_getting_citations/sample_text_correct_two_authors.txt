@@ -1,8 +1,0 @@
-AuthorFirst & AuthorSecond 1999
-AuthorSecond & AuthorThird 1999
-Darko i Bubamarko 2011
-genius i Brainiac 2008
-Kolege i sur. 1999
-Lucky i sur. 2007
-Manman i sur. 2022
-Šverko i sur. 1989
