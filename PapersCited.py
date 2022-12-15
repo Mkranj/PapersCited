@@ -54,22 +54,16 @@ class PhrasesToChange:
     ]
 
 # Create CitationType for each kind of authorship.
-# Filter their citations to encompass clones.
-# Then combine .citations of 1, 2 and (et al.) authorships,
-# Run helper methods and print to excel.
+# Filter their citations to encompass clones. (pair to trio doesn't need to be pruned!)
+# Then combine .citations of solo, pair and et al. authorships
 
 class CitationType:
     def __init__(self, citations):
         self.citations = citations
-
-    # Make individual __functions to filter phrases and sort the list. Then one
-    # method to call to apply them all in the appropriate order. It won't be
-    # done automatically on construction.
-    # For catching one-author inside two-authors = removing duplicates should be
-    # done after this step!
-
+ 
+    # TO DO - .delete_clones_citations(parent_citations) method.
+    # After that, apply cleanup() and drop_excluded_phrases()
     
-
     def cleanup(self):
         # Apply all helper methods in a specific order. So extra characters won't affect
         # sorting, etc.
@@ -79,12 +73,6 @@ class CitationType:
         self.citations = self._sort_citations()
     
     def drop_excluded_phrases(self):
-        # This SHOULD be called after creation!
-        # So that you don't drop a2 in a1 and a2, and THEN figure out a1 is not
-        # an author name.
-        # [phrases_to_change.croatian_excluded_phrases +
-        # phrases_to_change.english_excluded_phrases]
-
         # Go through each citation
         # Check if the citation matches any of the excluded phrases (for loop)
         # If anything is a match, replace citation with __DELETE__
@@ -155,8 +143,6 @@ class CitationType:
 # FUNCTIONS ----
 
 # Open a file dialog to select a file to process.
-
-
 def get_file():
     root = tkinter.Tk()
     # Make the main window of tkinter invisible since we only need the dialog.
@@ -201,6 +187,12 @@ def read_document(filename):
     target_document = target_document.decode("utf-8")
     return(target_document)
 
+# TO DO: separate into functions
+# - one author
+# - pair of authors
+# - author et al
+# - trio of authors
+# --trio should not filter pairs, but pairs should filter solo authors.
 
 def get_matches(target_document):
 
@@ -310,6 +302,9 @@ def get_matches(target_document):
     return(all_found_citations)
 
 
+# TO DO - Trio citations should be printed on another column.
+# Two inputs - citations for second columns, citations for fourth column
+# Put a warning in fourth column that these longer matches are less precise. 
 
 def write_excel(list_of_matches, filename):
 
