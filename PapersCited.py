@@ -14,59 +14,124 @@ import re
 import tkinter
 from tkinter import filedialog
 
-# DEFINE LISTS ----
+# Class CitationType, with lists for filtering
 
-# For clarity and spotting duplicates, remove the following from citations:
-characters_to_remove = [",", "(", ")", ";", "."]
+class PhrasesToChange:
+  def __init__(self):
+    # For clarity and spotting duplicates, remove the following from citations:
+    self.characters_to_exclude = [",", "(", ")", ";", "."]
+    self.phrases_to_adjust = {
+      # "Et al." and "sur." need a dot at the end
+      " et al ": " et al. ",
+      " sur ": " sur. ",
+      # "A1 and A2" is the same as "A1 & A2", default to '&'
+      " and ": " & ",
+      # For the purposes of detecting duplicates, "sur." and "suradnici" are the same
+      "suradnici": "sur.",
+      "suradnika": "sur.",
+    }
+    self.croatian_excluded_phrases = [
+      "^u ",
+      "^tijekom ",
+      "^nakon ",
+      "^za ",
+      "^je ",
+      "^i ",
+      "^do ",
+      "^prije ",
+      "^od ",
+      "^poslije ",
+      "^iz "
+    ]
+    self.english_excluded_phrases = [
+      "^a ",
+      "^an ",
+      "^at ",
+      "^in ",
+      "^of ",
+      "^when ",
+      "^for ",
+      "^the "
+    ]
 
-# Several phrases in the final list of citations should be adjusted:
-phrases_to_adjust = {
-    # "Et al." and "sur." need a dot at the end
-    " et al ": " et al. ",
-    " sur ": " sur. ",
-    # "A1 and A2" is the same as "A1 & A2", default to '&'
-    " and ": " & ",
-    # For the purposes of detecting duplicates, "sur." and "suradnici" are the same
-    "suradnici": "sur.",
-    "suradnika": "sur.",
-}
 
-# Removing incorrect matches ----
+class CitationType:
+  def __init__(self, citations):
+    self.citations = citations
+    
+  # Make individual __functions to filter phrases and sort the list. Then one
+  # method to call to apply them all in the appropriate order. It won't be
+  # done automatically on construction.
+  # For catching one-author inside two-authors = removing duplicates should be
+  # done after this step!
+  
+  def drop_excluded_phrases(self, list_of_matches, excluded_phrases):
+    # This SHOULD be called after creation!
+    # So that you don't drop a2 in a1 and a2, and THEN figure out a1 is not
+    # an author name.
+    # [phrases_to_change.croatian_excluded_phrases + 
+    # phrases_to_change.english_excluded_phrases]
+    
+    # Go through each citation
+    # Check if the citation matches any of the excluded phrases (for loop)
+    # If anything is a match, replace citation with __DELETE__
+    # Remove all __DELETE__ strings
 
-# Several words often occur in front of years and those matches can be safely ignored.
-# Create lists of those words (that are necessarily at the start of the string) separately for Croatian and English
-# And remove those matches from unique_citations.
+    filtered_citations = list_of_matches
+    for index_no, citation in enumerate(list_of_matches):
+        for phrase in excluded_phrases:
+            match = re.match(
+                phrase,
+                citation,
+                re.IGNORECASE
+            )
+    # If a match is not found, the result of re.match is None
+            if match:
+                filtered_citations[index_no] = "__DELETE__"
+    # Retain only citations that haven't been flagged
+    filtered_citations = [
+        citation for citation in filtered_citations if citation != "__DELETE__"]
+    return(filtered_citations)
+  
+  def __sort_citations(self, citations):
+    # Sort the list alphabetically, ignoring case.
+    list_of_matches = sorted(citations, key=str.casefold)
 
-# Written as regex expressions, include a space at the end to signify it must be the whole word, not just
-# a part of a surname.
+    # Apply locale settings for sorting alphabetically by characters like 'Š'
+    list_of_matches = sorted(list_of_matches, key=locale.strxfrm)
+    return(list_of_matches)
+  
+  def __remove_duplicates(self, list_of_matches):
+    unique_citations = []
 
-# Some words might occur somewhat frequently, but could also be regular surnames - such as June, Veljača, maybe even During.
-# So these should not be included.
+    for index_no, citation in enumerate(list_of_matches):
+        # If the current citation HASN'T been mentioned yet, add it to the list of unique citations
+        # - these will end up in the output file.
+        # For determining if it has been mentioned, compare the casefold current citation with
+        # a list comprehension returning casefold versions of mentioned citations.
+        if citation.casefold() not in [stored_citation.casefold() for stored_citation in unique_citations]:
+            unique_citations.append(citation)
+    return(unique_citations)
+  
+  
 
-croatian_excluded_phrases = [
-    "^u ",
-    "^tijekom ",
-    "^nakon ",
-    "^za ",
-    "^je ",
-    "^i ",
-    "^do ",
-    "^prije ",
-    "^od ",
-    "^poslije ",
-    "^iz "
-]
 
-english_excluded_phrases = [
-    "^a ",
-    "^an ",
-    "^at ",
-    "^in ",
-    "^of ",
-    "^when ",
-    "^for ",
-    "^the "
-]
+## Functions that should go inside classes
+def remove_characters_adjust_phrases(list_of_matches, characters_to_remove, phrases_to_adjust):
+    for index_no, citation in enumerate(list_of_matches):
+        # Remove uneccessary characters
+        for char in characters_to_remove:
+            list_of_matches[index_no] = list_of_matches[index_no].replace(char, "")
+
+        # Change several phrases
+        for key in phrases_to_adjust:
+            list_of_matches[index_no] = list_of_matches[index_no].replace(key, phrases_to_adjust[key])
+
+        # Remove leading and trailing spaces with strip() to not confuse the duplicate detection
+        list_of_matches[index_no] = list_of_matches[index_no].strip()
+    return(list_of_matches)
+
+
 
 # FUNCTIONS ----
 
@@ -226,69 +291,6 @@ def get_matches(target_document):
     return(all_found_citations)
 
 
-def remove_characters_adjust_phrases(list_of_matches, characters_to_remove, phrases_to_adjust):
-    for index_no, citation in enumerate(list_of_matches):
-        # Remove uneccessary characters
-        for char in characters_to_remove:
-            list_of_matches[index_no] = list_of_matches[index_no].replace(char, "")
-
-        # Change several phrases
-        for key in phrases_to_adjust:
-            list_of_matches[index_no] = list_of_matches[index_no].replace(key, phrases_to_adjust[key])
-
-        # Remove leading and trailing spaces with strip() to not confuse the duplicate detection
-        list_of_matches[index_no] = list_of_matches[index_no].strip()
-    return(list_of_matches)
-
-
-def remove_duplicates(list_of_matches):
-    unique_citations = []
-
-    for index_no, citation in enumerate(list_of_matches):
-        # If the current citation HASN'T been mentioned yet, add it to the list of unique citations
-        # - these will end up in the output file.
-        # For determining if it has been mentioned, compare the casefold current citation with
-        # a list comprehension returning casefold versions of mentioned citations.
-        if citation.casefold() not in [stored_citation.casefold() for stored_citation in unique_citations]:
-            unique_citations.append(citation)
-    return(unique_citations)
-
-
-def exclude_phrases(list_of_matches, excluded_phrases):
-
-    # Go through each citation
-    # Check if the citation matches any of the excluded phrases (for loop)
-    # If anything is a match, replace citation with __DELETE__
-    # Remove all __DELETE__ strings
-
-    filtered_citations = list_of_matches
-    for index_no, citation in enumerate(list_of_matches):
-        for phrase in excluded_phrases:
-            match = re.match(
-                phrase,
-                citation,
-                re.IGNORECASE
-            )
-    # If a match is not found, the result of re.match is None
-            if match:
-                filtered_citations[index_no] = "__DELETE__"
-    # Retain only citations that haven't been flagged
-    filtered_citations = [
-        citation for citation in filtered_citations if citation != "__DELETE__"]
-    return(filtered_citations)
-
-
-def sort_citations(list_of_matches):
-    # Set locale to system locale, for correct sorting in alphabets with non-English characters.
-    locale.setlocale(locale.LC_ALL, "")
-
-    # Sort the list alphabetically, ignoring case.
-    list_of_matches = sorted(list_of_matches, key=str.casefold)
-
-    # Apply locale settings for sorting alphabetically by characters like 'Š'
-    list_of_matches = sorted(list_of_matches, key=locale.strxfrm)
-    return(list_of_matches)
-
 
 def write_excel(list_of_matches, filename):
 
@@ -329,6 +331,7 @@ def write_excel(list_of_matches, filename):
 
 
 def main(characters_to_remove, phrases_to_adjust, phrases_to_exclude):
+    locale.setlocale(locale.LC_ALL, "")
     filename = get_file()
     check_file(filename)
     document = read_document(filename)
