@@ -65,63 +65,89 @@ class PhrasesToChange:
 # are clones.
 
 class CitationType:
-  def __init__(self, citations):
-    self.citations = citations
-    
-  # Make individual __functions to filter phrases and sort the list. Then one
-  # method to call to apply them all in the appropriate order. It won't be
-  # done automatically on construction.
-  # For catching one-author inside two-authors = removing duplicates should be
-  # done after this step!
-  
-  def drop_excluded_phrases(self, list_of_matches, excluded_phrases):
-    # This SHOULD be called after creation!
-    # So that you don't drop a2 in a1 and a2, and THEN figure out a1 is not
-    # an author name.
-    # [phrases_to_change.croatian_excluded_phrases + 
-    # phrases_to_change.english_excluded_phrases]
-    
-    # Go through each citation
-    # Check if the citation matches any of the excluded phrases (for loop)
-    # If anything is a match, replace citation with __DELETE__
-    # Remove all __DELETE__ strings
+    def __init__(self, citations):
+        self.citations = citations
 
-    filtered_citations = list_of_matches
-    for index_no, citation in enumerate(list_of_matches):
-        for phrase in excluded_phrases:
-            match = re.match(
-                phrase,
-                citation,
-                re.IGNORECASE
-            )
-    # If a match is not found, the result of re.match is None
-            if match:
-                filtered_citations[index_no] = "__DELETE__"
-    # Retain only citations that haven't been flagged
-    filtered_citations = [
-        citation for citation in filtered_citations if citation != "__DELETE__"]
-    return(filtered_citations)
-  
-  def __sort_citations(self, citations):
-    # Sort the list alphabetically, ignoring case.
-    list_of_matches = sorted(citations, key=str.casefold)
+    # Make individual __functions to filter phrases and sort the list. Then one
+    # method to call to apply them all in the appropriate order. It won't be
+    # done automatically on construction.
+    # For catching one-author inside two-authors = removing duplicates should be
+    # done after this step!
 
-    # Apply locale settings for sorting alphabetically by characters like 'Š'
-    list_of_matches = sorted(list_of_matches, key=locale.strxfrm)
-    return(list_of_matches)
-  
-  def __remove_duplicates(self, list_of_matches):
-    unique_citations = []
+    def drop_excluded_phrases(self):
+        # This SHOULD be called after creation!
+        # So that you don't drop a2 in a1 and a2, and THEN figure out a1 is not
+        # an author name.
+        # [phrases_to_change.croatian_excluded_phrases +
+        # phrases_to_change.english_excluded_phrases]
 
-    for index_no, citation in enumerate(list_of_matches):
-        # If the current citation HASN'T been mentioned yet, add it to the list of unique citations
-        # - these will end up in the output file.
-        # For determining if it has been mentioned, compare the casefold current citation with
-        # a list comprehension returning casefold versions of mentioned citations.
-        if citation.casefold() not in [stored_citation.casefold() for stored_citation in unique_citations]:
-            unique_citations.append(citation)
-    return(unique_citations)
-  
+        # Go through each citation
+        # Check if the citation matches any of the excluded phrases (for loop)
+        # If anything is a match, replace citation with __DELETE__
+        # Remove all __DELETE__ strings
+
+        filtered_citations = self.citations
+        excluded_phrases = PhrasesToChange.croatian_excluded_phrases + \
+            PhrasesToChange.english_excluded_phrases
+        for index_no, citation in enumerate(self.citations):
+            for phrase in excluded_phrases:
+                match = re.match(
+                    phrase,
+                    citation,
+                    re.IGNORECASE
+                )
+        # If a match is not found, the result of re.match is None
+                if match:
+                    filtered_citations[index_no] = "__DELETE__"
+        # Retain only citations that haven't been flagged
+        filtered_citations = [
+            citation for citation in filtered_citations if citation != "__DELETE__"]
+        return(filtered_citations)
+
+    def _sort_citations(self, citations):
+        # Sort the list alphabetically, ignoring case.
+        list_of_matches = sorted(citations, key=str.casefold)
+
+        # Apply locale settings for sorting alphabetically by characters like 'Š'
+        list_of_matches = sorted(list_of_matches, key=locale.strxfrm)
+        return(list_of_matches)
+
+    def _remove_duplicates(self, list_of_matches):
+        unique_citations = []
+
+        for index_no, citation in enumerate(list_of_matches):
+            # If the current citation HASN'T been mentioned yet, add it to the list of unique citations
+            # - these will end up in the output file.
+            # For determining if it has been mentioned, compare the casefold current citation with
+            # a list comprehension returning casefold versions of mentioned citations.
+            if citation.casefold() not in [stored_citation.casefold() for stored_citation in unique_citations]:
+                unique_citations.append(citation)
+        return(unique_citations)
+
+    def _remove_extra_characters(self):
+        characters_to_remove = PhrasesToChange.characters_to_exclude
+        clean_citations = self.citations
+
+        for index_no, citation in enumerate(clean_citations):
+            # Remove uneccessary characters
+            for character in characters_to_remove:
+                clean_citations[index_no] = clean_citations[index_no].replace(
+                    character, "")
+            # Remove leading and trailing spaces with strip() to not confuse the duplicate detection
+            clean_citations[index_no] = clean_citations[index_no].strip()
+        return(clean_citations)
+
+    def _adjust_common_phrases(self):
+        phrases_to_adjust = PhrasesToChange.phrases_to_adjust
+        clean_citations = self.citations
+
+        for index_no, citation in enumerate(clean_citations):
+            # Change several phrases
+            for key in phrases_to_adjust:
+                clean_citations[index_no] = clean_citations[index_no].replace(key, phrases_to_adjust[key])
+        return(clean_citations)
+
+      
   
 
 
