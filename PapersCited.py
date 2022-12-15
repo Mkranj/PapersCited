@@ -17,10 +17,9 @@ from tkinter import filedialog
 # Class CitationType, with lists for filtering
 
 class PhrasesToChange:
-  def __init__(self):
     # For clarity and spotting duplicates, remove the following from citations:
-    self.characters_to_exclude = [",", "(", ")", ";", "."]
-    self.phrases_to_adjust = {
+    characters_to_exclude = [",", "(", ")", ";", "."]
+    phrases_to_adjust = {
       # "Et al." and "sur." need a dot at the end
       " et al ": " et al. ",
       " sur ": " sur. ",
@@ -30,7 +29,7 @@ class PhrasesToChange:
       "suradnici": "sur.",
       "suradnika": "sur.",
     }
-    self.croatian_excluded_phrases = [
+    croatian_excluded_phrases = [
       "^u ",
       "^tijekom ",
       "^nakon ",
@@ -43,7 +42,7 @@ class PhrasesToChange:
       "^poslije ",
       "^iz "
     ]
-    self.english_excluded_phrases = [
+    english_excluded_phrases = [
       "^a ",
       "^an ",
       "^at ",
@@ -54,6 +53,16 @@ class PhrasesToChange:
       "^the "
     ]
 
+    
+    
+# Workflow:
+# Scan document, get citations as a list of strings. Create a CitationType object
+# with that list as input. Then run appropriate methods.
+# Different functions for different types of citations. The advanced ones should
+# Incorporate searching if results are clones.
+
+# That would be from a CitationType method, that deletes it's citations that
+# are clones.
 
 class CitationType:
   def __init__(self, citations):
