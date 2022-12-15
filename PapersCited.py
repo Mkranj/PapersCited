@@ -53,16 +53,10 @@ class PhrasesToChange:
       "^the "
     ]
 
-    
-    
-# Workflow:
-# Scan document, get citations as a list of strings. Create a CitationType object
-# with that list as input. Then run appropriate methods.
-# Different functions for different types of citations. The advanced ones should
-# Incorporate searching if results are clones.
-
-# That would be from a CitationType method, that deletes it's citations that
-# are clones.
+# Create CitationType for each kind of authorship.
+# Filter their citations to encompass clones.
+# Then combine .citations of 1, 2 and (et al.) authorships,
+# Run helper methods and print to excel.
 
 class CitationType:
     def __init__(self, citations):
@@ -74,6 +68,16 @@ class CitationType:
     # For catching one-author inside two-authors = removing duplicates should be
     # done after this step!
 
+    
+
+    def cleanup(self):
+        # Apply all helper methods in a specific order. So extra characters won't affect
+        # sorting, etc.
+        self.citations = self._remove_extra_characters()
+        self.citations = self._adjust_common_phrases()
+        self.citations = self._remove_duplicates()
+        self.citations = self._sort_citations()
+    
     def drop_excluded_phrases(self):
         # This SHOULD be called after creation!
         # So that you don't drop a2 in a1 and a2, and THEN figure out a1 is not
@@ -100,30 +104,9 @@ class CitationType:
                 if match:
                     filtered_citations[index_no] = "__DELETE__"
         # Retain only citations that haven't been flagged
-        filtered_citations = [
-            citation for citation in filtered_citations if citation != "__DELETE__"]
-        return(filtered_citations)
-
-    def _sort_citations(self, citations):
-        # Sort the list alphabetically, ignoring case.
-        list_of_matches = sorted(citations, key=str.casefold)
-
-        # Apply locale settings for sorting alphabetically by characters like 'Š'
-        list_of_matches = sorted(list_of_matches, key=locale.strxfrm)
-        return(list_of_matches)
-
-    def _remove_duplicates(self, list_of_matches):
-        unique_citations = []
-
-        for index_no, citation in enumerate(list_of_matches):
-            # If the current citation HASN'T been mentioned yet, add it to the list of unique citations
-            # - these will end up in the output file.
-            # For determining if it has been mentioned, compare the casefold current citation with
-            # a list comprehension returning casefold versions of mentioned citations.
-            if citation.casefold() not in [stored_citation.casefold() for stored_citation in unique_citations]:
-                unique_citations.append(citation)
-        return(unique_citations)
-
+        filtered_citations = [citation for citation in filtered_citations if citation != "__DELETE__"]
+        self.citations = filtered_citations
+    
     def _remove_extra_characters(self):
         characters_to_remove = PhrasesToChange.characters_to_exclude
         clean_citations = self.citations
@@ -146,27 +129,28 @@ class CitationType:
             for key in phrases_to_adjust:
                 clean_citations[index_no] = clean_citations[index_no].replace(key, phrases_to_adjust[key])
         return(clean_citations)
+    
+    def _remove_duplicates(self):
+        citations = self.citations
+        unique_citations = []
 
-      
-  
+        for index_no, citation in enumerate(citations):
+            # If the current citation HASN'T been mentioned yet, add it to the list of unique citations
+            # - these will end up in the output file.
+            # For determining if it has been mentioned, compare the casefold current citation with
+            # a list comprehension returning casefold versions of mentioned citations.
+            if citation.casefold() not in [stored_citation.casefold() for stored_citation in unique_citations]:
+                unique_citations.append(citation)
+        return(unique_citations)
+    
+    def _sort_citations(self):
+        citations = self.citations
+        # Sort the list alphabetically, ignoring case.
+        sorted_citations = sorted(citations, key=str.casefold)
 
-
-## Functions that should go inside classes
-def remove_characters_adjust_phrases(list_of_matches, characters_to_remove, phrases_to_adjust):
-    for index_no, citation in enumerate(list_of_matches):
-        # Remove uneccessary characters
-        for char in characters_to_remove:
-            list_of_matches[index_no] = list_of_matches[index_no].replace(char, "")
-
-        # Change several phrases
-        for key in phrases_to_adjust:
-            list_of_matches[index_no] = list_of_matches[index_no].replace(key, phrases_to_adjust[key])
-
-        # Remove leading and trailing spaces with strip() to not confuse the duplicate detection
-        list_of_matches[index_no] = list_of_matches[index_no].strip()
-    return(list_of_matches)
-
-
+        # Apply locale settings for sorting alphabetically by characters like 'Š'
+        sorted_citations = sorted(sorted_citations, key=locale.strxfrm)
+        return(sorted_citations)
 
 # FUNCTIONS ----
 
