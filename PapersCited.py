@@ -62,7 +62,7 @@ class CitationType:
         self.citations = citations
  
     # TO DO - .delete_clones_citations(parent_citations) method.
-    # After that, apply cleanup() and drop_excluded_phrases()
+    # After that, apply drop_excluded_phrases() and cleanup()
     
     def cleanup(self):
         # Apply all helper methods in a specific order. So extra characters won't affect

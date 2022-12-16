@@ -1,3 +1,5 @@
 **/citations.xlsx
-.Rproj
+*.Rproj
 **/__pycache__
+.Rproj.user
+*.Rhistory

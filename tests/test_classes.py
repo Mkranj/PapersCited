@@ -51,8 +51,8 @@ def test_cleanup():
   assert citations.citations == ["Author et al. 1000", "survivor 2000", "survivor 2002"]
   
 def test_dropping_phrases_and_cleanup():
-  strings = ["(tijekom 1999", "survivor (2000)", "a; 1999", "(survivor, 2000)", "survivor 2002", "Author et al 1000"]
+  strings = ["tijekom 1999", "survivor (2000)", "a 1999", "(survivor, 2000)", "survivor 2002", "Author et al 1000"]
   citations = PapersCited.CitationType(strings)
-  citations.cleanup() # This doesn't return any values
   citations.drop_excluded_phrases() # This doesn't return any values
+  citations.cleanup() # This doesn't return any values
   assert citations.citations == ["Author et al. 1000", "survivor 2000", "survivor 2002"]
