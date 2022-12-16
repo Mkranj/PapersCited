@@ -1,7 +1,7 @@
 import PapersCited
 
 # The \ indicates code continues in the next line
-# When testing single detection functions, they SHOULD catch extra characters
+# When testing individual detection functions, they SHOULD catch extra characters
 # between match start and end (first letter of name, last digit/;) 
 
 def test_detecting_single_authors():
@@ -24,28 +24,17 @@ def test_detecting_single_authors():
         ["Manman      (1999"]
     
 def test_detecting_two_authors():
-    pass
+    test_string_pairs = "One and two (1212) often collaborate. This is well documented (Aesop and Berry, 1999)"
+    assert PapersCited.get_matches_two_authors(test_string_pairs) ==\
+        ["One and two (1212", "Aesop and Berry, 1999"]
 
 def test_detecting_author_et_al():
     test_string_semicolon = "This is the facts (Truth et al., 1980). Also see Hard, 1980; Facts, 1989."
     assert PapersCited.get_matches_author_et_al(test_string_semicolon) ==\
         ["Truth et al., 1980"]
 
-
-def test_second_in_two_authors():
-    pass
-
 def test_detecting_three_authors():
     pass
 
 def test_detect_all_in_text():
-    pass
-
-def test_filtering_filler_phrases():
-    # If something gets detected as first of two authors, but is a filler word,
-    # Ensure that the second author, the actual one, is NOT deleted from the list!
-    # I believe this currently DOES NOT happen!
-    pass
-
-def test_sorting_lists():
     pass
