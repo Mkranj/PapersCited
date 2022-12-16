@@ -2,6 +2,7 @@
 # V 1.1.0
 
 import locale
+locale.setlocale(locale.LC_ALL, "")
 import os
 import sys
 import textract
@@ -13,6 +14,18 @@ import re
 # GUI elements - for the file dialog. Explicitly import the filedialog submodule.
 import tkinter
 from tkinter import filedialog
+
+
+# In the actual string, a single \ is used. But for escaping it, we need to put
+# \\ inside strings. Otherwise it will append lines, causing indentation errors.
+
+class RegexPatterns:
+    # Phrases that make up regex patterns for detecting citations
+    letter_character = "[a-zšđčćžäöüñáéíóú'’\\-]"
+    letter_uppercase = letter_character.upper()
+    rest_of_word = "[a-zšđčćžäöüñáéíóú'’\\-]+"
+    years = "(?:\\(?\\d\\d\\d\\d[abcd]?,?\\s?;?)+"
+    phrase_and = " (?:and+|[i&]+)+ "
 
 # Class CitationType, with lists for filtering
 
@@ -148,7 +161,7 @@ def get_file():
     # Make the main window of tkinter invisible since we only need the dialog.
     root.withdraw()
     root.attributes("-topmost", True)
-    filename = filedialog.askopenfilename(title="Select a document to search for citations:")
+    filename = filedialog.askopenfilename(title = "Select a document to search for citations:")
     root.destroy()
     return(filename)
 
@@ -187,119 +200,96 @@ def read_document(filename):
     target_document = target_document.decode("utf-8")
     return(target_document)
 
-# TO DO: separate into functions
-# - one author
-# - pair of authors
-# - author et al
-# - trio of authors
-# --trio should not filter pairs, but pairs should filter solo authors.
+def get_matches_solo_author(text):
+    # Regardless of case
+    rx = RegexPatterns()
+    matches = re.findall(
+        rx.letter_character + rx.rest_of_word + "[\\s,(]+" + rx.years,
+        text,
+        re.IGNORECASE)
+    return(matches)
 
-def get_matches(target_document):
+def get_matches_two_authors(text):
+    # Regardless of case
+    rx = RegexPatterns()
+    matches = re.findall(
+        rx.letter_character + rx.rest_of_word + rx.phrase_and +
+        rx.letter_character + rx.rest_of_word + "[\\s,(]+" + rx.years,
+        text,
+        re.IGNORECASE)
+    return(matches)
 
-    # These are the ways a source can be cited in text:
+def get_matches_author_et_al(text):
+    # Regardless of case
+    rx = RegexPatterns()
+    matches = re.findall(
+        rx.letter_character + rx.rest_of_word + " et al[\\s,.(]+" + rx.years,
+        text,
+        re.IGNORECASE)
+    return(matches)  
+  
+def get_matches_three_authors(text):
+    # Will probably catch too much, so don't filter by this.
+    # To remedy some, the first letter of every word must be capitalised.
+    rx = RegexPatterns()
+    matches = re.findall(
+        rx.letter_uppercase + rx.rest_of_word + "[\\s,]+" +
+        rx.letter_uppercase + rx.rest_of_word + rx.phrase_and + 
+        rx.letter_uppercase + rx.rest_of_word + "[\\s,(]+" + rx.years,
+        text)
+    return(matches)
 
-    # 1) One author
-    # 2) Author & author / author and author / author i author
-    # 3) Author et al.
 
-    # The year of the source can be separated by '(' or ','
-    # The function will be case-insensitive.
-
-    # For ease of reading, parts of the regex will be assigned to variables
-
-    # Name - any combination of letters. Added extra characters that might occur,
-    # as well as "'" in Cohen's and '-' for multi-part last names.
-    rx_author_name = "[a-zšđčćžäöüñáéíóú'’\-]+"
-
-    # Between names and years, add this
-    # "[\s,(]+"
-    # To capture spaces or commas. If someone types Author(1999) without space,
-    # the inclusion of '(' will catch it as well.
-
-    # Year - four digits preceded by '(' or commas (commas are caught in the previous part).
-    # The end of four digits can also include 'a', 'b', 'c', and 'd' for multiple works by same authors in the same year.
-    # Possibly multiple years, when citing multiple works.
-    rx_years = "(?:\(?\d\d\d\d[abcd]?,?\s?;?)+"
-
-    # Catching individual types of citation ----
-
-    # 1) One author
-    matches_single_author = re.findall(
-        rx_author_name + "[\s,(]+" + rx_years,
-        target_document,
-        re.IGNORECASE,
-    )
-
-    # 2) Author & author / author and author / author i author
-    # Note that the part before rx_years now includes a dot in the character set [\s,.]+
-    # This catches the Croatian part "i sur." in citations.
-    matches_multiple_authors = re.findall(
-        rx_author_name + ",? (?:and+|[i&]+)+ " +
-        rx_author_name + "[\s,.(]+" + rx_years,
-        target_document,
-        re.IGNORECASE,
-    )
-
-    # Which authors detected in matches_single_author are actually part of "Author & author / author and author"?
-    # Detect the pattern starting with " and/&/i " in matches_multiple_authors. Note the enclosing spaces.
-
-    second_authors = []
-    for index_no, citation in enumerate(matches_multiple_authors):
-        second_authors.append(
-            re.findall(
-                " (?:and+|[i&]+)+ " + rx_author_name + "[\s,(]+" + rx_years,
-                citation,
-                re.IGNORECASE,
-            )
-        )
-
-    # It's a list of lists, turn it into a list of strings
-    second_authors = ["".join(citation) for citation in second_authors]
-
-    # Some strings in second_authors might be empty.
-    # That's because it came across "i sur.", but didn't copy it because of the dot.
-    # These should be dropped from the second_authors list.
-    second_authors = list(filter(None, second_authors))
-
-    # Why don't we allow the dot?
-    # Because then we'd have to allow it in matches_single_author, which would then interpret
-    # starting a new sentence with a four digit number as a citation.
-
-    # Strip "and/&/i" from the start of lines. For safety, the count of things to be replaced is 1.
-    # Note that the words are enclosed with spaces!
-    starts_with_and = [" and ", " & ", " i "]
-
-    for index_no, citation in enumerate(second_authors):
-        # Citation by citation, check and change all listed symbols
-        for phrase in starts_with_and:
-            second_authors[index_no] = second_authors[index_no].replace(phrase, "", 1)
-
-    # Now we have two lists, all authors with year detected and only those who occur after an 'i'/'&'
-    # For each occuring in the second list, delete ONE from the first - so if theres A & B 2000 and also B 2000,
-    # The second one will be its own instance and won't be deleted
-    # the remove() method does exactly what we want - removes the first element matching the value given
-
-    for author in second_authors:
-        if author in matches_single_author:
-            matches_single_author.remove(author)
-        else:
-            # All of second_authors should be included in matches_single_author.
-            # If there's unmatching entries in second_authors, notify the user.
-            print(
-                f"Error! {author} detected as a second author, but is not part of single author citations found.")
-            print("Please report this as a bug at github.com/Mkranj/PapersCited")
-            print("The program will still generate a usable output.")
-
-    # 3) Author et al.
-    matches_author_et_al = re.findall(
-        rx_author_name + " et al[\s,.(]+" + rx_years,
-        target_document,
-        re.IGNORECASE,
-    )
-
-    # Combine all found cases into a single list
-    all_found_citations = matches_single_author + matches_multiple_authors + matches_author_et_al
-    return(all_found_citations)
+# CLONING
+#     # Which authors detected in matches_single_author are actually part of "Author & author / author and author"?
+#     # Detect the pattern starting with " and/&/i " in matches_multiple_authors. Note the enclosing spaces.
+# 
+#     second_authors = []
+#     for index_no, citation in enumerate(matches_multiple_authors):
+#         second_authors.append(
+#             re.findall(
+#                 " (?:and+|[i&]+)+ " + rx_author_name + "[\s,(]+" + rx_years,
+#                 citation,
+#                 re.IGNORECASE,
+#             )
+#         )
+# 
+#     # It's a list of lists, turn it into a list of strings
+#     second_authors = ["".join(citation) for citation in second_authors]
+# 
+#     # Some strings in second_authors might be empty.
+#     # That's because it came across "i sur.", but didn't copy it because of the dot.
+#     # These should be dropped from the second_authors list.
+#     second_authors = list(filter(None, second_authors))
+# 
+#     # Why don't we allow the dot?
+#     # Because then we'd have to allow it in matches_single_author, which would then interpret
+#     # starting a new sentence with a four digit number as a citation.
+# 
+#     # Strip "and/&/i" from the start of lines. For safety, the count of things to be replaced is 1.
+#     # Note that the words are enclosed with spaces!
+#     starts_with_and = [" and ", " & ", " i "]
+# 
+#     for index_no, citation in enumerate(second_authors):
+#         # Citation by citation, check and change all listed symbols
+#         for phrase in starts_with_and:
+#             second_authors[index_no] = second_authors[index_no].replace(phrase, "", 1)
+# 
+#     # Now we have two lists, all authors with year detected and only those who occur after an 'i'/'&'
+#     # For each occuring in the second list, delete ONE from the first - so if theres A & B 2000 and also B 2000,
+#     # The second one will be its own instance and won't be deleted
+#     # the remove() method does exactly what we want - removes the first element matching the value given
+# 
+#     for author in second_authors:
+#         if author in matches_single_author:
+#             matches_single_author.remove(author)
+#         else:
+#             # All of second_authors should be included in matches_single_author.
+#             # If there's unmatching entries in second_authors, notify the user.
+#             print(
+#                 f"Error! {author} detected as a second author, but is not part of single author citations found.")
+#             print("Please report this as a bug at github.com/Mkranj/PapersCited")
+#             print("The program will still generate a usable output.")
 
 
 # TO DO - Trio citations should be printed on another column.
@@ -344,21 +334,21 @@ def write_excel(list_of_matches, filename):
 # Using the defined lists of phrases/characters as arguments
 
 
-def main(characters_to_remove, phrases_to_adjust, phrases_to_exclude):
-    locale.setlocale(locale.LC_ALL, "")
-    filename = get_file()
-    check_file(filename)
-    document = read_document(filename)
-    matches = get_matches(document)
-    matches = remove_characters_adjust_phrases(
-        matches, characters_to_remove, phrases_to_adjust)
-    matches = remove_duplicates(matches)
-    matches = exclude_phrases(
-        matches, phrases_to_exclude)
-    matches = sort_citations(matches)
-    write_excel(matches, filename)
+# def main(characters_to_remove, phrases_to_adjust, phrases_to_exclude):
+    # locale.setlocale(locale.LC_ALL, "")
+    # filename = get_file()
+    # check_file(filename)
+    # document = read_document(filename)
+    # matches = get_matches(document)
+    # matches = remove_characters_adjust_phrases(
+        # matches, characters_to_remove, phrases_to_adjust)
+    # matches = remove_duplicates(matches)
+    # matches = exclude_phrases(
+        # matches, phrases_to_exclude)
+    # matches = sort_citations(matches)
+    # write_excel(matches, filename)
 
 
-if __name__ == "__main__":
-    main(characters_to_remove, phrases_to_adjust,
-        phrases_to_exclude = croatian_excluded_phrases + english_excluded_phrases)
+# if __name__ == "__main__":
+    # main(characters_to_remove, phrases_to_adjust,
+        # phrases_to_exclude = croatian_excluded_phrases + english_excluded_phrases)
