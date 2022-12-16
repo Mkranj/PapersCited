@@ -119,6 +119,8 @@ class CitationType:
                     character, "")
             # Remove leading and trailing spaces with strip() to not confuse the duplicate detection
             clean_citations[index_no] = clean_citations[index_no].strip()
+            # Condense multiple spaces to a single one.
+            clean_citations[index_no] = re.sub(" +", " ", clean_citations[index_no])
         return(clean_citations)
 
     def _adjust_common_phrases(self):
