@@ -16,7 +16,7 @@ def test_dropping_citations_starting_with_excluded_phrases():
   citations.drop_excluded_phrases()
   assert citations.citations ==  ["b 2010"]
   
-  croatian_citations = PapersCited.CitationType(["dobar 2010", "tijekom 2010", "je 2010"])
+  croatian_citations = PapersCited.CitationType(["dobar 2010", "tijekom 2010", "je 2010", "tijekom, 2010",])
   croatian_citations.drop_excluded_phrases()
   assert croatian_citations.citations ==\
     ["dobar 2010"]

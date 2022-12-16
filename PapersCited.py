@@ -43,27 +43,27 @@ class PhrasesToChange:
       "suradnika": "sur.",
     }
     croatian_excluded_phrases = [
-      "^u ",
-      "^tijekom ",
-      "^nakon ",
-      "^za ",
-      "^je ",
-      "^i ",
-      "^do ",
-      "^prije ",
-      "^od ",
-      "^poslije ",
-      "^iz "
+      "^u[ ,]",
+      "^tijekom[ ,]",
+      "^nakon[ ,]",
+      "^za[ ,]",
+      "^je[ ,]",
+      "^i[ ,]",
+      "^do[ ,]",
+      "^prije[ ,]",
+      "^od[ ,]",
+      "^poslije[ ,]",
+      "^iz[ ,]"
     ]
     english_excluded_phrases = [
-      "^a ",
-      "^an ",
-      "^at ",
-      "^in ",
-      "^of ",
-      "^when ",
-      "^for ",
-      "^the "
+      "^a[ ,]",
+      "^an[ ,]",
+      "^at[ ,]",
+      "^in[ ,]",
+      "^of[ ,]",
+      "^when[ ,]",
+      "^for[ ,]",
+      "^the[ ,]"
     ]
 
 # Create CitationType for each kind of authorship.
