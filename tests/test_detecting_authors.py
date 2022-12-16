@@ -19,6 +19,9 @@ def test_detecting_single_authors():
     # What this function detects WILL NOT be the whole citation. We still need it for controlling two-author matches.
     assert PapersCited.get_matches_solo_author(test_string_and) ==\
         ["Maria (1875", "Birko (1999"]
+    test_string_many_spaces = "Manman      (1999) really liked his space."
+    assert PapersCited.get_matches_solo_author(test_string_many_spaces) ==\
+        ["Manman      (1999"]
     
 def test_detecting_two_authors():
     pass
