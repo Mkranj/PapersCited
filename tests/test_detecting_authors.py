@@ -35,6 +35,10 @@ def test_detecting_author_et_al():
     test_string_semicolon = "This is the facts (Truth et al., 1980). Also see Hard, 1980; Facts, 1989."
     assert PapersCited.get_matches_author_et_al(test_string_semicolon).citations ==\
         ["Truth et al., 1980"]
+    test_croatian_i_sur = "Branjek i suradnici (1999) spominju rad Cvanjek i suradnika (1990) više puta (Dvanjek i sur., 2010)"
+    assert PapersCited.get_matches_author_et_al(test_croatian_i_sur).citations ==\
+        ["Dvanjek i sur., 2010"]
+    
 
 def test_detecting_three_authors():
     test_three_author_citation = "Find Onesie, Twosie and Threeie (2000) enclosed."
@@ -46,5 +50,76 @@ def test_detecting_three_authors():
     test_three_authors_not_recognized_if_not_capitalized = "It's true that marin Karin and Bro (2000) had a major impact."
     assert PapersCited.get_matches_three_authors(test_three_authors_not_recognized_if_not_capitalized).citations == []
 
-def test_detect_all_in_text():
-    pass
+def test_detecting_two_surnames():
+    text = "U istraživanju Anić Babić (2000) utvrđeno je više stvari."
+    assert PapersCited.get_matches_two_surnames(text).citations ==\
+        ["Anić Babić (2000"]
+
+def test_detecting_two_surnames_i_suradnika():
+    text = "U istraživanju Anić Babić i suradnika (2000) utvrđeno je više stvari."
+    # "suradnika" should get recognised as an author name.
+    # So we will loosen the restriction on the LAST name in a citation being
+    # capitalised. The first two must start with capital letters!
+    assert PapersCited.get_matches_three_authors(text).citations ==\
+        ["Anić Babić i suradnika (2000"]
+
+def test_detecting_two_surnames_et_al():
+        test_string_semicolon = "This is the facts (Naked Truth et al., 1980). Also see Hard, 1980; Facts, 1989."
+        assert PapersCited.get_matches_two_surnames_et_al(test_string_semicolon).citations ==\
+            ["Naked Truth et al., 1980"]
+        test_croatian_i_sur = "Branjek i suradnici (1999) spominju rad Cvanjek i suradnika (1990) više puta (Dvanjek Erin i sur., 2010)"
+        assert PapersCited.get_matches_two_surnames_et_al(test_croatian_i_sur).citations ==\
+            ["Dvanjek Erin i sur., 2010"]
+
+def test_program_works_with_no_citations_found():
+    document = ""
+    
+    solo_authors = PapersCited.get_matches_solo_author(document, drop_excluded_phrases = True)
+    two_authors = PapersCited.get_matches_two_authors(document, drop_excluded_phrases = True)
+    three_authors = PapersCited.get_matches_three_authors(document, drop_excluded_phrases = True)
+    author_et_al = PapersCited.get_matches_author_et_al(document, drop_excluded_phrases = True)
+    two_surnames = PapersCited.get_matches_two_surnames(document, drop_excluded_phrases = True)
+    two_surnames_et_al = PapersCited.get_matches_two_surnames_et_al(document, drop_excluded_phrases = True)
+        
+    solo_authors.delete_clones_of_citations(two_authors)
+    
+    narrower_citations = PapersCited.CitationType(solo_authors.citations + 
+                                      two_authors.citations +
+                                      author_et_al.citations)
+    
+    wider_citations = PapersCited.CitationType(three_authors.citations + 
+                                   two_surnames.citations +
+                                   two_surnames_et_al.citations)
+    
+    narrower_citations.cleanup()
+    wider_citations.cleanup()
+    assert True
+    
+def test_program_works_when_text_is_all_excluded_phrases():
+    document = "A 2019 study founded the, 1999 brightest subjects. Tijekom 2019 bilo je 2020 uzoraka."
+    
+    solo_authors = PapersCited.get_matches_solo_author(document, drop_excluded_phrases = True)
+    two_authors = PapersCited.get_matches_two_authors(document, drop_excluded_phrases = True)
+    three_authors = PapersCited.get_matches_three_authors(document, drop_excluded_phrases = True)
+    author_et_al = PapersCited.get_matches_author_et_al(document, drop_excluded_phrases = True)
+    two_surnames = PapersCited.get_matches_two_surnames(document, drop_excluded_phrases = True)
+    two_surnames_et_al = PapersCited.get_matches_two_surnames_et_al(document, drop_excluded_phrases = True)
+        
+    solo_authors.delete_clones_of_citations(two_authors)
+    
+    narrower_citations = PapersCited.CitationType(solo_authors.citations + 
+                                      two_authors.citations +
+                                      author_et_al.citations)
+    
+    wider_citations = PapersCited.CitationType(three_authors.citations + 
+                                   two_surnames.citations +
+                                   two_surnames_et_al.citations)
+    
+    narrower_citations.cleanup()
+    wider_citations.cleanup()
+    assert True
+    
+def test_ignore_ISSN():
+    text = "Online ISSN 2222-3333"
+    citations = PapersCited.get_matches_two_surnames(text, drop_excluded_phrases= True)
+    assert citations.citations == []
