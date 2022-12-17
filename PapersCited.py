@@ -80,10 +80,10 @@ class CitationType:
  
     # TO DO - option to keep commas for three authors
     
-    def cleanup(self):
+    def cleanup(self, allow_commas = False):
         # Apply all helper methods in a specific order. So extra characters won't affect
         # sorting, etc.
-        self.citations = self._remove_extra_characters()
+        self.citations = self._remove_extra_characters(allow_commas)
         self.citations = self._adjust_common_phrases()
         self.citations = self._remove_duplicates()
         self.citations = self._sort_citations()
@@ -111,8 +111,10 @@ class CitationType:
         filtered_citations = [citation for citation in filtered_citations if citation != "__DELETE__"]
         self.citations = filtered_citations
     
-    def _remove_extra_characters(self):
+    def _remove_extra_characters(self, allow_commas = False):
         characters_to_remove = PhrasesToChange.characters_to_exclude
+        if allow_commas:
+            characters_to_remove = characters_to_remove[1:]
         clean_citations = self.citations
 
         for index_no, citation in enumerate(clean_citations):
@@ -348,7 +350,7 @@ def main():
                                       author_et_al.citations)
     
     narrower_citations.cleanup()
-    three_authors.cleanup()
+    three_authors.cleanup(allow_commas = True)
     write_excel(filename, narrower_citations, three_authors)
 
 if __name__ == "__main__":
