@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-# V 1.1.0
+# V 1.2.0
 
 import locale
 locale.setlocale(locale.LC_ALL, "")
+
 import os
 import sys
 import textract
@@ -16,6 +17,8 @@ import tkinter
 from tkinter import filedialog
 
 # TO DO
+# Additional matching function: two_surnames et al.
+# join citations with three_authors, cleanup() and display as wider citations.
 # If an end citation has no space between last word and year, add it.
 
 # In the actual string, a single \ is used. But for escaping it, we need to put
@@ -56,6 +59,7 @@ class PhrasesToChange:
       "^od[ ,]",
       "^poslije[ ,]",
       "^prije[ ,]",
+      "^slično[ ,]",
       "^tijekom[ ,]",
       "^u[ ,]",
       "^za[ ,]"
@@ -120,9 +124,8 @@ class CitationType:
         for index_no, citation in enumerate(clean_citations):
             # Remove uneccessary characters
             for character in characters_to_remove:
-                clean_citations[index_no] = clean_citations[index_no].replace(
-                    character, "")
-            # Remove leading and trailing spaces with strip() to not confuse the duplicate detection
+                clean_citations[index_no] = clean_citations[index_no].replace(character, " ")
+            # Remove leading and trailing spaces
             clean_citations[index_no] = clean_citations[index_no].strip()
             # Condense multiple spaces to a single one.
             clean_citations[index_no] = re.sub(" +", " ", clean_citations[index_no])
@@ -263,6 +266,9 @@ def get_matches_three_authors(text):
         rx.letter_uppercase + rx.rest_of_word + "[\\s,(]+" + rx.years,
         text)
     return(CitationType(matches))
+
+def get_matches_two_surnames_et_al_(text):
+    pass
             
 def write_excel(filename, citations, wider_citations):
     # Retrieve the directory in which the analysed document is located,
@@ -337,15 +343,21 @@ def main():
     author_et_al = get_matches_author_et_al(document)
     author_et_al.drop_excluded_phrases()
     
+    two_surnames_et_al = get_matches_two_surnames_et_al_(document)
+    two_surnames_et_al.drop_excluded_phrases()
+    
     solo_authors.delete_clones_of_citations(two_authors)
     
     narrower_citations = CitationType(solo_authors.citations + 
                                       two_authors.citations +
                                       author_et_al.citations)
     
+    wider_citations = CitationType(three_authors.citations +
+                                   two_surnames_et_al.citations)
+    
     narrower_citations.cleanup()
-    three_authors.cleanup(allow_commas = True)
-    write_excel(filename, narrower_citations, three_authors)
+    wider_citations.cleanup(allow_commas = True)
+    write_excel(filename, narrower_citations, wider_citations)
 
 if __name__ == "__main__":
     main()
