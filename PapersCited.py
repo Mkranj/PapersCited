@@ -209,7 +209,7 @@ def get_matches_solo_author(text):
         rx.letter_character + rx.rest_of_word + "[\\s,(]+" + rx.years,
         text,
         re.IGNORECASE)
-    return(matches)
+    return(CitationType(matches))
 
 def get_matches_two_authors(text):
     # Regardless of case
@@ -219,7 +219,7 @@ def get_matches_two_authors(text):
         rx.letter_character + rx.rest_of_word + "[\\s,(]+" + rx.years,
         text,
         re.IGNORECASE)
-    return(matches)
+    return(CitationType(matches))
 
 def get_matches_author_et_al(text):
     # Regardless of case
@@ -228,7 +228,7 @@ def get_matches_author_et_al(text):
         rx.letter_character + rx.rest_of_word + " et al[\\s,.(]+" + rx.years,
         text,
         re.IGNORECASE)
-    return(matches)  
+    return(CitationType(matches))  
   
 def get_matches_three_authors(text):
     # Will probably catch too much, so don't filter by this.
@@ -239,9 +239,13 @@ def get_matches_three_authors(text):
         rx.letter_uppercase + rx.rest_of_word + rx.phrase_and + 
         rx.letter_uppercase + rx.rest_of_word + "[\\s,(]+" + rx.years,
         text)
-    return(matches)
+    return(CitationType(matches))
 
-
+def delete_clones_of_citations(self, ):
+    # If a citation is part of a set of "wider" citations (one author of two)
+    # delete both of them (temporary lists). Output the narrower part as valid citations.
+    pass
+    
 # CLONING
 #     # Which authors detected in matches_single_author are actually part of "Author & author / author and author"?
 #     # Detect the pattern starting with " and/&/i " in matches_multiple_authors. Note the enclosing spaces.
