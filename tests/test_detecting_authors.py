@@ -22,6 +22,9 @@ def test_detecting_single_authors():
     test_string_many_spaces = "Manman      (1999) really liked his space."
     assert PapersCited.get_matches_solo_author(test_string_many_spaces) ==\
         ["Manman      (1999"]
+    test_string_foreign_characters_capitalization = "ULLÉN (1888) made an earlier work."
+    assert PapersCited.get_matches_solo_author(test_string_foreign_characters_capitalization) ==\
+        ["ULLÉN (1888"]
     
 def test_detecting_two_authors():
     test_string_pairs = "One and two (1212) often collaborate. This is well documented (Aesop and Berry, 1999)"

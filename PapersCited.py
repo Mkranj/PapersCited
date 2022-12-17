@@ -23,7 +23,7 @@ class RegexPatterns:
     # Phrases that make up regex patterns for detecting citations
     letter_character = "[a-zšđčćžäöüñáéíóú'’\\-]"
     letter_uppercase = letter_character.upper()
-    rest_of_word = "[a-zšđčćžäöüñáéíóú'’\\-]+"
+    rest_of_word = letter_character[:-1] + letter_uppercase[1:] + "+"
     years = "(?:\\(?\\d\\d\\d\\d[abcd]?,?\\s?;?)+"
     phrase_and = " (?:and+|[i&]+)+ "
 
