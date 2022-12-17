@@ -60,3 +60,11 @@ def test_dropping_phrases_and_cleanup():
   citations.drop_excluded_phrases() # This doesn't return any values
   citations.cleanup() # This doesn't return any values
   assert citations.citations == ["Author et al. 1000", "survivor 2000", "survivor 2002"]
+
+def test_deleting_clones():
+  narrow_citations = PapersCited.CitationType(["Second, 1999", "Third, 2000", "Third, 2000", "Fourth, 2000"])
+  wide_citations = PapersCited.CitationType(["First and Second, 1999", "First and Third, 2000"])
+  
+  narrow_citations.delete_clones_of_citations(wide_citations)
+  assert narrow_citations.citations == ["Third, 2000", "Fourth, 2000"]
+  

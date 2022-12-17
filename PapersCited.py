@@ -154,6 +154,24 @@ class CitationType:
         # Apply locale settings for sorting alphabetically by characters like 'Š'
         sorted_citations = sorted(sorted_citations, key=locale.strxfrm)
         return(sorted_citations)
+    
+    def delete_clones_of_citations(self, Citation_object):
+    # If a citation is part of a set of "wider" citations (one author of two)
+    # delete both of them (temporary lists). Output the narrower part as valid citations.
+        narrow_citations = self.citations
+        wide_citations = Citation_object.citations
+        
+        for wider_citation in wide_citations:
+            narrow_citation_no = 0
+            found_match_for_wider_citation = False
+            while narrow_citation_no <= len(narrow_citations) and found_match_for_wider_citation == False:
+                if narrow_citations[narrow_citation_no] in wider_citation:
+                    found_match_for_wider_citation = True
+                    narrow_citations[narrow_citation_no] = "__DELETE__"
+                narrow_citation_no += 1
+        # Retain only citations that haven't been flagged
+        narrow_citations = [citation for citation in narrow_citations if citation != "__DELETE__"]
+        self.citations = narrow_citations
 
 # FUNCTIONS ----
 
@@ -240,12 +258,7 @@ def get_matches_three_authors(text):
         rx.letter_uppercase + rx.rest_of_word + "[\\s,(]+" + rx.years,
         text)
     return(CitationType(matches))
-
-def delete_clones_of_citations(self, ):
-    # If a citation is part of a set of "wider" citations (one author of two)
-    # delete both of them (temporary lists). Output the narrower part as valid citations.
-    pass
-    
+            
 # CLONING
 #     # Which authors detected in matches_single_author are actually part of "Author & author / author and author"?
 #     # Detect the pattern starting with " and/&/i " in matches_multiple_authors. Note the enclosing spaces.
@@ -303,7 +316,6 @@ def delete_clones_of_citations(self, ):
 # Put a warning in fourth column that these longer matches are less precise. 
 
 def write_excel(list_of_matches, filename):
-
     # Retrieve the directory in which the analysed document is located,
     # The output file will be created in the same directory.
     output_folder = os.path.dirname(filename)
