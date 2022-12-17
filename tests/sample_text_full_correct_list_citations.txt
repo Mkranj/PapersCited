@@ -5,6 +5,7 @@ AuthorSecond & AuthorThird 1999
 AuthorThird 1999
 Brainiac 2007
 brainiac 2008
+Èuturiæ i Èuèu 2009
 Darko i Bubamarko 2011
 genius i Brainiac 2008
 Kolege i sur. 1999
@@ -13,6 +14,6 @@ Manman i sur. 2022
 ProlificAuthor 2007 2008a 2010
 ProlificAuthor 2008b
 Spacey 1999
-Å verko i sur. 1989
+Šverko i sur. 1989
 Writerly 2001
 Zanzibar 2011

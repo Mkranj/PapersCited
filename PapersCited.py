@@ -204,7 +204,12 @@ def check_file(filename):
     # Warning for PDF files:
     file_extension = filename[-4:]
     if file_extension == ".pdf":
-        print("Warning!\nReading PDF files is not recommended and might result in inaccurate transcription.")
+        print("Warning!\nReading PDF files is not recommended and might result in inaccurate transcription.\n")
+
+    if file_extension == ".txt":
+        print("Warning! Reading .txt files might lead to problems with special characters." +
+              "\nTo ensure best the best format is used, backup the .txt file, then save it in ANSI encoding." +
+              "\n(\"Save as...\" dialog, \"Encoding:\" at the bottom.)\n")
 
 
 def read_document(filename):
