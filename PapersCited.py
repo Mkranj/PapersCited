@@ -15,6 +15,10 @@ import re
 import tkinter
 from tkinter import filedialog
 
+# TO DO
+# - allow commas for three authors
+# - shift wide citations to 6th row
+# - separately count narrow and wide citations
 
 # In the actual string, a single \ is used. But for escaping it, we need to put
 # \\ inside strings. Otherwise it will append lines, causing indentation errors.
@@ -74,8 +78,7 @@ class CitationType:
     def __init__(self, citations):
         self.citations = citations
  
-    # TO DO - .delete_clones_citations(parent_citations) method.
-    # After that, apply drop_excluded_phrases() and cleanup()
+    # TO DO - option to keep commas for three authors
     
     def cleanup(self):
         # Apply all helper methods in a specific order. So extra characters won't affect
@@ -259,63 +262,11 @@ def get_matches_three_authors(text):
         text)
     return(CitationType(matches))
             
-# CLONING
-#     # Which authors detected in matches_single_author are actually part of "Author & author / author and author"?
-#     # Detect the pattern starting with " and/&/i " in matches_multiple_authors. Note the enclosing spaces.
-# 
-#     second_authors = []
-#     for index_no, citation in enumerate(matches_multiple_authors):
-#         second_authors.append(
-#             re.findall(
-#                 " (?:and+|[i&]+)+ " + rx_author_name + "[\s,(]+" + rx_years,
-#                 citation,
-#                 re.IGNORECASE,
-#             )
-#         )
-# 
-#     # It's a list of lists, turn it into a list of strings
-#     second_authors = ["".join(citation) for citation in second_authors]
-# 
-#     # Some strings in second_authors might be empty.
-#     # That's because it came across "i sur.", but didn't copy it because of the dot.
-#     # These should be dropped from the second_authors list.
-#     second_authors = list(filter(None, second_authors))
-# 
-#     # Why don't we allow the dot?
-#     # Because then we'd have to allow it in matches_single_author, which would then interpret
-#     # starting a new sentence with a four digit number as a citation.
-# 
-#     # Strip "and/&/i" from the start of lines. For safety, the count of things to be replaced is 1.
-#     # Note that the words are enclosed with spaces!
-#     starts_with_and = [" and ", " & ", " i "]
-# 
-#     for index_no, citation in enumerate(second_authors):
-#         # Citation by citation, check and change all listed symbols
-#         for phrase in starts_with_and:
-#             second_authors[index_no] = second_authors[index_no].replace(phrase, "", 1)
-# 
-#     # Now we have two lists, all authors with year detected and only those who occur after an 'i'/'&'
-#     # For each occuring in the second list, delete ONE from the first - so if theres A & B 2000 and also B 2000,
-#     # The second one will be its own instance and won't be deleted
-#     # the remove() method does exactly what we want - removes the first element matching the value given
-# 
-#     for author in second_authors:
-#         if author in matches_single_author:
-#             matches_single_author.remove(author)
-#         else:
-#             # All of second_authors should be included in matches_single_author.
-#             # If there's unmatching entries in second_authors, notify the user.
-#             print(
-#                 f"Error! {author} detected as a second author, but is not part of single author citations found.")
-#             print("Please report this as a bug at github.com/Mkranj/PapersCited")
-#             print("The program will still generate a usable output.")
-
-
 # TO DO - Trio citations should be printed on another column.
 # Two inputs - citations for second columns, citations for fourth column
 # Put a warning in fourth column that these longer matches are less precise. 
 
-def write_excel(list_of_matches, filename):
+def write_excel(filename, citations, wider_citations):
     # Retrieve the directory in which the analysed document is located,
     # The output file will be created in the same directory.
     output_folder = os.path.dirname(filename)
@@ -338,35 +289,60 @@ def write_excel(list_of_matches, filename):
     row = 0
 
     # Iterate through output list
-    for item in list_of_matches:
+    for item in citations.citations:
         worksheet1.write(row, column, item)
         row += 1
 
+    # If there are potential wider matches, write them in the fourth column.
+    if wider_citations:
+        column = 3
+        row = 0
+        for item in wider_citations.citations:
+            worksheet1.write(row, column, item)
+            row += 1
+    
     workbook.close()
 
+    try:
+        total_citations = len(citations.citations) + len(wider_citations.citations)
+    except:
+        total_citations = len(citations.citations) 
+    
     print(f"Success! A file has been created at {output_filename}.")
-    print(f"A total of {len(list_of_matches)} different citations have been recorded.")
+    print(f"A total of {total_citations} different citations have been recorded.")
     input("\nPress Enter to exit the program.")
 
 # MAIN ----
 # Using the defined lists of phrases/characters as arguments
 
 
-# def main(characters_to_remove, phrases_to_adjust, phrases_to_exclude):
-    # locale.setlocale(locale.LC_ALL, "")
-    # filename = get_file()
-    # check_file(filename)
-    # document = read_document(filename)
-    # matches = get_matches(document)
-    # matches = remove_characters_adjust_phrases(
-        # matches, characters_to_remove, phrases_to_adjust)
-    # matches = remove_duplicates(matches)
-    # matches = exclude_phrases(
-        # matches, phrases_to_exclude)
-    # matches = sort_citations(matches)
-    # write_excel(matches, filename)
+def main():
+    filename = get_file()
+    check_file(filename)
+    document = read_document(filename)
+    
+    # Get all types of citations
+    solo_authors = get_matches_solo_author(document)
+    solo_authors.drop_excluded_phrases()
+    
+    two_authors = get_matches_two_authors(document)
+    two_authors.drop_excluded_phrases()
+    
+    three_authors = get_matches_three_authors(document)
+    three_authors.drop_excluded_phrases()
+    
+    author_et_al = get_matches_author_et_al(document)
+    author_et_al.drop_excluded_phrases()
+    
+    solo_authors.delete_clones_of_citations(two_authors)
+    
+    narrower_citations = CitationType(solo_authors.citations + 
+                                      two_authors.citations +
+                                      author_et_al.citations)
+    
+    narrower_citations.cleanup()
+    three_authors.cleanup()
+    write_excel(filename, narrower_citations, three_authors)
 
-
-# if __name__ == "__main__":
-    # main(characters_to_remove, phrases_to_adjust,
-        # phrases_to_exclude = croatian_excluded_phrases + english_excluded_phrases)
+if __name__ == "__main__":
+    main()
