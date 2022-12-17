@@ -293,22 +293,29 @@ def write_excel(filename, citations, wider_citations):
         worksheet1.write(row, column, item)
         row += 1
 
-    # If there are potential wider matches, write them in the fourth column.
+    # If there are potential wider matches, write them in the sixth column.
     if wider_citations:
-        column = 3
+        column = 5
         row = 0
         for item in wider_citations.citations:
             worksheet1.write(row, column, item)
             row += 1
     
     workbook.close()
-
+    
+    n_narrower_citations = len(citations.citations) 
     try:
-        total_citations = len(citations.citations) + len(wider_citations.citations)
+        n_wider_citations = len(wider_citations.citations) 
+        total_citations = n_narrower_citations + n_wider_citations
     except:
-        total_citations = len(citations.citations) 
+        total_citations = n_narrower_citations
     
     print(f"Success! A file has been created at {output_filename}.")
+    
+    if n_wider_citations:
+        print(f"{n_narrower_citations} citations have been found, along with" +
+              f" {n_wider_citations} wider citations, displayed to the right.")
+    
     print(f"A total of {total_citations} different citations have been recorded.")
     input("\nPress Enter to exit the program.")
 
