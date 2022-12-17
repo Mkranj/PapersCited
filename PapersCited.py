@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 # V 1.2.0
 
+# TO DO
+# If an end citation has no space between last word and year, add it.
+
+
 import locale
 locale.setlocale(locale.LC_ALL, "")
 
@@ -16,11 +20,6 @@ import re
 import tkinter
 from tkinter import filedialog
 
-# TO DO
-# Additional matching function: two_surnames et al.
-# join citations with three_authors, cleanup() and display as wider citations.
-# If an end citation has no space between last word and year, add it.
-
 # In the actual string, a single \ is used. But for escaping it, we need to put
 # \\ inside strings. Otherwise it will append lines, causing indentation errors.
 
@@ -33,8 +32,6 @@ class RegexPatterns:
     phrase_and = " (?:and+|[i&]+)+ "
     phrase_et_al = "(?: et al[\\s,.(]+)"
     phrase_i_sur = "(?: i sur[\\s,.(]+)"
-
-# Class CitationType, with lists for filtering
 
 class PhrasesToChange:
     # For clarity and spotting duplicates, remove the following from citations:
@@ -78,9 +75,7 @@ class PhrasesToChange:
       "^when[ ,]"
     ]
 
-# Create CitationType for each kind of authorship.
-# Filter their citations to encompass clones. (pair to trio doesn't need to be pruned!)
-# Then combine .citations of solo, pair and et al. authorships
+# Create a CitationType object for each kind of authorship.
 
 class CitationType:
     def __init__(self, citations):
