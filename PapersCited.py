@@ -46,28 +46,31 @@ class PhrasesToChange:
       "suradnici": "sur.",
       "suradnika": "sur.",
     }
+    # Before adding something to excluded phrases, Google [word] surname.
+    # If anything shows up, don't include that word.
     croatian_excluded_phrases = [
-      "^u[ ,]",
-      "^tijekom[ ,]",
-      "^nakon[ ,]",
-      "^za[ ,]",
-      "^je[ ,]",
-      "^i[ ,]",
       "^do[ ,]",
-      "^prije[ ,]",
+      "^i[ ,]",
+      "^iz[ ,]",
+      "^je[ ,]",
+      "^konačno[ ,]",
+      "^nakon[ ,]",
       "^od[ ,]",
       "^poslije[ ,]",
-      "^iz[ ,]"
+      "^prije[ ,]",
+      "^tijekom[ ,]",
+      "^u[ ,]",
+      "^za[ ,]"
     ]
     english_excluded_phrases = [
       "^a[ ,]",
       "^an[ ,]",
       "^at[ ,]",
+      "^for[ ,]",
       "^in[ ,]",
       "^of[ ,]",
-      "^when[ ,]",
-      "^for[ ,]",
-      "^the[ ,]"
+      "^the[ ,]",
+      "^when[ ,]"
     ]
 
 # Create CitationType for each kind of authorship.
