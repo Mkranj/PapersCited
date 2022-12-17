@@ -228,16 +228,18 @@ def read_document(filename):
     target_document = target_document.decode("utf-8")
     return(target_document)
 
-def get_matches_solo_author(text):
+def get_matches_solo_author(text, drop_excluded_phrases = False):
     # Regardless of case
     rx = RegexPatterns()
     matches = re.findall(
         rx.letter_character + rx.rest_of_word + "[\\s,(]+" + rx.years,
         text,
         re.IGNORECASE)
-    return(CitationType(matches))
+    matches = CitationType(matches)
+    if drop_excluded_phrases: matches.drop_excluded_phrases()
+    return(matches)
 
-def get_matches_two_authors(text):
+def get_matches_two_authors(text, drop_excluded_phrases = False):
     # Regardless of case
     rx = RegexPatterns()
     matches = re.findall(
@@ -245,18 +247,22 @@ def get_matches_two_authors(text):
         rx.letter_character + rx.rest_of_word + "[\\s,(]+" + rx.years,
         text,
         re.IGNORECASE)
-    return(CitationType(matches))
+    matches = CitationType(matches)
+    if drop_excluded_phrases: matches.drop_excluded_phrases()
+    return(matches)
 
-def get_matches_author_et_al(text):
+def get_matches_author_et_al(text, drop_excluded_phrases = False):
     # Regardless of case
     rx = RegexPatterns()
     matches = re.findall(
         rx.letter_character + rx.rest_of_word + " et al[\\s,.(]+" + rx.years,
         text,
         re.IGNORECASE)
-    return(CitationType(matches))  
+    matches = CitationType(matches)
+    if drop_excluded_phrases: matches.drop_excluded_phrases()
+    return(matches)
   
-def get_matches_three_authors(text):
+def get_matches_three_authors(text, drop_excluded_phrases = False):
     # Will probably catch too much.
     # To remedy some, the first letter of every word must be capitalised.
     rx = RegexPatterns()
@@ -265,9 +271,11 @@ def get_matches_three_authors(text):
         rx.letter_uppercase + rx.rest_of_word + rx.phrase_and + 
         rx.letter_uppercase + rx.rest_of_word + "[\\s,(]+" + rx.years,
         text)
-    return(CitationType(matches))
+    matches = CitationType(matches)
+    if drop_excluded_phrases: matches.drop_excluded_phrases()
+    return(matches)
 
-def get_matches_two_surnames_et_al_(text):
+def get_matches_two_surnames_et_al_(text, drop_excluded_phrases = False):
     pass
             
 def write_excel(filename, citations, wider_citations):
@@ -331,29 +339,20 @@ def main():
     document = read_document(filename)
     
     # Get all types of citations
-    solo_authors = get_matches_solo_author(document)
-    solo_authors.drop_excluded_phrases()
-    
-    two_authors = get_matches_two_authors(document)
-    two_authors.drop_excluded_phrases()
-    
-    three_authors = get_matches_three_authors(document)
-    three_authors.drop_excluded_phrases()
-    
-    author_et_al = get_matches_author_et_al(document)
-    author_et_al.drop_excluded_phrases()
-    
-    two_surnames_et_al = get_matches_two_surnames_et_al_(document)
-    two_surnames_et_al.drop_excluded_phrases()
-    
+    solo_authors = get_matches_solo_author(document, drop_excluded_phrases = True)
+    two_authors = get_matches_two_authors(document, drop_excluded_phrases = True)
+    three_authors = get_matches_three_authors(document, drop_excluded_phrases = True)
+    author_et_al = get_matches_author_et_al(document, drop_excluded_phrases = True)
+    two_surnames_et_al = get_matches_two_surnames_et_al_(document, drop_excluded_phrases = True)
+        
     solo_authors.delete_clones_of_citations(two_authors)
     
     narrower_citations = CitationType(solo_authors.citations + 
                                       two_authors.citations +
                                       author_et_al.citations)
     
-    wider_citations = CitationType(three_authors.citations +
-                                   two_surnames_et_al.citations)
+    wider_citations = CitationType(three_authors.citations)
+    # + two_surnames_et_al.citations
     
     narrower_citations.cleanup()
     wider_citations.cleanup(allow_commas = True)
