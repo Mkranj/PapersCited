@@ -16,9 +16,7 @@ import tkinter
 from tkinter import filedialog
 
 # TO DO
-# - allow commas for three authors
-# - shift wide citations to 6th row
-# - separately count narrow and wide citations
+# If an end citation has no space between last word and year, add it.
 
 # In the actual string, a single \ is used. But for escaping it, we need to put
 # \\ inside strings. Otherwise it will append lines, causing indentation errors.
@@ -80,8 +78,7 @@ class PhrasesToChange:
 class CitationType:
     def __init__(self, citations):
         self.citations = citations
- 
-    # TO DO - option to keep commas for three authors
+
     
     def cleanup(self, allow_commas = False):
         # Apply all helper methods in a specific order. So extra characters won't affect
@@ -257,7 +254,7 @@ def get_matches_author_et_al(text):
     return(CitationType(matches))  
   
 def get_matches_three_authors(text):
-    # Will probably catch too much, so don't filter by this.
+    # Will probably catch too much.
     # To remedy some, the first letter of every word must be capitalised.
     rx = RegexPatterns()
     matches = re.findall(
@@ -267,10 +264,6 @@ def get_matches_three_authors(text):
         text)
     return(CitationType(matches))
             
-# TO DO - Trio citations should be printed on another column.
-# Two inputs - citations for second columns, citations for fourth column
-# Put a warning in fourth column that these longer matches are less precise. 
-
 def write_excel(filename, citations, wider_citations):
     # Retrieve the directory in which the analysed document is located,
     # The output file will be created in the same directory.
@@ -325,8 +318,6 @@ def write_excel(filename, citations, wider_citations):
     input("\nPress Enter to exit the program.")
 
 # MAIN ----
-# Using the defined lists of phrases/characters as arguments
-
 
 def main():
     filename = get_file()
