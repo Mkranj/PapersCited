@@ -172,7 +172,7 @@ class CitationType:
     
     def delete_clones_of_citations(self, Citation_object):
     # If a citation is part of a set of "wider" citations (one author of two)
-    # delete both of them (temporary lists). Output the narrower part as valid citations.
+    # flag it for deletetion.
         narrow_citations = self.citations
         wide_citations = Citation_object.citations
         
@@ -295,6 +295,7 @@ def get_matches_three_authors(text, drop_excluded_phrases = False):
     return(matches)
 
 def get_matches_two_surnames(text, drop_excluded_phrases = False):
+    # Both names must me capitalised for it to be a valid citation.
     rx = RegexPatterns()
     matches = re.findall(
         rx.letter_uppercase + rx.rest_of_word + "[\\s]+" +
@@ -305,6 +306,7 @@ def get_matches_two_surnames(text, drop_excluded_phrases = False):
     return(matches)
 
 def get_matches_two_surnames_et_al(text, drop_excluded_phrases = False):
+    # Both names must me capitalised for it to be a valid citation.
     rx = RegexPatterns()
     matches = re.findall(
         rx.letter_uppercase + rx.rest_of_word + "[\\s]+" +
@@ -393,7 +395,7 @@ def main():
                                    two_surnames_et_al.citations)
     
     narrower_citations.cleanup()
-    wider_citations.cleanup(allow_commas = False) # Default False prevents lots of duplication
+    wider_citations.cleanup(allow_commas = False) # False prevents lots of duplication
     write_excel(filename, narrower_citations, wider_citations)
 
 if __name__ == "__main__":
