@@ -234,6 +234,11 @@ def read_document(filename):
 
     # UTF-8 encoding so it recognises foreign characters
     target_document = target_document.decode("utf-8")
+    
+    file_extension = filename[-4:]
+    if file_extension == ".pdf":
+        target_document = target_document.replace("\r", "")
+        target_document = target_document.replace("\n", " ")
     return(target_document)
 
 def get_matches_solo_author(text, drop_excluded_phrases = False):
