@@ -25,7 +25,7 @@ class RegexPatterns:
     letter_uppercase = letter_character.upper()
     rest_of_word = letter_character[:-1] + letter_uppercase[1:] + "+"
     years = "(?:\\(?\\d\\d\\d\\d[abcd]?,?\\s?;?)+"
-    phrase_and = " (?:and+|[i&]+)+ "
+    phrase_and = " (?:and+|[i&]+) "
     phrase_et_al = "(?: et al[\\s,.(]+)"
     phrase_i_sur = "(?: i sur[\\s,.(]+)"
 
@@ -39,6 +39,7 @@ class PhrasesToChange:
       # "A1 and A2" is the same as "A1 & A2", default to '&'
       " and ": " & ",
       # For the purposes of detecting duplicates, "sur." and "suradnici" are the same
+      "suradnicima": "sur.",
       "suradnici": "sur.",
       "suradnika": "sur.",
     }
@@ -211,10 +212,10 @@ def check_file(filename):
 
     # Warning for PDF files:
     file_extension = filename[-4:]
-    if file_extension == ".pdf":
+    if file_extension.casefold() == ".pdf":
         print("Warning!\nReading PDF files is not recommended and might result in inaccurate transcription.\n")
 
-    if file_extension == ".txt":
+    if file_extension.casefold() == ".txt":
         print("Warning! Reading .txt files might lead to problems with special characters." +
               "\nTo ensure best the best format is used, backup the .txt file, then save it in ANSI encoding." +
               "\n(\"Save as...\" dialog, \"Encoding:\" at the bottom.)\n")
@@ -239,7 +240,8 @@ def read_document(filename):
     target_document = target_document.decode("utf-8")
     
     file_extension = filename[-4:]
-    if file_extension == ".pdf":
+    if file_extension.casefold() == ".pdf":
+        target_document = target_document.replace("\r\n", " ")
         target_document = target_document.replace("\r", "")
         target_document = target_document.replace("\n", " ")
     return(target_document)

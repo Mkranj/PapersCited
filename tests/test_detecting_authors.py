@@ -30,6 +30,9 @@ def test_detecting_two_authors():
     test_string_pairs = "One and two (1212) often collaborate. This is well documented (Aesop and Berry, 1999)"
     assert PapersCited.get_matches_two_authors(test_string_pairs).citations ==\
         ["One and two (1212", "Aesop and Berry, 1999"]
+    test2 = "(Bennett i Maneval, 1998; "
+    assert PapersCited.get_matches_two_authors(test2).citations ==\
+        ["Bennett i Maneval, 1998;"]
 
 def test_detecting_author_et_al():
     test_string_semicolon = "This is the facts (Truth et al., 1980). Also see Hard, 1980; Facts, 1989."
