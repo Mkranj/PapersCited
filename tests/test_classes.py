@@ -68,3 +68,17 @@ def test_deleting_clones():
   narrow_citations.delete_clones_of_citations(wide_citations)
   assert narrow_citations.citations == ["Third, 2000", "Fourth, 2000"]
   
+def test_separating_year_from_name():
+  test1 = "boney1999"
+  test2 = "Rad and Amazing2010"
+  test3 = "rač2000"
+  examples = PapersCited.CitationType([test1, test2, test3])
+  assert examples._separate_name_year() == \
+    ["boney 1999", "Rad and Amazing 2010", "rač 2000"]
+    
+def test_no_newlines_in_citations():
+  test1 = "Aaa\n 2007"
+  test2 = "Bbb\n\n\n2010"
+  examples = PapersCited.CitationType([test1, test2])
+  examples.cleanup()
+  assert examples.citations == ["Aaa 2007", "Bbb 2010"]

@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 # V 1.2.0
 
-# TO DO
-# If an end citation has no space between last word and year, add it.
-
-
 import locale
 locale.setlocale(locale.LC_ALL, "")
 
@@ -35,7 +31,7 @@ class RegexPatterns:
 
 class PhrasesToChange:
     # For clarity and spotting duplicates, remove the following from citations:
-    characters_to_exclude = [",", "(", ")", ";", "."]
+    characters_to_exclude = [",", "(", ")", ";", ".", "\n", "_x000D_", "\r"]
     phrases_to_adjust = {
       # "Et al." and "sur." need a dot at the end
       " et al ": " et al. ",
@@ -86,6 +82,7 @@ class CitationType:
         # Apply all helper methods in a specific order. So extra characters won't affect
         # sorting, etc.
         self.citations = self._remove_extra_characters(allow_commas)
+        self.citations = self._separate_name_year()
         self.citations = self._adjust_common_phrases()
         self.citations = self._remove_duplicates()
         self.citations = self._sort_citations()
@@ -128,6 +125,14 @@ class CitationType:
             # Condense multiple spaces to a single one.
             clean_citations[index_no] = re.sub(" +", " ", clean_citations[index_no])
         return(clean_citations)
+    
+    def _separate_name_year(self):
+        citations = self.citations
+        rx = RegexPatterns()
+        # If letters and digits are "adjacent", put a space in between 
+        separated_citations = [re.sub("(" + rx.rest_of_word + ")(\\d\\d)", "\\g<1> \\g<2>", citation)\
+            for citation in citations]
+        return(separated_citations)
 
     def _adjust_common_phrases(self):
         phrases_to_adjust = PhrasesToChange.phrases_to_adjust
