@@ -33,6 +33,9 @@ def test_detecting_two_authors():
     test2 = "(Bennett i Maneval, 1998; "
     assert PapersCited.get_matches_two_authors(test2).citations ==\
         ["Bennett i Maneval, 1998;"]
+    foreign_characters_2 = "Mendonça i suradnici (2009) utvrdili su..."
+    assert PapersCited.get_matches_two_authors(foreign_characters_2).citations ==\
+        ["Mendonça i suradnici (2009"]
 
 def test_detecting_author_et_al():
     test_string_semicolon = "This is the facts (Truth et al., 1980). Also see Hard, 1980; Facts, 1989."
