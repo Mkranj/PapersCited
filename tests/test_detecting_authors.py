@@ -9,9 +9,9 @@ def test_detecting_single_authors():
     # Best 2009 should not be detected as a citation.
     assert PapersCited.get_matches_solo_author(test_string).citations ==\
         ["Yado (2008", "Hailey (2010", "Worst (2000"]
-    test_string_lowercase = "Uppercase (1999) and lowercase (2000) both get detected."
+    test_string_lowercase = "Uppercase (1999) gets detected, while lowercase (2000) doesn't."
     assert PapersCited.get_matches_solo_author(test_string_lowercase).citations ==\
-        ["Uppercase (1999", "lowercase (2000"]
+        ["Uppercase (1999"]
     test_string_semicolon = "This is the facts (Truth, 1980). Also see Hard, 1980; Facts, 1989."
     assert PapersCited.get_matches_solo_author(test_string_semicolon).citations ==\
         ["Truth, 1980", "Hard, 1980;", "Facts, 1989"]
@@ -138,3 +138,10 @@ def test_ignore_serial_numbers():
     assert PapersCited.get_matches_solo_author(text_with_short_serial).citations == ["Number 1234"]
     text_with_very_short_serial = "Serial Number 12"
     assert PapersCited.get_matches_solo_author(text_with_very_short_serial).citations == []
+    
+def test_authors_should_be_capitalised_to_match():
+    single_author = "Stayed up all night running 1024 tests. If only I had listened to Testly (2000)."
+    assert PapersCited.get_matches_solo_author(single_author).citations == ["Testly (2000"]
+    two_authors = "Maybe writing and running 1024 tests a day takes too much time. Maybe yelling and Screaming 2000 times is better (Bogus and Dogus, 3000)."
+    assert PapersCited.get_matches_solo_author(two_authors).citations == ["Bogus and Dogues, 2000"]
+    # The second name can be lowercase to catch "suradnici".
