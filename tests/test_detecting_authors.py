@@ -129,3 +129,12 @@ def test_ignore_ISSN():
     text = "Online ISSN 2222-3333"
     citations = PapersCited.get_matches_two_surnames(text, drop_excluded_phrases= True)
     assert citations.citations == []
+    
+def test_ignore_serial_numbers():
+    text_with_long_serial = "Serial no 123456789"
+    assert PapersCited.get_matches_solo_author(text_with_long_serial).citations == []
+    # If a number is exactly four digits, it SHOULD get through the filter.
+    text_with_short_serial = "Serial no 1234"
+    assert PapersCited.get_matches_solo_author(text_with_short_serial).citations == ["no 1234"]
+    text_with_very_short_serial = "Serial no 12"
+    assert PapersCited.get_matches_solo_author(text_with_very_short_serial).citations == []
