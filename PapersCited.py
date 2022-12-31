@@ -180,7 +180,7 @@ class CitationType:
         for wider_citation in wide_citations:
             narrow_citation_no = 0
             found_match_for_wider_citation = False
-            while narrow_citation_no <= len(narrow_citations) and found_match_for_wider_citation == False:
+            while narrow_citation_no <= len(narrow_citations) - 1 and found_match_for_wider_citation == False:
                 if narrow_citations[narrow_citation_no] in wider_citation:
                     found_match_for_wider_citation = True
                     narrow_citations[narrow_citation_no] = "__DELETE__"
@@ -248,35 +248,30 @@ def read_document(filename):
     return(target_document)
 
 def get_matches_solo_author(text, drop_excluded_phrases = False):
-    # Regardless of case
     rx = RegexPatterns()
     matches = re.findall(
-        rx.letter_character + rx.rest_of_word + "[\\s,(]+" + rx.years,
-        text,
-        re.IGNORECASE)
+        rx.letter_uppercase + rx.rest_of_word + "[\\s,(]+" + rx.years,
+        text)
     matches = CitationType(matches)
     if drop_excluded_phrases: matches.drop_excluded_phrases()
     return(matches)
 
 def get_matches_two_authors(text, drop_excluded_phrases = False):
-    # Regardless of case
+    # The second word doesn't have to be uppercase, to catch "suradnici".
     rx = RegexPatterns()
     matches = re.findall(
-        rx.letter_character + rx.rest_of_word + rx.phrase_and +
-        rx.letter_character + rx.rest_of_word + "[\\s,(]+" + rx.years,
-        text,
-        re.IGNORECASE)
+        rx.letter_uppercase + rx.rest_of_word + rx.phrase_and +
+        rx.rest_of_word + "[\\s,(]+" + rx.years,
+        text)
     matches = CitationType(matches)
     if drop_excluded_phrases: matches.drop_excluded_phrases()
     return(matches)
 
 def get_matches_author_et_al(text, drop_excluded_phrases = False):
-    # Regardless of case
     rx = RegexPatterns()
     matches = re.findall(
-        rx.letter_character + rx.rest_of_word + "(?:" + rx.phrase_et_al + "|" + rx.phrase_i_sur + ")" + rx.years,
-        text,
-        re.IGNORECASE)
+        rx.letter_uppercase + rx.rest_of_word + "(?:" + rx.phrase_et_al + "|" + rx.phrase_i_sur + ")" + rx.years,
+        text)
     matches = CitationType(matches)
     if drop_excluded_phrases: matches.drop_excluded_phrases()
     return(matches)

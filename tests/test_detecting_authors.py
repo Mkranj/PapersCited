@@ -143,5 +143,5 @@ def test_authors_should_be_capitalised_to_match():
     single_author = "Stayed up all night running 1024 tests. If only I had listened to Testly (2000)."
     assert PapersCited.get_matches_solo_author(single_author).citations == ["Testly (2000"]
     two_authors = "Maybe writing and running 1024 tests a day takes too much time. Maybe yelling and Screaming 2000 times is better (Bogus and Dogus, 3000)."
-    assert PapersCited.get_matches_solo_author(two_authors).citations == ["Bogus and Dogues, 2000"]
+    assert PapersCited.get_matches_two_authors(two_authors).citations == ["Bogus and Dogus, 3000"]
     # The second name can be lowercase to catch "suradnici".
