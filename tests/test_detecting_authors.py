@@ -131,10 +131,10 @@ def test_ignore_ISSN():
     assert citations.citations == []
     
 def test_ignore_serial_numbers():
-    text_with_long_serial = "Serial no 123456789"
+    text_with_long_serial = "Serial Number 123456789"
     assert PapersCited.get_matches_solo_author(text_with_long_serial).citations == []
     # If a number is exactly four digits, it SHOULD get through the filter.
-    text_with_short_serial = "Serial no 1234"
-    assert PapersCited.get_matches_solo_author(text_with_short_serial).citations == ["no 1234"]
-    text_with_very_short_serial = "Serial no 12"
+    text_with_short_serial = "Serial Number 1234"
+    assert PapersCited.get_matches_solo_author(text_with_short_serial).citations == ["Number 1234"]
+    text_with_very_short_serial = "Serial Number 12"
     assert PapersCited.get_matches_solo_author(text_with_very_short_serial).citations == []
