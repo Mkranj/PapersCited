@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# V 1.2.0
+# V 1.2.1
 
 import locale
 locale.setlocale(locale.LC_ALL, "")
@@ -21,11 +21,12 @@ from tkinter import filedialog
 
 class RegexPatterns:
     # Phrases that make up regex patterns for detecting citations
-    letter_character = "[a-zšđčćžäöüñáéíóú'’\\-]"
+    letter_character = "[a-zšđčćžäöüñáéíóúç'’\\-]"
     letter_uppercase = letter_character.upper()
     rest_of_word = letter_character[:-1] + letter_uppercase[1:] + "+"
-    years = "(?:\\(?\\d\\d\\d\\d[abcd]?,?\\s?;?)+"
-    phrase_and = " (?:and+|[i&]+) "
+    # For years - must be exactly four digits, not followed by another digit.
+    years = "(?:\\(?\\d{4}(?!\\d)[abcd]?,?\\s?;?)+"
+    phrase_and = " +(?:and+|[i&]+) +"
     phrase_et_al = "(?: et al[\\s,.(]+)"
     phrase_i_sur = "(?: i sur[\\s,.(]+)"
 
@@ -48,10 +49,13 @@ class PhrasesToChange:
     croatian_excluded_phrases = [
       "^do[ ,]",
       "^i[ ,]",
+      "istraživanje",
       "^iz[ ,]",
       "^je[ ,]",
       "^još[ ,]",
       "^konačno[ ,]",
+      "metaanaliza",
+      "meta-analiza",
       "^nadalje[ ,]",
       "^nakon[ ,]",
       "^od[ ,]",
@@ -179,7 +183,7 @@ class CitationType:
         for wider_citation in wide_citations:
             narrow_citation_no = 0
             found_match_for_wider_citation = False
-            while narrow_citation_no <= len(narrow_citations) and found_match_for_wider_citation == False:
+            while narrow_citation_no <= len(narrow_citations) - 1 and found_match_for_wider_citation == False:
                 if narrow_citations[narrow_citation_no] in wider_citation:
                     found_match_for_wider_citation = True
                     narrow_citations[narrow_citation_no] = "__DELETE__"
@@ -247,35 +251,30 @@ def read_document(filename):
     return(target_document)
 
 def get_matches_solo_author(text, drop_excluded_phrases = False):
-    # Regardless of case
     rx = RegexPatterns()
     matches = re.findall(
-        rx.letter_character + rx.rest_of_word + "[\\s,(]+" + rx.years,
-        text,
-        re.IGNORECASE)
+        rx.letter_uppercase + rx.rest_of_word + "[\\s,(]+" + rx.years,
+        text)
     matches = CitationType(matches)
     if drop_excluded_phrases: matches.drop_excluded_phrases()
     return(matches)
 
 def get_matches_two_authors(text, drop_excluded_phrases = False):
-    # Regardless of case
+    # The second word doesn't have to be uppercase, to catch "suradnici".
     rx = RegexPatterns()
     matches = re.findall(
-        rx.letter_character + rx.rest_of_word + rx.phrase_and +
-        rx.letter_character + rx.rest_of_word + "[\\s,(]+" + rx.years,
-        text,
-        re.IGNORECASE)
+        rx.letter_uppercase + rx.rest_of_word + rx.phrase_and +
+        rx.rest_of_word + "[\\s,(]+" + rx.years,
+        text)
     matches = CitationType(matches)
     if drop_excluded_phrases: matches.drop_excluded_phrases()
     return(matches)
 
 def get_matches_author_et_al(text, drop_excluded_phrases = False):
-    # Regardless of case
     rx = RegexPatterns()
     matches = re.findall(
-        rx.letter_character + rx.rest_of_word + "(?:" + rx.phrase_et_al + "|" + rx.phrase_i_sur + ")" + rx.years,
-        text,
-        re.IGNORECASE)
+        rx.letter_uppercase + rx.rest_of_word + "(?:" + rx.phrase_et_al + "|" + rx.phrase_i_sur + ")" + rx.years,
+        text)
     matches = CitationType(matches)
     if drop_excluded_phrases: matches.drop_excluded_phrases()
     return(matches)
