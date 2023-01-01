@@ -16,10 +16,13 @@ def test_dropping_citations_starting_with_excluded_phrases():
   citations.drop_excluded_phrases()
   assert citations.citations ==  ["b 2010"]
   
-  croatian_citations = PapersCited.CitationType(["dobar 2010", "tijekom 2010", "je 2010", "tijekom, 2010",])
+  croatian_citations = PapersCited.CitationType(["dobar 2010", "tijekom 2010", "je 2010", "tijekom, 2010"])
   croatian_citations.drop_excluded_phrases()
   assert croatian_citations.citations ==\
     ["dobar 2010"]
+  croatian_uppercase = PapersCited.CitationType(["Dobar 2010", "Tijekom 2010", "Je 2010", "Tijekom, 2010"])
+  croatian_uppercase.drop_excluded_phrases()
+  assert croatian_uppercase.citations == ["Dobar 2010"]
     
 def test_removing_extra_characters_from_citations():
   strings = ["(Swirly) 2000", ",Comma, 2000", "(Everything.); 2010"]
