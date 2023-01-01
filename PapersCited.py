@@ -26,7 +26,7 @@ class RegexPatterns:
     rest_of_word = letter_character[:-1] + letter_uppercase[1:] + "+"
     # For years - must be exactly four digits, not followed by another digit.
     years = "(?:\\(?\\d{4}(?!\\d)[abcd]?,?\\s?;?)+"
-    phrase_and = " (?:and+|[i&]+) "
+    phrase_and = " +(?:and+|[i&]+) +"
     phrase_et_al = "(?: et al[\\s,.(]+)"
     phrase_i_sur = "(?: i sur[\\s,.(]+)"
 
