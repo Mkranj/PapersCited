@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# V 1.2.0
+# V 1.2.1
 
 import locale
 locale.setlocale(locale.LC_ALL, "")
