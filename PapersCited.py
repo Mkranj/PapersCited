@@ -49,10 +49,13 @@ class PhrasesToChange:
     croatian_excluded_phrases = [
       "^do[ ,]",
       "^i[ ,]",
+      "istraživanje",
       "^iz[ ,]",
       "^je[ ,]",
       "^još[ ,]",
       "^konačno[ ,]",
+      "metaanaliza",
+      "meta-analiza",
       "^nadalje[ ,]",
       "^nakon[ ,]",
       "^od[ ,]",
