@@ -96,3 +96,8 @@ def test_separating_multiple_years():
   matches = PapersCited.get_matches_solo_author(text)
   matches = PapersCited.CitationType(matches._remove_extra_characters())
   assert matches._separate_multiple_years() == ["AuthorA 2000", "AuthorA 2002", "AuthorA 2003"]
+  
+  text_abc = "AuthorA (2000a; 2000b; 2000c) thoroughly explored..."
+  matches = PapersCited.get_matches_solo_author(text_abc)
+  matches = PapersCited.CitationType(matches._remove_extra_characters())
+  assert matches._separate_multiple_years() == ["AuthorA 2000a", "AuthorA 2000b", "AuthorA 2000c"]
