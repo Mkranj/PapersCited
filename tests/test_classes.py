@@ -61,7 +61,14 @@ def test_cleanup():
   citations_many_spaces = PapersCited.CitationType(match_with_many_spaces)
   citations_many_spaces.cleanup()
   assert citations_many_spaces.citations == ["Manman 1999"]
-  
+
+def test_cleanup_multiple_years():
+  # All the helper methods need to be applied.
+  strings = ["survivor (2000a)", "(survivor, 2000b)", "survivor 2002", "Author et al 1000"]
+  citations = PapersCited.CitationType(strings)
+  citations.cleanup() # This doesn't return any values
+  assert citations.citations == ["Author et al. 1000", "survivor 2000a", "survivor 2000b", "survivor 2002"]
+
 def test_dropping_phrases_and_cleanup():
   strings = ["tijekom 1999", "survivor (2000)", "a 1999", "(survivor, 2000)", "survivor 2002", "Author et al 1000"]
   citations = PapersCited.CitationType(strings)
