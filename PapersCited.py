@@ -68,6 +68,7 @@ class PhrasesToChange:
       "^za[ ,]"
     ]
     english_excluded_phrases = [
+      "^-",
       "^a[ ,]",
       "^an[ ,]",
       "^at[ ,]",
