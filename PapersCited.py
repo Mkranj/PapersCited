@@ -92,6 +92,7 @@ class CitationType:
         self.citations = self._remove_extra_characters(allow_commas)
         self.citations = self._separate_name_year()
         self.citations = self._adjust_common_phrases()
+        self.citations = self._separate_multiple_years()
         self.citations = self._remove_duplicates()
         self.citations = self._sort_citations()
     
