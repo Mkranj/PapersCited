@@ -1,5 +1,5 @@
 # PapersCited
-## v1.2.0
+## v1.2.1
 Write an Excel file containing all citations found in a document, so they can be used to check or build a reference list.
 
 ## Dependencies:
@@ -16,7 +16,7 @@ With that file, you can easily go through your reference list and note if you ci
 
 The first column is empty so you can easily mark certain citations as "OK" or "needs double-checking" when reviewing a reference list.
 
-Tested on Windows using .doc, .docx, .txt and .pdf files. 
+Tested on Windows 10 using .doc, .docx, .txt and .pdf files. 
 This program is appropriate for texts written in **English** and **Croatian**. Some sources may be detected incorrectly in other languages. The software is written with **APA style** citations in mind, but **Chicago style** and similar would work as well.
 
 ## Instructions:
@@ -43,7 +43,7 @@ With all that done, the script should run when double-clicked. If it asks you wh
 ## Known limitations:
 - Secondary citations ("*XX 2010, as cited in YY 2012*"). *YY 2012* is detected correctly. However, *XX 2010* also gets recorded as a primary source. *XX 2010* should not be included in the reference list.
 - In Croatian, different declinations of the author's surnames get detected as different authors.
-- Multiple surnames such as van der Flier will get recorded only as the last word - *Kappe and van der Flier (2010)* will be recorded as *Flier 2010*, **skipping the first author**! These require special attention when writing or reviewing a reference list. Multiple surnames with an "*-*", however, will be recorded correctly.
+- Surnames with three or more words, such as van der Flier, will get recorded only as the last word or last two words - *Kappe and van der Flier (2010)* will be recorded as *Flier 2010*, **skipping the first author**! These require special attention when writing or reviewing a reference list. Multiple surnames with an "*-*", however, will be recorded correctly.
 - Similarly, when citing organizations, laws and other documents, it possible that only the end of the full name gets recorded. *World Health Organization (2000)* will be recorded as *Organization 2000*, with *Health Organization 2000* as a separate suggestion. (*WHO 2000* would be fine, though.) So if you are working with these kinds of sources, extra attention is needed.
 
 ## Lastly...
