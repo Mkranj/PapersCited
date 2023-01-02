@@ -14,7 +14,7 @@ def test_detecting_single_authors():
         ["Uppercase (1999"]
     test_string_semicolon = "This is the facts (Truth, 1980). Also see Hard, 1980; Facts, 1989."
     assert PapersCited.get_matches_solo_author(test_string_semicolon).citations ==\
-        ["Truth, 1980", "Hard, 1980;", "Facts, 1989"]
+        ["Truth, 1980", "Hard, 1980; ", "Facts, 1989"]
     test_string_and = "Villa and Maria (1875) was the best show ever. Mirko i Birko (1999) napisali su cijelu knjigu o tome."
     # What this function detects WILL NOT be the whole citation. We still need it for controlling two-author matches.
     assert PapersCited.get_matches_solo_author(test_string_and).citations ==\
@@ -32,7 +32,7 @@ def test_detecting_two_authors():
         ["One and two (1212", "Aesop and Berry, 1999"]
     test2 = "(Bennett i Maneval, 1998; "
     assert PapersCited.get_matches_two_authors(test2).citations ==\
-        ["Bennett i Maneval, 1998;"]
+        ["Bennett i Maneval, 1998; "]
     foreign_characters_2 = "Mendonça i suradnici (2009) utvrdili su..."
     assert PapersCited.get_matches_two_authors(foreign_characters_2).citations ==\
         ["Mendonça i suradnici (2009"]

@@ -25,7 +25,7 @@ class RegexPatterns:
     letter_uppercase = letter_character.upper()
     rest_of_word = letter_character[:-1] + letter_uppercase[1:] + "+"
     # For years - must be exactly four digits, not followed by another digit.
-    years = "(?:\\(?\\d{4}(?!\\d)[abcd]?,?\\s?;?)+"
+    years = "(?:\\(?\\d{4}(?!\\d)[abcd]?,?\\s?;?\\s?)+"
     phrase_and = " +(?:and+|[i&]+) +"
     phrase_et_al = "(?: et al[\\s,.(]+)"
     phrase_i_sur = "(?: i sur[\\s,.(]+)"
@@ -151,6 +151,29 @@ class CitationType:
             for key in phrases_to_adjust:
                 clean_citations[index_no] = clean_citations[index_no].replace(key, phrases_to_adjust[key])
         return(clean_citations)
+    
+    def _separate_multiple_years(self):
+        rx = RegexPatterns()
+        all_citations = self.citations
+        # For each citation, find how many years it contains.
+        # If it contains more than one, get the years as a list.
+        # Flag the original citation for deletion
+        single_year_pattern = "\\d{4}[abcd]?"
+        all_years_pattern = rx.years
+        extracted_citations = []
+        
+        for index_no, citation in enumerate(all_citations):
+            years = re.findall(pattern = single_year_pattern, string = citation)
+            # findall always returns a list
+            if len(years) > 1:
+                citation_start = re.sub(all_years_pattern, "", citation)
+                all_citations[index_no] = "__DELETE__"
+                new_citations = [citation_start + year for year in years]
+                extracted_citations.extend(new_citations)
+        
+        expanded_citations = [citation for citation in all_citations if citation != "__DELETE__"]
+        expanded_citations.extend(extracted_citations)
+        return(expanded_citations)        
     
     def _remove_duplicates(self):
         citations = self.citations

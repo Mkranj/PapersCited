@@ -94,4 +94,5 @@ def test_no_newlines_in_citations():
 def test_separating_multiple_years():
   text = "AuthorA (2000; 2002; 2003) thoroughly explored..."
   matches = PapersCited.get_matches_solo_author(text)
-  assert matches._separate_multiple_years == ["AuthorA 2000", "AuthorA 2002", "AuthorA 2003"]
+  matches = PapersCited.CitationType(matches._remove_extra_characters())
+  assert matches._separate_multiple_years() == ["AuthorA 2000", "AuthorA 2002", "AuthorA 2003"]
