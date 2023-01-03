@@ -151,3 +151,10 @@ def test_possesive_recognised_and_adjusted():
     matches = PapersCited.get_matches_solo_author(possesive_text)
     matches.cleanup()
     assert matches.citations == ["Cohen 1999"]
+    # When both possesive and regular form are cited, this should result in a single,
+    # proper form citation.
+    possesive_and_regular = "Listen to Cohen's (1999) talk. Or read Cohen (1999)"
+    matches = PapersCited.get_matches_solo_author(possesive_and_regular)
+    matches.cleanup()
+    assert matches.citations == ["Cohen 1999"]
+    
