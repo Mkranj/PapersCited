@@ -21,7 +21,7 @@ from tkinter import filedialog
 
 class RegexPatterns:
     # Phrases that make up regex patterns for detecting citations
-    letter_character = "\\p{Ll}"
+    letter_lowercase = "\\p{Ll}"
     letter_uppercase = "\\p{Lu}"
     rest_of_word = "(?:\\p{L}|['’\\-])+"
     # For years - must be exactly four digits, not followed by another digit.
