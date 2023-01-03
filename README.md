@@ -4,9 +4,9 @@ Write an Excel file containing all citations found in a document, so they can be
 
 ## Dependencies:
 This program was written using Python 3.9.12. It requires the following modules:
-textract, xlsxwriter
+textract, xlsxwriter, regex
 
-To install them in Powershell, type "*pip install textract*", followed by "*pip install xlsxwriter*".
+To install them in Powershell, type "*pip install textract*" and press Enter. Then follow it with "*pip install xlsxwriter*" and "*pip install regex*".
 
 # About:
 ***PapersCited*** is a small Python program designed to help you with **writing and reviewing reference lists** in your scientific articles. It reads through a document of your choice and takes a note every time something is cited. At the end, it writes all those citations in an Excel file in alphabetical order, omitting duplicate entries. 
