@@ -150,3 +150,6 @@ def test_new_foreign_characters():
     text = "Bø (1999) and Yø (2000) and Så (2001)"
     assert PapersCited.get_matches_solo_author(text).citations ==\
         ["Bø (1999", "Yø (2000", "Så (2001"]
+    text_non_alphanumeric = "Bø's (1999) research cited Yø-yoma (2000)"
+    assert PapersCited.get_matches_solo_author(text_non_alphanumeric).citations ==\
+        ["Bø's (1999", "Yø-yoma (2000"]
