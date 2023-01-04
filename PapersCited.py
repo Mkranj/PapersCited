@@ -10,7 +10,7 @@ import textract
 import xlsxwriter
 
 # regex in Python
-import re
+import regex
 
 # GUI elements - for the file dialog. Explicitly import the filedialog submodule.
 import tkinter
@@ -21,9 +21,9 @@ from tkinter import filedialog
 
 class RegexPatterns:
     # Phrases that make up regex patterns for detecting citations
-    letter_character = "[a-zšđčćžäöüñáéíóúç'’\\-]"
-    letter_uppercase = letter_character.upper()
-    rest_of_word = letter_character[:-1] + letter_uppercase[1:] + "+"
+    letter_lowercase = "\\p{Ll}"
+    letter_uppercase = "\\p{Lu}"
+    rest_of_word = "(?:\\p{L}|['’\\-])+"
     # For years - must be exactly four digits, not followed by another digit.
     years = "(?:\\(?\\d{4}(?!\\d)[abcd]?,?\\s?;?\\s?)+"
     phrase_and = " +(?:and+|[i&]+) +"
@@ -70,7 +70,6 @@ class PhrasesToChange:
       "^za[ ,]"
     ]
     english_excluded_phrases = [
-      "^-",
       "^a[ ,]",
       "^an[ ,]",
       "^at[ ,]",
@@ -110,12 +109,12 @@ class CitationType:
             PhrasesToChange.english_excluded_phrases
         for index_no, citation in enumerate(self.citations):
             for phrase in excluded_phrases:
-                match = re.search(
+                match = regex.search(
                     phrase,
                     citation,
-                    re.IGNORECASE
+                    regex.IGNORECASE
                 )
-        # If a match is not found, the result of re.match is None
+        # If a match is not found, the result of regex.match is None
                 if match:
                     filtered_citations[index_no] = "__DELETE__"
         # Retain only citations that haven't been flagged
@@ -135,14 +134,14 @@ class CitationType:
             # Remove leading and trailing spaces
             clean_citations[index_no] = clean_citations[index_no].strip()
             # Condense multiple spaces to a single one.
-            clean_citations[index_no] = re.sub(" +", " ", clean_citations[index_no])
+            clean_citations[index_no] = regex.sub(" +", " ", clean_citations[index_no])
         return(clean_citations)
     
     def _separate_name_year(self):
         citations = self.citations
         rx = RegexPatterns()
         # If letters and digits are "adjacent", put a space in between 
-        separated_citations = [re.sub("(" + rx.rest_of_word + ")(\\d\\d)", "\\g<1> \\g<2>", citation)\
+        separated_citations = [regex.sub("(" + rx.rest_of_word + ")(\\d\\d)", "\\g<1> \\g<2>", citation)\
             for citation in citations]
         return(separated_citations)
 
@@ -167,10 +166,10 @@ class CitationType:
         extracted_citations = []
         
         for index_no, citation in enumerate(all_citations):
-            years = re.findall(pattern = single_year_pattern, string = citation)
+            years = regex.findall(pattern = single_year_pattern, string = citation)
             # findall always returns a list
             if len(years) > 1:
-                citation_start = re.sub(all_years_pattern, "", citation)
+                citation_start = regex.sub(all_years_pattern, "", citation)
                 all_citations[index_no] = "__DELETE__"
                 new_citations = [citation_start + year for year in years]
                 extracted_citations.extend(new_citations)
@@ -279,7 +278,7 @@ def read_document(filename):
 
 def get_matches_solo_author(text, drop_excluded_phrases = False):
     rx = RegexPatterns()
-    matches = re.findall(
+    matches = regex.findall(
         rx.letter_uppercase + rx.rest_of_word + "[\\s,(]+" + rx.years,
         text)
     matches = CitationType(matches)
@@ -289,7 +288,7 @@ def get_matches_solo_author(text, drop_excluded_phrases = False):
 def get_matches_two_authors(text, drop_excluded_phrases = False):
     # The second word doesn't have to be uppercase, to catch "suradnici".
     rx = RegexPatterns()
-    matches = re.findall(
+    matches = regex.findall(
         rx.letter_uppercase + rx.rest_of_word + rx.phrase_and +
         rx.rest_of_word + "[\\s,(]+" + rx.years,
         text)
@@ -299,7 +298,7 @@ def get_matches_two_authors(text, drop_excluded_phrases = False):
 
 def get_matches_author_et_al(text, drop_excluded_phrases = False):
     rx = RegexPatterns()
-    matches = re.findall(
+    matches = regex.findall(
         rx.letter_uppercase + rx.rest_of_word + "(?:" + rx.phrase_et_al + "|" + rx.phrase_i_sur + ")" + rx.years,
         text)
     matches = CitationType(matches)
@@ -311,7 +310,7 @@ def get_matches_three_authors(text, drop_excluded_phrases = False):
     # To remedy some, the first letter of the first two words must be capitalised.
     # The last doesn't, so it catches the term "suradnici" common for multiple authors.
     rx = RegexPatterns()
-    matches = re.findall(
+    matches = regex.findall(
         rx.letter_uppercase + rx.rest_of_word + "[\\s,]+" +
         rx.letter_uppercase + rx.rest_of_word + rx.phrase_and + 
         rx.rest_of_word + "[\\s,(]+" + rx.years,
@@ -323,7 +322,7 @@ def get_matches_three_authors(text, drop_excluded_phrases = False):
 def get_matches_two_surnames(text, drop_excluded_phrases = False):
     # Both names must me capitalised for it to be a valid citation.
     rx = RegexPatterns()
-    matches = re.findall(
+    matches = regex.findall(
         rx.letter_uppercase + rx.rest_of_word + "[\\s]+" +
         rx.letter_uppercase + rx.rest_of_word + "[\\s,(]+" + rx.years,
         text)
@@ -334,7 +333,7 @@ def get_matches_two_surnames(text, drop_excluded_phrases = False):
 def get_matches_two_surnames_et_al(text, drop_excluded_phrases = False):
     # Both names must me capitalised for it to be a valid citation.
     rx = RegexPatterns()
-    matches = re.findall(
+    matches = regex.findall(
         rx.letter_uppercase + rx.rest_of_word + "[\\s]+" +
         rx.letter_uppercase + rx.rest_of_word + "(?:" + rx.phrase_et_al + "|" + rx.phrase_i_sur + ")" + rx.years,
         text)

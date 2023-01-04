@@ -70,12 +70,12 @@ def test_detecting_two_surnames_i_suradnika():
         ["Anić Babić i suradnika (2000"]
 
 def test_detecting_two_surnames_et_al():
-        test_string_semicolon = "This is the facts (Naked Truth et al., 1980). Also see Hard, 1980; Facts, 1989."
-        assert PapersCited.get_matches_two_surnames_et_al(test_string_semicolon).citations ==\
-            ["Naked Truth et al., 1980"]
-        test_croatian_i_sur = "Branjek i suradnici (1999) spominju rad Cvanjek i suradnika (1990) više puta (Dvanjek Erin i sur., 2010)"
-        assert PapersCited.get_matches_two_surnames_et_al(test_croatian_i_sur).citations ==\
-            ["Dvanjek Erin i sur., 2010"]
+    test_string_semicolon = "This is the facts (Naked Truth et al., 1980). Also see Hard, 1980; Facts, 1989."
+    assert PapersCited.get_matches_two_surnames_et_al(test_string_semicolon).citations ==\
+        ["Naked Truth et al., 1980"]
+    test_croatian_i_sur = "Branjek i suradnici (1999) spominju rad Cvanjek i suradnika (1990) više puta (Dvanjek Erin i sur., 2010)"
+    assert PapersCited.get_matches_two_surnames_et_al(test_croatian_i_sur).citations ==\
+        ["Dvanjek Erin i sur., 2010"]
 
 def test_program_works_with_no_citations_found():
     document = ""
@@ -146,6 +146,14 @@ def test_authors_should_be_capitalised_to_match():
     assert PapersCited.get_matches_two_authors(two_authors).citations == ["Bogus and Dogus, 3000"]
     # The second name can be lowercase to catch "suradnici".
     
+def test_new_foreign_characters():
+    text = "Bø (1999) and Yø (2000) and Så (2001)"
+    assert PapersCited.get_matches_solo_author(text).citations ==\
+        ["Bø (1999", "Yø (2000", "Så (2001"]
+    text_non_alphanumeric = "Bø's (1999) research cited Yø-yoma (2000)"
+    assert PapersCited.get_matches_solo_author(text_non_alphanumeric).citations ==\
+        ["Bø's (1999", "Yø-yoma (2000"]
+        
 def test_possesive_recognised_and_adjusted():
     possesive_text = "Listen to Cohen's (1999) talk."
     matches = PapersCited.get_matches_solo_author(possesive_text)
@@ -163,4 +171,4 @@ def test_surnames_apostrophe_s_recognised():
     matches = PapersCited.get_matches_solo_author(text)
     matches.cleanup()
     assert matches.citations == ["O'Samuel 1999", "O'Sullivan 2000"]
-    
+ 
