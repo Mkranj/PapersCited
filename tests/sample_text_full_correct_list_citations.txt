@@ -10,8 +10,10 @@ Genius i Brainiac 2008
 Kolege i sur. 1999
 Lucky i sur. 2007
 Manman i sur. 2022
-ProlificAuthor 2007 2008a 2010
+ProlificAuthor 2007
+ProlificAuthor 2008a
 ProlificAuthor 2008b
+ProlificAuthor 2010
 Spacey 1999
 Šverko i sur. 1989
 Writerly 2001

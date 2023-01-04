@@ -61,7 +61,14 @@ def test_cleanup():
   citations_many_spaces = PapersCited.CitationType(match_with_many_spaces)
   citations_many_spaces.cleanup()
   assert citations_many_spaces.citations == ["Manman 1999"]
-  
+
+def test_cleanup_multiple_years():
+  # All the helper methods need to be applied.
+  strings = ["survivor (2000a)", "(survivor, 2000b)", "survivor 2002", "Author et al 1000"]
+  citations = PapersCited.CitationType(strings)
+  citations.cleanup() # This doesn't return any values
+  assert citations.citations == ["Author et al. 1000", "survivor 2000a", "survivor 2000b", "survivor 2002"]
+
 def test_dropping_phrases_and_cleanup():
   strings = ["tijekom 1999", "survivor (2000)", "a 1999", "(survivor, 2000)", "survivor 2002", "Author et al 1000"]
   citations = PapersCited.CitationType(strings)
@@ -90,3 +97,14 @@ def test_no_newlines_in_citations():
   examples = PapersCited.CitationType([test1, test2])
   examples.cleanup()
   assert examples.citations == ["Aaa 2007", "Bbb 2010"]
+  
+def test_separating_multiple_years():
+  text = "AuthorA (2000; 2002; 2003) thoroughly explored..."
+  matches = PapersCited.get_matches_solo_author(text)
+  matches = PapersCited.CitationType(matches._remove_extra_characters())
+  assert matches._separate_multiple_years() == ["AuthorA 2000", "AuthorA 2002", "AuthorA 2003"]
+  
+  text_abc = "AuthorA (2000a; 2000b; 2000c) thoroughly explored..."
+  matches = PapersCited.get_matches_solo_author(text_abc)
+  matches = PapersCited.CitationType(matches._remove_extra_characters())
+  assert matches._separate_multiple_years() == ["AuthorA 2000a", "AuthorA 2000b", "AuthorA 2000c"]
