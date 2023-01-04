@@ -158,3 +158,9 @@ def test_possesive_recognised_and_adjusted():
     matches.cleanup()
     assert matches.citations == ["Cohen 1999"]
     
+def test_surnames_apostrophe_s_recognised():
+    text = "O'Sullivan (2000) wrote a paper. Compare it to O'Samuel's (1999) work."
+    matches = PapersCited.get_matches_solo_author(text)
+    matches.cleanup()
+    assert matches.citations == ["O'Samuel 1999", "O'Sullivan 2000"]
+    
