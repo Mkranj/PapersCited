@@ -145,3 +145,22 @@ def test_authors_should_be_capitalised_to_match():
     two_authors = "Maybe writing and running 1024 tests a day takes too much time. Maybe yelling and Screaming 2000 times is better (Bogus and Dogus, 3000)."
     assert PapersCited.get_matches_two_authors(two_authors).citations == ["Bogus and Dogus, 3000"]
     # The second name can be lowercase to catch "suradnici".
+    
+def test_possesive_recognised_and_adjusted():
+    possesive_text = "Listen to Cohen's (1999) talk."
+    matches = PapersCited.get_matches_solo_author(possesive_text)
+    matches.cleanup()
+    assert matches.citations == ["Cohen 1999"]
+    # When both possesive and regular form are cited, this should result in a single,
+    # proper form citation.
+    possesive_and_regular = "Listen to Cohen's (1999) talk. Or read Cohen (1999)"
+    matches = PapersCited.get_matches_solo_author(possesive_and_regular)
+    matches.cleanup()
+    assert matches.citations == ["Cohen 1999"]
+    
+def test_surnames_apostrophe_s_recognised():
+    text = "O'Sullivan (2000) wrote a paper. Compare it to O'Samuel's (1999) work."
+    matches = PapersCited.get_matches_solo_author(text)
+    matches.cleanup()
+    assert matches.citations == ["O'Samuel 1999", "O'Sullivan 2000"]
+    

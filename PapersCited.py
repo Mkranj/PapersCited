@@ -43,6 +43,8 @@ class PhrasesToChange:
       "suradnicima": "sur.",
       "suradnici": "sur.",
       "suradnika": "sur.",
+      # Change possesive form to a proper noun
+      "'s" : ""
     }
     # Before adding something to excluded phrases, Google [word] surname.
     # If anything shows up, don't include that word.
