@@ -3,7 +3,7 @@
 
 # Welcome message, before loading anything
 if __name__ == "__main__":
-    print("PapersCited startup. Please wait...")
+    print("PapersCited v1.2.2 startup. Please wait...")
     
 import locale
 locale.setlocale(locale.LC_ALL, "")
