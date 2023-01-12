@@ -398,7 +398,16 @@ def write_excel(filename, citations, wider_citations):
               f" {n_wider_citations} wider citations, displayed to the right.")
     
     print(f"A total of {total_citations} different citations have been recorded.")
-    input("\nPress Enter to exit the program.")
+
+
+def preview_citations(citations, wider_citations):
+    print("\n")
+    print("Citations found:")
+    [print(citation) for citation in citations.citations]
+    print("\n")
+    if wider_citations:
+        print("Wider citations found:")
+        [print(citation) for citation in wider_citations.citations]
 
 # MAIN ----
 
@@ -429,6 +438,8 @@ def main():
     narrower_citations.cleanup()
     wider_citations.cleanup(allow_commas = False) # False prevents lots of duplication
     write_excel(filename, narrower_citations, wider_citations)
+    preview_citations(narrower_citations, wider_citations)
 
 if __name__ == "__main__":
     main()
+    input("\nPress Enter to exit the program.")
