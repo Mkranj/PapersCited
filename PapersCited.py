@@ -266,7 +266,8 @@ def read_document(filename):
         print("If you can regularly open it, you may be missing certain libraries:")
         print("antiword for .doc (not .docx)")
         print("poppler for .pdf")
-        print("\nPlease check 'help_with_libraries.txt' at PapersCited Github.")
+        print("\nPlease check 'help_with_libraries.txt' at PapersCited Github:")
+        print("https://github.com/Mkranj/PapersCited/blob/main/help_with_libraries.txt")
         input("\nPress Enter to exit the program.")
         sys.exit()
 
