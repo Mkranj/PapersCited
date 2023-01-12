@@ -386,7 +386,7 @@ def write_excel(filename, citations, wider_citations):
     except:
         total_citations = n_narrower_citations
     
-    print(f"Success! A file has been created at {output_filename}.")
+    print(f"Success! A file with found citations has been created: {output_filename}.")
     
     if n_wider_citations:
         print(f"{n_narrower_citations} citations have been found, along with" +
