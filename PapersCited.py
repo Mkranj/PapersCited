@@ -344,8 +344,8 @@ def get_matches_two_surnames_et_al(text, drop_excluded_phrases = False):
 def write_excel(filename, citations, wider_citations):
     # Retrieve the directory in which the analysed document is located,
     # The output file will be created in the same directory.
-    output_folder = os.path.dirname(filename)
-    output_filename = output_folder + "/citations.xlsx"
+    output_file_prefix = os.path.splitext(filename)
+    output_filename = output_file_prefix[0] + "_citations.xlsx"
 
     # Create a file
     try:
