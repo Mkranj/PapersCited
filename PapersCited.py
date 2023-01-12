@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# V 1.2.1
+# V 1.2.2
 
 # Welcome message, before loading anything
 if __name__ == "__main__":
