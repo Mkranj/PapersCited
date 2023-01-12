@@ -412,7 +412,7 @@ def preview_citations(citations, wider_citations):
 # MAIN ----
 
 def main():
-    print("Choose the file you want to find citations in.")
+    print("\nChoose the file you want to find citations in.")
     filename = get_file()
     check_file(filename)
     document = read_document(filename)
