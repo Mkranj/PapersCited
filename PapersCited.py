@@ -247,7 +247,7 @@ def check_file(filename):
 
     if file_extension.casefold() == ".txt":
         print("Warning! Reading .txt files might lead to problems with special characters." +
-              "\nTo ensure best the best format is used, backup the .txt file, then save it in ANSI encoding." +
+              "\nTo ensure the best format is used, backup the .txt file, then save it in ANSI encoding." +
               "\n(\"Save as...\" dialog, \"Encoding:\" at the bottom.)\n")
 
 
