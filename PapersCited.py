@@ -395,6 +395,7 @@ def write_excel(filename, citations, wider_citations):
 
 
 def preview_citations(citations, wider_citations):
+    print("\n")
     print("Citations found:")
     [print(citation) for citation in citations.citations]
     print("\n")
