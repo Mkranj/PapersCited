@@ -458,4 +458,3 @@ if __name__ == "__main__":
         continue_processing_files = dialog_process_another_file()
         if continue_processing_files:
             print("\n-------------------\n")
-    input("\nPress Enter to exit the program.")
