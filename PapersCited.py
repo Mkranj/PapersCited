@@ -430,6 +430,7 @@ def main():
     narrower_citations.cleanup()
     wider_citations.cleanup(allow_commas = False) # False prevents lots of duplication
     write_excel(filename, narrower_citations, wider_citations)
+    preview_citations(narrower_citations, wider_citations)
 
 if __name__ == "__main__":
     main()
