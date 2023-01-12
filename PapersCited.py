@@ -392,7 +392,7 @@ def write_excel(filename, citations, wider_citations):
               f" {n_wider_citations} wider citations, displayed to the right.")
     
     print(f"A total of {total_citations} different citations have been recorded.")
-    input("\nPress Enter to exit the program.")
+
 
 def preview_citations(citations, wider_citations):
     print("Citations found:")
@@ -433,3 +433,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    input("\nPress Enter to exit the program.")
