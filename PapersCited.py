@@ -404,8 +404,8 @@ def preview_citations(citations, wider_citations):
     print("\n")
     print("Citations found:")
     [print(citation) for citation in citations.citations]
-    print("\n")
-    if wider_citations:
+    if len(wider_citations.citations) > 0:
+        print("\n")
         print("Wider citations found:")
         [print(citation) for citation in wider_citations.citations]
 
