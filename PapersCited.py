@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 # V 1.2.1
 
+# Welcome message, before loading anything
+if __name__ == "__main__":
+    print("PapersCited startup. Please wait...")
+    
 import locale
 locale.setlocale(locale.LC_ALL, "")
 
@@ -247,7 +251,7 @@ def check_file(filename):
 
     if file_extension.casefold() == ".txt":
         print("Warning! Reading .txt files might lead to problems with special characters." +
-              "\nTo ensure best the best format is used, backup the .txt file, then save it in ANSI encoding." +
+              "\nTo ensure the best format is used, backup the .txt file, then save it in ANSI encoding." +
               "\n(\"Save as...\" dialog, \"Encoding:\" at the bottom.)\n")
 
 
@@ -262,7 +266,8 @@ def read_document(filename):
         print("If you can regularly open it, you may be missing certain libraries:")
         print("antiword for .doc (not .docx)")
         print("poppler for .pdf")
-        print("\nPlease check 'help_with_libraries.txt' at PapersCited Github.")
+        print("\nPlease check 'help_with_libraries.txt' at PapersCited Github:")
+        print("https://github.com/Mkranj/PapersCited/blob/main/help_with_libraries.txt")
         input("\nPress Enter to exit the program.")
         sys.exit()
 
@@ -397,6 +402,7 @@ def write_excel(filename, citations, wider_citations):
 # MAIN ----
 
 def main():
+    print("Choose the file you want to find citations in.")
     filename = get_file()
     check_file(filename)
     document = read_document(filename)
