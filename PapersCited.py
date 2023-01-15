@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-# V 1.2.1
+version = "v.1.2.2"
 
 # Welcome message, before loading anything
 if __name__ == "__main__":
-    print("PapersCited startup. Please wait...")
+    print("PapersCited", version, "startup. Please wait...")
     
 import locale
 locale.setlocale(locale.LC_ALL, "")
@@ -392,6 +392,7 @@ def write_excel(filename, citations, wider_citations):
     except:
         total_citations = n_narrower_citations
     
+    print("--------------------")
     print(f"Success! A file with found citations has been created: {output_filename}.")
     
     if n_wider_citations:
@@ -423,7 +424,7 @@ def dialog_process_another_file():
 # MAIN ----
 
 def main():
-    print("Choose the file you want to find citations in.")
+    print("\nChoose the file you want to find citations in.")
     filename = get_file()
     check_file(filename)
     document = read_document(filename)
