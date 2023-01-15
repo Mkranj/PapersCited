@@ -19,6 +19,7 @@ import regex
 # GUI elements - for the file dialog. Explicitly import the filedialog submodule.
 import tkinter
 from tkinter import filedialog
+from tkinter import messagebox
 
 # In the actual string, a single \ is used. But for escaping it, we need to put
 # \\ inside strings. Otherwise it will append lines, causing indentation errors.
@@ -405,10 +406,20 @@ def preview_citations(citations, wider_citations):
     print("\n")
     print("Citations found:")
     [print(citation) for citation in citations.citations]
-    print("\n")
-    if wider_citations:
+    if len(wider_citations.citations) > 0:
+        print("\n")
         print("Wider citations found:")
         [print(citation) for citation in wider_citations.citations]
+
+def dialog_process_another_file():
+    root = tkinter.Tk()
+    # Make the main window of tkinter invisible since we only need the dialog.
+    root.withdraw()
+    root.attributes("-topmost", True)
+    process_another_file = messagebox.askyesno(title = "Process another file?", message = "Choose another file to extract citations from?\
+                           \nPress 'No' to end the program.")
+    root.destroy()
+    return(process_another_file)
 
 # MAIN ----
 
@@ -442,5 +453,9 @@ def main():
     preview_citations(narrower_citations, wider_citations)
 
 if __name__ == "__main__":
-    main()
-    input("\nPress Enter to exit the program.")
+    continue_processing_files = True
+    while continue_processing_files:
+        main()
+        continue_processing_files = dialog_process_another_file()
+        if continue_processing_files:
+            print("\n-------------------\n")
