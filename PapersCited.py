@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-# V 1.2.2
+version = "v.1.2.2"
 
 # Welcome message, before loading anything
 if __name__ == "__main__":
-    print("PapersCited v1.2.2 startup. Please wait...")
+    print("PapersCited", version, "startup. Please wait...")
     
 import locale
 locale.setlocale(locale.LC_ALL, "")
