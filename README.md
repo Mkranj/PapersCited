@@ -14,7 +14,7 @@ Tested on Windows 10 using .doc, .docx, .txt and .pdf files.
 This program is appropriate for texts written in **English** and **Croatian**. Some sources may be detected incorrectly in other languages. The software is written with **APA style** citations in mind, but **Chicago style** and similar would work as well.
 
 # Instructions:
-- Download the latest version of **PapersCited.rar** from the *Releases* tab, to the right.
+- Download the latest version of **PapersCited.zip** from the *Releases* tab, to the right.
 - Extract the archive in a folder of your choosing.
 - The newly extracted folder contains data files, an example document, and a shorcut to the Paperscited program. **Run the PapersCited shortcut**.
 - When prompted, select the document you want to search for citations.
