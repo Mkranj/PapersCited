@@ -262,7 +262,7 @@ def read_docx_footnotes(filename):
     content =  docx2python(filename)
     footnotes_container = content.footnotes_runs
     
-    # The third nested list is each different footnote,
+    # The third nested list is contains different footnotes,
     # that footnote's nested list [0][1] is the footnote text
     footnotes = []
     footnotes_unnested = footnotes_container[0][0]
