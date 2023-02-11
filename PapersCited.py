@@ -20,6 +20,8 @@ import regex
 import tkinter
 from tkinter import filedialog
 
+from docx2python import docx2python
+
 # In the actual string, a single \ is used. But for escaping it, we need to put
 # \\ inside strings. Otherwise it will append lines, causing indentation errors.
 
@@ -254,6 +256,28 @@ def check_file(filename):
               "\nTo ensure the best format is used, backup the .txt file, then save it in ANSI encoding." +
               "\n(\"Save as...\" dialog, \"Encoding:\" at the bottom.)\n")
 
+
+def read_docx_footnotes(filename):
+    content =  docx2python(filename)
+    footnotes_container = content.footnotes_runs
+    
+    # The third nested list is each different footnote,
+    # that footnote's nested list [0][1] is the footnote text
+    footnotes = []
+    footnotes_unnested = footnotes_container[0][0]
+    for footnote in footnotes_unnested:
+        footnotes.append(footnote[0])
+    
+    # First two lists are always empty and have no [1] object
+    footnotes = footnotes[2:len(footnotes)]
+    
+    footnotes = [footnote[1] for footnote in footnotes]
+    
+    content.close()
+    
+    footnotes_text = "\n".join(footnotes)
+    
+    return(footnotes_text)
 
 def read_document(filename):
 
