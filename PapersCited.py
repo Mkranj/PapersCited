@@ -303,6 +303,12 @@ def read_document(filename):
         target_document = target_document.replace("\r\n", " ")
         target_document = target_document.replace("\r", "")
         target_document = target_document.replace("\n", " ")
+    
+    file_extension = filename[-5:]
+    if file_extension.casefold() == ".docx":
+        footnote_text = read_docx_footnotes(filename)
+        target_document = target_document + " \n " + footnote_text
+        
     return(target_document)
 
 def get_matches_solo_author(text, drop_excluded_phrases = False):
