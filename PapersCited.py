@@ -275,7 +275,7 @@ def read_docx_footnotes(filename):
     
     content.close()
     
-    footnotes_text = "\n".join(footnotes)
+    footnotes_text = " \n ".join(footnotes)
     
     return(footnotes_text)
 
