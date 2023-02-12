@@ -261,6 +261,7 @@ def check_file(filename):
 def read_docx_footnotes(filename):
     content =  docx2python(filename)
     footnotes_container = content.footnotes_runs
+    content.close()
     
     if footnotes_container == []:
         return("")
@@ -276,8 +277,6 @@ def read_docx_footnotes(filename):
     footnotes = footnotes[2 : (len(footnotes))]
     
     footnotes = [footnote[1] for footnote in footnotes]
-    
-    content.close()
     
     footnotes_text = " \n ".join(footnotes)
     
