@@ -1,5 +1,5 @@
 # PapersCited
-## v1.2.2
+## v1.2.3
 Create an Excel file containing all citations found in a document, so they can be used to check or build a reference list.  
 
 ## About:
