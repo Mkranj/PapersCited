@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-version = "v.1.2.2"
+version = "v.1.2.3"
 
 # Welcome message, before loading anything
 if __name__ == "__main__":
@@ -20,6 +20,8 @@ import regex
 import tkinter
 from tkinter import filedialog
 from tkinter import messagebox
+
+from docx2python import docx2python
 
 # In the actual string, a single \ is used. But for escaping it, we need to put
 # \\ inside strings. Otherwise it will append lines, causing indentation errors.
@@ -245,21 +247,45 @@ def check_file(filename):
         input("No file selected. Press Enter to end the program.")
         sys.exit()
 
-    # Warning for PDF files:
-    file_extension = filename[-4:]
+    file_extension = os.path.splitext(filename)[1]
     if file_extension.casefold() == ".pdf":
         print("Warning!\nReading PDF files is not recommended and might result in inaccurate transcription.\n")
 
     if file_extension.casefold() == ".txt":
         print("Warning! Reading .txt files might lead to problems with special characters." +
-              "\nTo ensure the best format is used, backup the .txt file, then save it in ANSI encoding." +
+              "\nTo ensure the best format is used, backup the .txt file, \
+                then try saving it in UTF-8 or ANSI encoding." +
               "\n(\"Save as...\" dialog, \"Encoding:\" at the bottom.)\n")
 
+
+def read_docx_footnotes(filename):
+    content =  docx2python(filename)
+    footnotes_container = content.footnotes_runs
+    content.close()
+    
+    if footnotes_container == []:
+        return("")
+    
+    # The third nested list contains different footnotes,
+    # that footnote's nested list [0][1] is the footnote text
+    footnotes = []
+    footnotes_unnested = footnotes_container[0][0]
+    for footnote in footnotes_unnested:
+        footnotes.append(footnote[0])
+    
+    # First two lists are always empty and have no [1] object
+    footnotes = footnotes[2 : (len(footnotes))]
+    
+    footnotes = [footnote[1] for footnote in footnotes]
+    
+    footnotes_text = " \n ".join(footnotes)
+    
+    return(footnotes_text)
 
 def read_document(filename):
 
     try:
-        target_document = textract.process(filename)
+        target_document = textract.process(filename, output_encoding="utf-8-sig")
     except:
         # If the file exists, but cannot be read, an error will be raised.
         print(
@@ -273,13 +299,18 @@ def read_document(filename):
         sys.exit()
 
     # UTF-8 encoding so it recognises foreign characters
-    target_document = target_document.decode("utf-8")
+    target_document = target_document.decode("utf-8-sig")
     
-    file_extension = filename[-4:]
+    file_extension = os.path.splitext(filename)[1]
     if file_extension.casefold() == ".pdf":
         target_document = target_document.replace("\r\n", " ")
         target_document = target_document.replace("\r", "")
         target_document = target_document.replace("\n", " ")
+    
+    if file_extension.casefold() == ".docx":
+        footnote_text = read_docx_footnotes(filename)
+        target_document = target_document + " \n " + footnote_text
+        
     return(target_document)
 
 def get_matches_solo_author(text, drop_excluded_phrases = False):
