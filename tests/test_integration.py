@@ -2,17 +2,13 @@
 import pytest
 import PapersCited
 import os
-from pathlib import Path
 
 import locale
 locale.setlocale(locale.LC_ALL, "")
 
-TEST_DATA_DIR = Path(__file__).resolve().parent
-
-#@pytest.mark.xfail(reason = "VSCode Pytest filepath issue. In terminal, this should xpass")
+@pytest.mark.xfail(reason = "VSCode Pytest issue with ANSI encoding. In terminal, this should xpass")
 def test_read_analyze_text(rootdir):
-    text = PapersCited.read_document(os.path.join(rootdir, "tests/sample_text.txt"))
-    
+    text = PapersCited.read_document(os.path.join(rootdir, "sample_text.txt"))
     # Get all types of citations
     solo_authors = PapersCited.get_matches_solo_author(text, drop_excluded_phrases = True)
     two_authors = PapersCited.get_matches_two_authors(text, drop_excluded_phrases = True)
@@ -34,7 +30,8 @@ def test_read_analyze_text(rootdir):
     narrower_citations.cleanup()
     wider_citations.cleanup(allow_commas = False) # Default False prevents lots of duplication
     
-    expected_output = PapersCited.read_document(os.path.join(rootdir, "tests/sample_text_full_correct_list_citations.txt"))
+    expected_output = PapersCited.read_document(os.path.join(rootdir, "sample_text_full_correct_list_citations.txt"))
+    #expected_output = expected_output.encode("ansi").decode("utf-8", "surrogatepass")
     expected_output = expected_output.split("\n")
     
     # When reading from .txt files, encoding/character issues arise.
@@ -42,8 +39,8 @@ def test_read_analyze_text(rootdir):
     
     assert narrower_citations.citations == expected_output
     
-def test_main_text_and_docx_footnotes_analyzed():
-    text = PapersCited.read_document(os.path.join(TEST_DATA_DIR, "document_footnotes.docx"))
+def test_main_text_and_docx_footnotes_analyzed(rootdir):
+    text = PapersCited.read_document(os.path.join(rootdir, "document_footnotes.docx"))
     
     # Get all types of citations
     solo_authors = PapersCited.get_matches_solo_author(text, drop_excluded_phrases = True)
