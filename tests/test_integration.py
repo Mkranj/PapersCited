@@ -31,7 +31,6 @@ def test_read_analyze_text(rootdir):
     wider_citations.cleanup(allow_commas = False) # Default False prevents lots of duplication
     
     expected_output = PapersCited.read_document(os.path.join(rootdir, "sample_text_full_correct_list_citations.txt"))
-    #expected_output = expected_output.encode("ansi").decode("utf-8", "surrogatepass")
     expected_output = expected_output.split("\n")
     
     # When reading from .txt files, encoding/character issues arise.
