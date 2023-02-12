@@ -286,7 +286,7 @@ def read_document(filename):
 
     try:
         target_document = textract.process(filename, output_encoding="utf-8-sig")
-    except:
+    except Exception as e:
         # If the file exists, but cannot be read, an error will be raised.
         print(
             f"The file {filename} couldn't be read. Make sure the file is a valid textual file.")
@@ -295,6 +295,8 @@ def read_document(filename):
         print("poppler for .pdf")
         print("\nPlease check 'help_with_libraries.txt' at PapersCited Github:")
         print("https://github.com/Mkranj/PapersCited/blob/main/help_with_libraries.txt")
+        print("\nThe error message:\n")
+        print(e)
         input("\nPress Enter to exit the program.")
         sys.exit()
 
