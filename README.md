@@ -36,9 +36,9 @@ The program comes with a file called "*example.docx*" if you want to experiment 
 # Running the latest version of the Python script  
 ## Dependencies:  
 This program was written using Python 3.9.12. It requires the following modules:  
-textract, xlsxwriter, regex
+textract, xlsxwriter, regex, docx2python
 
-To install them (on Windows), open Powershell, type "*pip install textract*" and press Enter. After that, follow with "*pip install xlsxwriter*" and "*pip install regex*".
+To install them (on Windows), open Powershell, type "*pip install textract*" and press Enter. After that, follow with "*pip install xlsxwriter*" and so on.
 
 ### What if I don't have Python?  
 Before running the script, install the Miniconda distribution to run Python scripts on your computer: 
