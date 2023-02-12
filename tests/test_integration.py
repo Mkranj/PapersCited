@@ -9,6 +9,7 @@ locale.setlocale(locale.LC_ALL, "")
 @pytest.mark.xfail(reason = "VSCode Pytest issue with ANSI encoding. In terminal, this should xpass")
 def test_read_analyze_text(rootdir):
     text = PapersCited.read_document(os.path.join(rootdir, "sample_text.txt"))
+    
     # Get all types of citations
     solo_authors = PapersCited.get_matches_solo_author(text, drop_excluded_phrases = True)
     two_authors = PapersCited.get_matches_two_authors(text, drop_excluded_phrases = True)

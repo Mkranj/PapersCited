@@ -247,8 +247,7 @@ def check_file(filename):
         input("No file selected. Press Enter to end the program.")
         sys.exit()
 
-    # Warning for PDF files:
-    file_extension = filename[-4:]
+    file_extension = os.path.splitext(filename)[1]
     if file_extension.casefold() == ".pdf":
         print("Warning!\nReading PDF files is not recommended and might result in inaccurate transcription.\n")
 
@@ -283,7 +282,7 @@ def read_docx_footnotes(filename):
 def read_document(filename):
 
     try:
-        target_document = textract.process(filename)
+        target_document = textract.process(filename, output_encoding="utf-8-sig")
     except:
         # If the file exists, but cannot be read, an error will be raised.
         print(
@@ -297,15 +296,14 @@ def read_document(filename):
         sys.exit()
 
     # UTF-8 encoding so it recognises foreign characters
-    target_document = target_document.decode("utf-8")
+    target_document = target_document.decode("utf-8-sig")
     
-    file_extension = filename[-4:]
+    file_extension = os.path.splitext(filename)[1]
     if file_extension.casefold() == ".pdf":
         target_document = target_document.replace("\r\n", " ")
         target_document = target_document.replace("\r", "")
         target_document = target_document.replace("\n", " ")
     
-    file_extension = filename[-5:]
     if file_extension.casefold() == ".docx":
         footnote_text = read_docx_footnotes(filename)
         target_document = target_document + " \n " + footnote_text
