@@ -2,7 +2,10 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
 
+# Variables ----
 light_yellow = "#ffe08f"
+
+# Build UI parts ----
 
 main_window = tk.Tk()
 main_window.columnconfigure(0, weight = 0, minsize = 50)
@@ -51,6 +54,9 @@ btn_save_txt.grid(row = 2, column = 3, sticky = "SE",
 
 main_window.title("PapersCited")
 
+# UI functions ----
+
+# Final window object ----
 main_window.focus_force()
 main_window.mainloop()
 
