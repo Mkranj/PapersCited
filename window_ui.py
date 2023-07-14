@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
 
+light_yellow = "#ffe08f"
+
 main_window = tk.Tk()
 main_window.columnconfigure(0, weight = 0, minsize = 50)
 main_window.columnconfigure(1, weight = 1, minsize = 100)
@@ -19,7 +21,7 @@ btn_choose.grid(row = 0, column = 0, sticky = "NW", padx = 10, pady = 5)
 
 
 lbl_current_file = tk.Label(master = main_window,
-                            text = "path/to/file", bg = "blue")
+                            text = "path/to/file", bg = light_yellow)
 
 lbl_current_file.grid(row = 0, column = 1, columnspan = 3, sticky = "NWES",
                       padx = 10, pady = 5)
@@ -45,6 +47,7 @@ btn_save_txt = tk.Button(master = main_window,
 btn_save_txt.grid(row = 2, column = 3, sticky = "SE",
                         padx = 10, pady = 5)
 
+main_window.title("PapersCited")
 main_window.mainloop()
 
 
