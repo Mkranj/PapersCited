@@ -50,6 +50,8 @@ btn_save_txt.grid(row = 2, column = 3, sticky = "SE",
                         padx = 10, pady = 5)
 
 main_window.title("PapersCited")
+
+main_window.focus_force()
 main_window.mainloop()
 
 
