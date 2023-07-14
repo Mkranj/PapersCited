@@ -18,9 +18,11 @@ main_window.minsize(750, 500)
 
 btn_choose = tk.Button(master = main_window,
                         text = "Choose document",
-                        borderwidth = 2)
+                        borderwidth = 3, relief=tk.RAISED)
 
 btn_choose.grid(row = 0, column = 0, sticky = "NW", padx = 10, pady = 5)
+
+# TODO Make filepath and contents gray when nothing is selected
 
 fr_current_file = tk.Frame(master = main_window, bg = light_yellow)
 fr_current_file.grid(row = 0, column = 1, columnspan = 3, sticky = "NWES",
