@@ -23,12 +23,14 @@ btn_choose = tk.Button(master = main_window,
 btn_choose.grid(row = 0, column = 0, sticky = "NW", padx = 10, pady = 5)
 
 lbl_current_file = tk.Label(master = main_window,
-                            text = "path/to/file", bg = light_yellow)
+                            text = "path/to/file", bg = light_yellow,
+                            borderwidth = 2, relief = tk.RIDGE)
 
 lbl_current_file.grid(row = 0, column = 1, columnspan = 3, sticky = "NWES",
                       padx = 10, pady = 5)
 
-fr_results = tk.Frame(master = main_window, bg = "white")
+fr_results = tk.Frame(master = main_window, bg = "white",
+                      borderwidth = 2, relief = tk.GROOVE)
 fr_results.grid(row = 1, column = 0, sticky = "NWSE", columnspan = 4,
                  padx = 10)
 
