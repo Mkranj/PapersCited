@@ -17,8 +17,9 @@ main_window.rowconfigure(2, weight = 0, minsize = 30)
 main_window.minsize(750, 500)
 
 btn_choose = tk.Button(master = main_window,
-                        text = "Choose document",
-                        borderwidth = 3, relief=tk.RAISED)
+                        text = "Analyse document",
+                        borderwidth = 3, relief=tk.RAISED,
+                        padx = 8, pady = 5)
 
 btn_choose.grid(row = 0, column = 0, sticky = "NW", padx = 10, pady = 5)
 
@@ -29,9 +30,10 @@ fr_current_file.grid(row = 0, column = 1, columnspan = 3, sticky = "NWES",
                       padx = 10, pady = 5)
 
 lbl_current_file = tk.Label(master = fr_current_file,
-                            text = "path/to/file", bg = light_yellow)
+                            text = "path/to/file", bg = light_yellow,
+                            pady = 3)
 
-lbl_current_file.grid(row = 0, column = 0, sticky = "W", padx = 5)
+lbl_current_file.grid(row = 0, column = 0, sticky = "W", padx = 5, pady = 5)
 
 fr_results = tk.Frame(master = main_window, bg = "white",
                       borderwidth = 2, relief = tk.GROOVE)
@@ -46,14 +48,16 @@ lbl_results.grid(row = 0, column = 0, sticky = "NW", columnspan = 4,
 
 btn_save_xlsx = tk.Button(master = main_window,
                           text = "Save as .xlsx",
-                        borderwidth = 2)
+                        borderwidth = 2,
+                        padx = 5, pady = 5)
 
 btn_save_xlsx.grid(row = 2, column = 2, sticky = "SE",
                         padx = 10, pady = 5)
 
 btn_save_txt = tk.Button(master = main_window,
                           text = "Save as .txt",
-                        borderwidth = 2)
+                        borderwidth = 2,
+                        padx = 5, pady = 5)
 
 btn_save_txt.grid(row = 2, column = 3, sticky = "SE",
                         padx = 10, pady = 5)
@@ -65,6 +69,7 @@ main_window.title("PapersCited")
 # Final window object ----
 main_window.focus_force()
 main_window.mainloop()
+
 
 
 
