@@ -5,6 +5,15 @@ from tkinter import messagebox
 # Variables ----
 light_yellow = "#ffe08f"
 
+current_filename = None
+
+# UI functions ----
+
+def get_file(lbl_filename):
+  filename = filedialog.askopenfilename(title = "Select a document to search for citations:")
+  lbl_filename["text"] = filename
+  return(filename)
+
 # Build UI parts ----
 
 main_window = tk.Tk()
@@ -19,7 +28,8 @@ main_window.minsize(750, 500)
 btn_choose = tk.Button(master = main_window,
                         text = "Analyse document",
                         borderwidth = 3, relief=tk.RAISED,
-                        padx = 8, pady = 5)
+                        padx = 8, pady = 5
+                        )
 
 btn_choose.grid(row = 0, column = 0, sticky = "NW", padx = 10, pady = 5)
 
@@ -64,7 +74,9 @@ btn_save_txt.grid(row = 2, column = 3, sticky = "SE",
 
 main_window.title("PapersCited")
 
-# UI functions ----
+btn_choose.bind("<Button-1>",
+                lambda event, lbl_filename = lbl_current_file:
+                  get_file(lbl_filename))
 
 # Final window object ----
 main_window.focus_force()
