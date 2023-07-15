@@ -2,11 +2,15 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
 import PapersCited as pc
+from appData import AppData
 
 # Variables ----
 light_yellow = "#ffe08f"
 
-current_filename = None
+startup_filename = ".../path/to/file"
+startup_results = "Results will be shown here..."
+
+app_data = AppData(startup_filename, startup_results)
 
 # UI functions ----
 
@@ -81,7 +85,7 @@ fr_current_file.grid(row = 0, column = 1, columnspan = 3, sticky = "NWES",
                       padx = 10, pady = 5)
 
 lbl_current_file = tk.Label(master = fr_current_file,
-                            text = "path/to/file", bg = light_yellow,
+                            text = app_data.active_filename, bg = light_yellow,
                             pady = 3)
 
 lbl_current_file.grid(row = 0, column = 0, sticky = "W", padx = 5, pady = 5)
@@ -92,7 +96,7 @@ fr_results.grid(row = 1, column = 0, sticky = "NWSE", columnspan = 4,
                  padx = 10)
 
 lbl_results = tk.Label(master = fr_results, bg = "white",
-                       text = "Results will be shown here...",
+                       text = app_data.active_results,
                        anchor = "w", justify = "left")
 
 lbl_results.grid(row = 0, column = 0, sticky = "NW", columnspan = 4,
