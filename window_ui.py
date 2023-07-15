@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
+import PapersCited as pc
 
 # Variables ----
 light_yellow = "#ffe08f"
@@ -9,10 +10,50 @@ current_filename = None
 
 # UI functions ----
 
-def get_file(lbl_filename):
+def analyse_file(filename):
+  pc.check_file(filename)
+  document = pc.read_document(filename)
+  
+  # Get all types of citations
+  solo_authors = pc.get_matches_solo_author(document, drop_excluded_phrases = True)
+  two_authors = pc.get_matches_two_authors(document, drop_excluded_phrases = True)
+  three_authors = pc.get_matches_three_authors(document, drop_excluded_phrases = True)
+  author_et_al = pc.get_matches_author_et_al(document, drop_excluded_phrases = True)
+  two_surnames = pc.get_matches_two_surnames(document, drop_excluded_phrases = True)
+  two_surnames_et_al = pc.get_matches_two_surnames_et_al(document, drop_excluded_phrases = True)
+      
+  solo_authors.delete_clones_of_citations(two_authors)
+  
+  narrower_citations = pc.CitationType(solo_authors.citations + 
+                                    two_authors.citations +
+                                    author_et_al.citations)
+  
+  wider_citations = pc.CitationType(three_authors.citations + 
+                                  two_surnames.citations +
+                                  two_surnames_et_al.citations)
+  
+  narrower_citations.cleanup()
+  wider_citations.cleanup()
+  
+  return([narrower_citations, wider_citations])
+
+def list_citations(narrower_citations, wider_citations, lbl_results):
+  citation_string = []
+  [citation_string.append(citation + "\n") for citation in narrower_citations.citations]
+  if len(wider_citations.citations) > 0:
+      [citation_string.append(citation + "\n") for citation in wider_citations.citations]
+  lbl_results["text"] = "".join(citation_string)
+  return("break")
+
+def get_file(lbl_filename, lbl_contents):
   filename = filedialog.askopenfilename(title = "Select a document to search for citations:")
   lbl_filename["text"] = filename
+  citations = analyse_file(filename)
+  list_citations(citations[0], citations[1], lbl_contents)
+  
   return("break")
+
+
 
 # Build UI parts ----
 
@@ -75,8 +116,9 @@ btn_save_txt.grid(row = 2, column = 3, sticky = "SE",
 main_window.title("PapersCited")
 
 btn_choose.bind("<Button-1>",
-                lambda event, lbl_filename = lbl_current_file:
-                  get_file(lbl_filename))
+                lambda event, lbl_filename = lbl_current_file,
+                lbl_contents = lbl_results:
+                  get_file(lbl_filename, lbl_contents))
 
 # Final window object ----
 main_window.focus_force()
