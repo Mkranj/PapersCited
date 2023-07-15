@@ -46,7 +46,8 @@ def list_citations(narrower_citations, wider_citations, lbl_results):
   [citation_string.append(citation + "\n") for citation in narrower_citations.citations]
   if len(wider_citations.citations) > 0:
       [citation_string.append(citation + "\n") for citation in wider_citations.citations]
-  lbl_results["text"] = "".join(citation_string)
+  results = "".join(citation_string)
+  app_data.set_new_results(results, [lbl_results])
   return("break")
 
 def get_file(lbl_filename, lbl_contents):

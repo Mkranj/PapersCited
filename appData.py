@@ -7,8 +7,10 @@ class AppData:
         self.active_filename = filename
         for widget in list_affected_wg:
             widget["text"] = self.active_filename
+        return("break")
             
     def set_new_results(self, results, list_affected_wg):
         self.active_results = results
         for widget in list_affected_wg:
             widget["text"] = self.active_results
+        return("break")
