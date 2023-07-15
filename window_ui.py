@@ -12,7 +12,7 @@ current_filename = None
 def get_file(lbl_filename):
   filename = filedialog.askopenfilename(title = "Select a document to search for citations:")
   lbl_filename["text"] = filename
-  return(filename)
+  return("break")
 
 # Build UI parts ----
 
