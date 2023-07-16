@@ -478,3 +478,11 @@ def dialog_process_another_file():
                            \nPress 'No' to end the program.")
     root.destroy()
     return(process_another_file)
+
+def citations_to_string(narrower_citations, wider_citations):
+  citation_string = []
+  [citation_string.append(citation + "\n") for citation in narrower_citations.citations]
+  if len(wider_citations.citations) > 0:
+      [citation_string.append(citation + "\n") for citation in wider_citations.citations]
+  results = "".join(citation_string)
+  return(results)
