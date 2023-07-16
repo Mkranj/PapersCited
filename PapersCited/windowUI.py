@@ -12,54 +12,6 @@ startup_results = "Results will be shown here..."
 
 app_data = AppData(startup_filename, startup_results)
 
-# UI functions ----
-
-def analyse_file(filename):
-  ca.check_file(filename)
-  document = ca.read_document(filename)
-  
-  # Get all types of citations
-  solo_authors = ca.get_matches_solo_author(document, drop_excluded_phrases = True)
-  two_authors = ca.get_matches_two_authors(document, drop_excluded_phrases = True)
-  three_authors = ca.get_matches_three_authors(document, drop_excluded_phrases = True)
-  author_et_al = ca.get_matches_author_et_al(document, drop_excluded_phrases = True)
-  two_surnames = ca.get_matches_two_surnames(document, drop_excluded_phrases = True)
-  two_surnames_et_al = ca.get_matches_two_surnames_et_al(document, drop_excluded_phrases = True)
-      
-  solo_authors.delete_clones_of_citations(two_authors)
-  
-  narrower_citations = ca.CitationType(solo_authors.citations + 
-                                    two_authors.citations +
-                                    author_et_al.citations)
-  
-  wider_citations = ca.CitationType(three_authors.citations + 
-                                  two_surnames.citations +
-                                  two_surnames_et_al.citations)
-  
-  narrower_citations.cleanup()
-  wider_citations.cleanup()
-  
-  return([narrower_citations, wider_citations])
-
-def list_citations(narrower_citations, wider_citations, lbl_results):
-  citation_string = []
-  [citation_string.append(citation + "\n") for citation in narrower_citations.citations]
-  if len(wider_citations.citations) > 0:
-      [citation_string.append(citation + "\n") for citation in wider_citations.citations]
-  results = "".join(citation_string)
-  app_data.set_new_results(results, [lbl_results])
-  return("break")
-
-def get_file(lbl_filename, lbl_contents):
-  filename = filedialog.askopenfilename(title = "Select a document to search for citations:")
-  lbl_filename["text"] = filename
-  citations = analyse_file(filename)
-  list_citations(citations[0], citations[1], lbl_contents)
-  
-  return("break")
-
-
-
 # Build UI parts ----
 
 main_window = tk.Tk()
@@ -121,10 +73,22 @@ btn_save_txt.grid(row = 2, column = 3, sticky = "SE",
 
 main_window.title("PapersCited")
 
-btn_choose.bind("<Button-1>",
-                lambda event, lbl_filename = lbl_current_file,
-                lbl_contents = lbl_results:
-                  get_file(lbl_filename, lbl_contents))
+# Bind functions ----
+
+def fn_btn_choose(event):
+  filename = filedialog.askopenfilename(
+    title = "Select a document to search for citations:"
+    )
+  app_data.set_new_filename(filename,
+                            list_affected_wg=[lbl_current_file])
+  citations = ca.find_citations(filename)
+  app_data.set_new_results_citations(citations,
+                                     list_affected_wg = [lbl_results])
+  
+  return("break")
+
+btn_choose.bind("<Button-1>", fn_btn_choose)
+
 
 # Final window object ----
 main_window.focus_force()
