@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
+
+import fileManipulation as fm
 import citationAnalysis as ca
 from appData import AppData
 
@@ -81,7 +83,7 @@ def fn_btn_choose(event):
     )
   app_data.set_new_filename(filename,
                             list_affected_wg=[lbl_current_file])
-  citations = ca.find_citations(filename)
+  citations = fm.find_citations(filename)
   app_data.set_new_results_citations(citations,
                                      list_affected_wg = [lbl_results])
   
@@ -92,7 +94,7 @@ btn_choose.bind("<Button-1>", fn_btn_choose)
 def fn_btn_save_excel(event):
   citations = app_data.get_citations()
   doc_filename = app_data.get_active_filename()
-  ca.write_excel(doc_filename,
+  fm.write_excel(doc_filename,
                  citations[0], citations[1])
   
 btn_save_xlsx.bind("<Button-1>", fn_btn_save_excel)  
