@@ -96,6 +96,7 @@ def fn_btn_save_excel(event):
   doc_filename = app_data.get_active_filename()
   fm.write_excel(doc_filename,
                  citations[0], citations[1])
+  return("break")
   
 btn_save_xlsx.bind("<Button-1>", fn_btn_save_excel)  
   

@@ -10,7 +10,7 @@ class AppData:
         self.active_filename = filename
         for widget in list_affected_wg:
             widget["text"] = self.active_filename
-        return("break")
+        
             
     def set_new_results_citations(self, citations, list_affected_wg):
         self.citations = citations
@@ -20,7 +20,13 @@ class AppData:
         self.active_results = citations_as_string
         for widget in list_affected_wg:
             widget["text"] = self.active_results
-        return("break")
+    
+    def update_results(self, update_text, list_affected_wg):
+        # Add new text to window, like success messages.
+        
+        self.active_results = self.active_results + update_text
+        for widget in list_affected_wg:
+            widget["text"] = self.active_results
     
     def get_active_filename(self):
         return(self.active_filename)
