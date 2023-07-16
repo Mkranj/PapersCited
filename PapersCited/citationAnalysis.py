@@ -372,6 +372,38 @@ def get_matches_two_surnames_et_al(text, drop_excluded_phrases = False):
     matches = CitationType(matches)
     if drop_excluded_phrases: matches.drop_excluded_phrases()
     return(matches)
+
+def find_citations(filename):
+    check_file(filename)
+    document = read_document(filename)
+    
+    # Get all types of citations
+    solo_authors = get_matches_solo_author(document, drop_excluded_phrases = True)
+    two_authors = get_matches_two_authors(document, drop_excluded_phrases = True)
+    three_authors = get_matches_three_authors(document, drop_excluded_phrases = True)
+    author_et_al = get_matches_author_et_al(document, drop_excluded_phrases = True)
+    two_surnames = get_matches_two_surnames(document, drop_excluded_phrases = True)
+    two_surnames_et_al = get_matches_two_surnames_et_al(document, drop_excluded_phrases = True)
+        
+    solo_authors.delete_clones_of_citations(two_authors)
+    
+    narrower_citations = CitationType(solo_authors.citations + 
+                                      two_authors.citations +
+                                      author_et_al.citations)
+    
+    wider_citations = CitationType(three_authors.citations + 
+                                   two_surnames.citations +
+                                   two_surnames_et_al.citations)
+    
+    narrower_citations.cleanup()
+    wider_citations.cleanup()
+    
+    citation_list = [
+        narrower_citations,
+        wider_citations
+    ]
+    return(citation_list)
+    
             
 def write_excel(filename, citations, wider_citations):
     # Retrieve the filepath (and extension) of the analysed document,
