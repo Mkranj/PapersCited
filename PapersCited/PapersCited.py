@@ -11,7 +11,8 @@ if __name__ == "__main__":
 # MAIN ----
 
 def main():
-   main_window.mainloop()
+    main_window.focus_force()
+    main_window.mainloop()
 
 if __name__ == "__main__":
     main()
