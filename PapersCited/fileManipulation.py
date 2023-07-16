@@ -1,4 +1,8 @@
-import citationAnalysis as ca
+# try-catch for testing purposes
+try:
+    import citationAnalysis as ca
+except:
+    pass
 
 import os
 import sys
