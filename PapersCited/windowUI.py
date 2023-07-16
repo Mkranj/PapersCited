@@ -94,11 +94,11 @@ btn_choose.bind("<Button-1>", fn_btn_choose)
 def fn_btn_save_excel(event):
   citations = app_data.get_citations()
   doc_filename = app_data.get_active_filename()
-  fm.write_excel(doc_filename,
+  message = fm.write_excel(doc_filename,
                  citations[0], citations[1])
+  app_data.update_results(message,
+                          list_affected_wg = [lbl_results])
   return("break")
   
 btn_save_xlsx.bind("<Button-1>", fn_btn_save_excel)  
   
-# Final window object ----
-main_window.focus_force()

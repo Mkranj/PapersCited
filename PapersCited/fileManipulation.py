@@ -165,11 +165,15 @@ def write_excel(filename, citations, wider_citations):
     except:
         total_citations = n_narrower_citations
     
-    print("--------------------")
-    print(f"Success! A file with found citations has been created: {output_filename}.")
+    success_message = "\n--------------------" + \
+        f"\nSuccess! A file with found citations has been created: {output_filename}."
     
     if n_wider_citations:
-        print(f"{n_narrower_citations} citations have been found, along with" +
-              f" {n_wider_citations} wider citations, displayed to the right.")
+        success_message = success_message + \
+        f"\n{n_narrower_citations} citations have been found, along with" + \
+        f" {n_wider_citations} wider citations."
     
-    print(f"A total of {total_citations} different citations have been recorded.")
+    success_message = success_message + \
+        f"\nA total of {total_citations} different citations have been recorded."
+    
+    return(success_message)
