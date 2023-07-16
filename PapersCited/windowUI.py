@@ -84,12 +84,21 @@ def fn_btn_choose(event):
   citations = ca.find_citations(filename)
   app_data.set_new_results_citations(citations,
                                      list_affected_wg = [lbl_results])
+  print(app_data.get_citations())
   
   return("break")
 
 btn_choose.bind("<Button-1>", fn_btn_choose)
 
-
+def fn_btn_save_excel(event):
+  print(app_data.get_citations())
+  citations = app_data.get_citations()
+  doc_filename = app_data.get_active_filename()
+  ca.write_excel(doc_filename,
+                 citations[0], citations[1])
+  
+btn_save_xlsx.bind("<Button-1>", fn_btn_save_excel)  
+  
 # Final window object ----
 main_window.focus_force()
 main_window.mainloop()

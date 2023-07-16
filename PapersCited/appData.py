@@ -23,8 +23,8 @@ class AppData:
         return("break")
     
     def get_active_filename(self):
-        self.active_filename
+        return(self.active_filename)
     
     def get_citations(self):
-        self.citations
+        return(self.citations)
     
