@@ -53,7 +53,7 @@ fr_results.grid(row = 1, column = 0, sticky = "NWSE", columnspan = 4,
 scr_results = tk.Scrollbar(fr_results, orient = "vertical")
 scr_results.pack(side = "right", fill = "y")
 
-txt_results = tk.Text(master = fr_results, bg = "white")
+txt_results = tk.Text(master = fr_results, bg = "white", yscrollcommand = scr_results.set)
 txt_results.insert(tk.END, app_data.active_results)
 
 scr_results.config(command=txt_results.yview)
