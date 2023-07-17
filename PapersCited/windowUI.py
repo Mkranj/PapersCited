@@ -50,12 +50,14 @@ fr_results = tk.Frame(master = main_window, bg = "white",
 fr_results.grid(row = 1, column = 0, sticky = "NWSE", columnspan = 4,
                  padx = 10)
 
+scr_results = tk.Scrollbar(fr_results, orient = "vertical")
+scr_results.pack(side = "right", fill = "y")
+
 lbl_results = tk.Label(master = fr_results, bg = "white",
                        text = app_data.active_results,
                        anchor = "w", justify = "left")
 
-lbl_results.grid(row = 0, column = 0, sticky = "NW", columnspan = 4,
-                 padx = 5)
+lbl_results.pack(anchor = "w")
 
 btn_save_xlsx = tk.Button(master = main_window,
                           text = "Save as .xlsx",
