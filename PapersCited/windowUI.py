@@ -61,7 +61,10 @@ txt_results = tk.Text(master = fr_results, bg = "white", yscrollcommand = scr_re
 txt_results.insert(tk.END, app_data.active_results)
 
 scr_results.config(command=txt_results.yview)
+
+txt_results.config(state = "normal")
 txt_results.grid(row = 0, column = 0, sticky="NSWE")
+txt_results.config(state = "disabled")
 
 btn_save_xlsx = tk.Button(master = main_window,
                           text = "Save as .xlsx",
