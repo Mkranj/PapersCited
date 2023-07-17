@@ -53,11 +53,11 @@ fr_results.grid(row = 1, column = 0, sticky = "NWSE", columnspan = 4,
 scr_results = tk.Scrollbar(fr_results, orient = "vertical")
 scr_results.pack(side = "right", fill = "y")
 
-lbl_results = tk.Label(master = fr_results, bg = "white",
-                       text = app_data.active_results,
-                       anchor = "w", justify = "left")
+txt_results = tk.Text(master = fr_results, bg = "white")
+txt_results.insert(tk.END, app_data.active_results)
 
-lbl_results.pack(anchor = "w")
+scr_results.config(command=txt_results.yview)
+txt_results.pack(anchor = "w")
 
 btn_save_xlsx = tk.Button(master = main_window,
                           text = "Save as .xlsx",
@@ -87,7 +87,7 @@ def fn_btn_choose(event):
                             list_affected_wg=[lbl_current_file])
   citations = fm.find_citations(filename)
   app_data.set_new_results_citations(citations,
-                                     list_affected_wg = [lbl_results])
+                                     list_affected_wg = [txt_results])
   
   return("break")
 
@@ -99,7 +99,7 @@ def fn_btn_save_excel(event):
   message = fm.write_excel(doc_filename,
                  citations[0], citations[1])
   app_data.update_results(message,
-                          list_affected_wg = [lbl_results])
+                          list_affected_wg = [txt_results])
   return("break")
   
 btn_save_xlsx.bind("<Button-1>", fn_btn_save_excel)  
