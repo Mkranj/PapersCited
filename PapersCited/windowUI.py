@@ -50,14 +50,18 @@ fr_results = tk.Frame(master = main_window, bg = "white",
 fr_results.grid(row = 1, column = 0, sticky = "NWSE", columnspan = 4,
                  padx = 10)
 
+fr_results.columnconfigure(0, weight = 1)
+fr_results.columnconfigure(1, weight = 0)
+fr_results.rowconfigure(0, weight = 1)
+
 scr_results = tk.Scrollbar(fr_results, orient = "vertical")
-scr_results.pack(side = "right", fill = "y")
+scr_results.grid(row = 0, column = 1, sticky = "NS")
 
 txt_results = tk.Text(master = fr_results, bg = "white", yscrollcommand = scr_results.set)
 txt_results.insert(tk.END, app_data.active_results)
 
 scr_results.config(command=txt_results.yview)
-txt_results.pack(anchor = "w")
+txt_results.grid(row = 0, column = 0, sticky="NSWE")
 
 btn_save_xlsx = tk.Button(master = main_window,
                           text = "Save as .xlsx",
