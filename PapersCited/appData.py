@@ -1,4 +1,5 @@
 import citationAnalysis as ca
+from fileManipulation import shorten_filename
 
 class AppData:
     def __init__(self, startup_filename, startup_results):
@@ -6,10 +7,10 @@ class AppData:
         self.citations = []
         self.active_results = startup_results
         
-    def set_new_filename(self, filename, list_affected_wg):
+    def set_new_filename(self, filename, list_affected_wg, length_display = 110):
         self.active_filename = filename
         for widget in list_affected_wg:
-            widget["text"] = self.active_filename
+            widget["text"] = shorten_filename(self.active_filename, length_display)
         
             
     def set_new_results_citations(self, citations, list_affected_wg):
