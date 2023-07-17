@@ -1,3 +1,4 @@
+import tkinter as tk
 import citationAnalysis as ca
 from fileManipulation import shorten_filename
 
@@ -20,7 +21,8 @@ class AppData:
         )
         self.active_results = citations_as_string
         for widget in list_affected_wg:
-            widget["text"] = self.active_results
+            widget.delete("1.0", tk.END)
+            widget.insert("1.0", self.active_results)
     
     def update_results(self, update_text, list_affected_wg):
         # Add new text to window, like success messages.
