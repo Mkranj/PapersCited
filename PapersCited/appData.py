@@ -33,6 +33,7 @@ class AppData:
             widget.config(state = "normal")
             widget.insert(tk.END, update_text)
             widget.config(state = "disabled")
+            widget.see(tk.END)
     
     def get_active_filename(self):
         return(self.active_filename)
