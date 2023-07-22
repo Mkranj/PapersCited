@@ -165,7 +165,7 @@ def write_excel(filename, citations, wider_citations):
     except:
         total_citations = n_narrower_citations
     
-    success_message = "\n--------------------" + \
+    success_message = "\n" + ca.break_with_lines + \
         f"\nSuccess! A file with found citations has been created: {output_filename}."
     
     if n_wider_citations:
