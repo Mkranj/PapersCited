@@ -41,3 +41,6 @@ class AppData:
     def get_citations(self):
         return(self.citations)
     
+    def get_active_results(self):
+        return(self.active_results)
+    

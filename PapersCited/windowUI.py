@@ -111,3 +111,12 @@ def fn_btn_save_excel(event):
   
 btn_save_xlsx.bind("<Button-1>", fn_btn_save_excel)  
   
+def fn_btn_save_txt(event):
+  citations = app_data.get_active_results()
+  doc_filename = app_data.get_active_filename()
+  message = fm.write_txt(doc_filename, citations)
+  app_data.update_text_widget(message,
+                          list_affected_wg = [txt_results])
+  return("break")
+  
+btn_save_txt.bind("<Button-1>", fn_btn_save_txt) 

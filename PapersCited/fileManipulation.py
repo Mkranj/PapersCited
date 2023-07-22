@@ -178,6 +178,28 @@ def write_excel(filename, citations, wider_citations):
     
     return(success_message)
 
+def write_txt(filename, string_of_citations):
+    # Retrieve the filepath (and extension) of the analysed document,
+    # The output file will have a similar name and be created 
+    # in the same directory.
+    output_file_prefix = os.path.splitext(filename)
+    output_filename = output_file_prefix[0] + "_citations.txt"
+
+    # Create a file
+    try:
+        with open(output_filename, 'w') as f:
+            f.write(string_of_citations)
+    except:
+        print(f"Cannot create a file at {output_filename}.")
+        print("Possible permissions issue, can you create files at that folder?")
+        input("\nPress Enter to exit the program.")
+        sys.exit()
+    
+    success_message = "\n" + ca.break_with_lines + \
+        f"\nSuccess! A file with found citations has been created: {output_filename}."
+    
+    return(success_message)
+
 def shorten_filename(filename, nchar = 50):
     f_length = len(filename)
     if f_length <= nchar: return(filename)
