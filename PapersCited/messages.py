@@ -19,7 +19,7 @@ def report_found_citations(filename, citations, wider_citations):
         total_citations = n_narrower_citations
     
     success_message = "\n\n" + break_with_lines + \
-        f"\nSuccess! A file with found citations has been created: {filename}."
+        f"\nSuccess!\nCreated file with citations: {filename}"
     
     if n_wider_citations:
         success_message = success_message + \
