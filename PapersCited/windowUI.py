@@ -92,7 +92,14 @@ def fn_btn_choose(event):
     )
   app_data.set_new_filename(filename,
                             list_affected_wg=[lbl_current_file])
-  citations = fm.find_citations(filename)
+  try:
+    citations = fm.find_citations(filename)
+ 
+  except Exception as e:
+    error = str(e)
+    app_data.reset_on_error(error, list_affected_wg = [txt_results])
+    return("break")
+  
   app_data.set_new_results_citations(citations,
                                      list_affected_wg = [txt_results])
   
@@ -103,8 +110,14 @@ btn_choose.bind("<Button-1>", fn_btn_choose)
 def fn_btn_save_excel(event):
   citations = app_data.get_citations()
   doc_filename = app_data.get_active_filename()
-  message = fm.write_excel(doc_filename,
+  try:
+    message = fm.write_excel(doc_filename,
                  citations[0], citations[1])
+  except Exception as e:
+    error = str(e)
+    app_data.reset_on_error(error, list_affected_wg = [txt_results])
+    return("break")
+  
   app_data.update_text_widget(message,
                           list_affected_wg = [txt_results])
   return("break")

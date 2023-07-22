@@ -63,18 +63,12 @@ def read_document(filename):
     try:
         target_document = textract.process(filename, output_encoding="utf-8-sig")
     except Exception as e:
+        # get only the text of the exception
+        error = str(e)
         # If the file exists, but cannot be read, an error will be raised.
-        print(
-            f"The file {filename} couldn't be read. Make sure the file is a valid textual file.")
-        print("If you can regularly open it, you may be missing certain libraries:")
-        print("antiword for .doc (not .docx)")
-        print("poppler for .pdf")
-        print("\nPlease check 'help_with_libraries.txt' at PapersCited Github:")
-        print("https://github.com/Mkranj/PapersCited/blob/main/help_with_libraries.txt")
-        print("\nThe error message:\n")
-        print(e)
-        input("\nPress Enter to exit the program.")
-        sys.exit()
+        error_message = ms.filename_cant_be_read_message(filename) + \
+            "\nThe error message:\n" + error
+        raise Exception(error_message)
 
     # UTF-8 encoding so it recognises foreign characters
     target_document = target_document.decode("utf-8-sig")

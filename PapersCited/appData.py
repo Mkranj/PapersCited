@@ -44,3 +44,14 @@ class AppData:
     def get_active_results(self):
         return(self.active_results)
     
+    def reset_on_error(self, error, list_affected_wg):
+        # Failing to read a file should clear the textbox and
+        # the stored citations
+        self.citations = []
+        self.active_results = error
+        for widget in list_affected_wg:
+            widget.config(state = "normal")
+            widget.delete("1.0", tk.END)
+            widget.insert("1.0", self.active_results)
+            widget.config(state = "disabled")
+    
