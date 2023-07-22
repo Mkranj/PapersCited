@@ -105,7 +105,7 @@ def fn_btn_save_excel(event):
   doc_filename = app_data.get_active_filename()
   message = fm.write_excel(doc_filename,
                  citations[0], citations[1])
-  app_data.update_results(message,
+  app_data.update_text_widget(message,
                           list_affected_wg = [txt_results])
   return("break")
   

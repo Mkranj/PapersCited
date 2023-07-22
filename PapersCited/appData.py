@@ -26,7 +26,7 @@ class AppData:
             widget.insert("1.0", self.active_results)
             widget.config(state = "disabled")
     
-    def update_results(self, update_text, list_affected_wg):
+    def update_text_widget(self, update_text, list_affected_wg):
         # Add new text to window, like success messages.
         
         for widget in list_affected_wg:
