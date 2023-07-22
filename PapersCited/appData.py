@@ -16,7 +16,7 @@ class AppData:
             
     def set_new_results_citations(self, citations, list_affected_wg):
         self.citations = citations
-        citations_as_string = ca.citations_to_string(
+        citations_as_string = ca.citations_to_string_pretty(
             citations[0], citations[1]
         )
         self.active_results = citations_as_string

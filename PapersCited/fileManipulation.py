@@ -171,7 +171,7 @@ def write_excel(filename, citations, wider_citations):
     if n_wider_citations:
         success_message = success_message + \
         f"\n{n_narrower_citations} citations have been found, along with" + \
-        f" {n_wider_citations} wider citations."
+        f" {n_wider_citations} longer citations."
     
     success_message = success_message + \
         f"\nA total of {total_citations} different citations have been recorded."
