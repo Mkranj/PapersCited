@@ -1,6 +1,7 @@
 # try-catch for testing purposes
 try:
     import citationAnalysis as ca
+    import messages as ms
 except:
     pass
 
@@ -61,18 +62,12 @@ def read_document(filename):
     try:
         target_document = textract.process(filename, output_encoding="utf-8-sig")
     except Exception as e:
+        # get only the text of the exception
+        error = str(e)
         # If the file exists, but cannot be read, an error will be raised.
-        print(
-            f"The file {filename} couldn't be read. Make sure the file is a valid textual file.")
-        print("If you can regularly open it, you may be missing certain libraries:")
-        print("antiword for .doc (not .docx)")
-        print("poppler for .pdf")
-        print("\nPlease check 'help_with_libraries.txt' at PapersCited Github:")
-        print("https://github.com/Mkranj/PapersCited/blob/main/help_with_libraries.txt")
-        print("\nThe error message:\n")
-        print(e)
-        input("\nPress Enter to exit the program.")
-        sys.exit()
+        error_message = ms.filename_cant_be_read_message(filename) + \
+            "\nThe error message:\n" + error
+        raise Exception(error_message)
 
     # UTF-8 encoding so it recognises foreign characters
     target_document = target_document.decode("utf-8-sig")
@@ -89,6 +84,7 @@ def read_document(filename):
         
     return(target_document)
 
+# "All-in-one" fn to perform all neccessary steps of analysis on a given file.
 def find_citations(filename):
     check_file(filename)
     document = read_document(filename)
@@ -158,45 +154,30 @@ def write_excel(filename, citations, wider_citations):
     
     workbook.close()
     
-    n_narrower_citations = len(citations.citations) 
-    try:
-        n_wider_citations = len(wider_citations.citations) 
-        total_citations = n_narrower_citations + n_wider_citations
-    except:
-        total_citations = n_narrower_citations
-    
-    success_message = "\n\n" + ca.break_with_lines + \
-        f"\nSuccess! A file with found citations has been created: {output_filename}."
-    
-    if n_wider_citations:
-        success_message = success_message + \
-        f"\n{n_narrower_citations} citations have been found, along with" + \
-        f" {n_wider_citations} longer citations."
-    
-    success_message = success_message + \
-        f"\nA total of {total_citations} different citations have been recorded."
+    success_message = ms.report_found_citations(output_filename, citations, wider_citations)
     
     return(success_message)
 
-def write_txt(filename, string_of_citations):
+def write_txt(filename, citations, wider_citations):
     # Retrieve the filepath (and extension) of the analysed document,
     # The output file will have a similar name and be created 
     # in the same directory.
     output_file_prefix = os.path.splitext(filename)
     output_filename = output_file_prefix[0] + "_citations.txt"
 
+    citations_string = ca.citations_to_string_pretty(citations, wider_citations)
+    
     # Create a file
     try:
         with open(output_filename, 'w') as f:
-            f.write(string_of_citations)
+            f.write(citations_string)
     except:
         print(f"Cannot create a file at {output_filename}.")
         print("Possible permissions issue, can you create files at that folder?")
         input("\nPress Enter to exit the program.")
         sys.exit()
     
-    success_message = "\n\n" + ca.break_with_lines + \
-        f"\nSuccess! A file with found citations has been created: {output_filename}."
+    success_message = ms.report_found_citations(output_filename, citations, wider_citations)
     
     return(success_message)
 
