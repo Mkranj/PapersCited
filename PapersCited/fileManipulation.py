@@ -84,6 +84,7 @@ def read_document(filename):
         
     return(target_document)
 
+# "All-in-one" fn to perform all neccessary steps of analysis on a given file.
 def find_citations(filename):
     check_file(filename)
     document = read_document(filename)
@@ -153,23 +154,7 @@ def write_excel(filename, citations, wider_citations):
     
     workbook.close()
     
-    n_narrower_citations = len(citations.citations) 
-    try:
-        n_wider_citations = len(wider_citations.citations) 
-        total_citations = n_narrower_citations + n_wider_citations
-    except:
-        total_citations = n_narrower_citations
-    
-    success_message = "\n\n" + ms.break_with_lines + \
-        f"\nSuccess! A file with found citations has been created: {output_filename}."
-    
-    if n_wider_citations:
-        success_message = success_message + \
-        f"\n{n_narrower_citations} citations have been found, along with" + \
-        f" {n_wider_citations} longer citations."
-    
-    success_message = success_message + \
-        f"\nA total of {total_citations} different citations have been recorded."
+    success_message = ms.report_found_citations(output_filename, citations, wider_citations)
     
     return(success_message)
 
@@ -192,23 +177,7 @@ def write_txt(filename, citations, wider_citations):
         input("\nPress Enter to exit the program.")
         sys.exit()
     
-    success_message = "\n\n" + ms.break_with_lines + \
-        f"\nSuccess! A file with found citations has been created: {output_filename}."
-    
-    n_narrower_citations = len(citations.citations) 
-    try:
-        n_wider_citations = len(wider_citations.citations) 
-        total_citations = n_narrower_citations + n_wider_citations
-    except:
-        total_citations = n_narrower_citations
-    
-    if n_wider_citations:
-        success_message = success_message + \
-        f"\n{n_narrower_citations} citations have been found, along with" + \
-        f" {n_wider_citations} longer citations."
-    
-    success_message = success_message + \
-        f"\nA total of {total_citations} different citations have been recorded."
+    success_message = ms.report_found_citations(output_filename, citations, wider_citations)
     
     return(success_message)
 

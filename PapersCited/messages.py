@@ -8,3 +8,25 @@ def filename_cant_be_read_message(filename):
         "\n\nPlease check 'help_with_libraries.txt' at PapersCited Github:" + \
         "https://github.com/Mkranj/PapersCited/blob/main/help_with_libraries.txt"
     return(message)
+
+def report_found_citations(filename, citations, wider_citations):
+    
+    n_narrower_citations = len(citations.citations) 
+    try:
+        n_wider_citations = len(wider_citations.citations) 
+        total_citations = n_narrower_citations + n_wider_citations
+    except:
+        total_citations = n_narrower_citations
+    
+    success_message = "\n\n" + break_with_lines + \
+        f"\nSuccess! A file with found citations has been created: {filename}."
+    
+    if n_wider_citations:
+        success_message = success_message + \
+        f"\n{n_narrower_citations} citations have been found, along with" + \
+        f" {n_wider_citations} longer citations."
+    
+    success_message = success_message + \
+        f"\nA total of {total_citations} different citations have been recorded."
+    
+    return(success_message)
