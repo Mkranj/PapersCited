@@ -127,7 +127,13 @@ btn_save_xlsx.bind("<Button-1>", fn_btn_save_excel)
 def fn_btn_save_txt(event):
   citations = app_data.get_active_results()
   doc_filename = app_data.get_active_filename()
-  message = fm.write_txt(doc_filename, citations)
+  try:
+    message = fm.write_txt(doc_filename, citations)
+  except Exception as e:
+    error = str(e)
+    app_data.reset_on_error(error, list_affected_wg = [txt_results])
+    return("break")
+  
   app_data.update_text_widget(message,
                           list_affected_wg = [txt_results])
   return("break")
