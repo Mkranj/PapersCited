@@ -1,10 +1,9 @@
 # try-catch for testing purposes
 try:
     import citationAnalysis as ca
+    import messages as ms
 except:
     pass
-
-import messages as ms
 
 import os
 import sys

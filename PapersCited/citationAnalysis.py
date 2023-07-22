@@ -1,7 +1,9 @@
 import locale
 locale.setlocale(locale.LC_ALL, "")
-
-import messages as ms
+try:
+    import messages as ms
+except:
+    pass
 
 # regex in Python
 import regex
