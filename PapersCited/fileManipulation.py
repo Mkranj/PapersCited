@@ -174,17 +174,19 @@ def write_excel(filename, citations, wider_citations):
     
     return(success_message)
 
-def write_txt(filename, string_of_citations):
+def write_txt(filename, citations, wider_citations):
     # Retrieve the filepath (and extension) of the analysed document,
     # The output file will have a similar name and be created 
     # in the same directory.
     output_file_prefix = os.path.splitext(filename)
     output_filename = output_file_prefix[0] + "_citations.txt"
 
+    citations_string = ca.citations_to_string_pretty(citations, wider_citations)
+    
     # Create a file
     try:
         with open(output_filename, 'w') as f:
-            f.write(string_of_citations)
+            f.write(citations_string)
     except:
         print(f"Cannot create a file at {output_filename}.")
         print("Possible permissions issue, can you create files at that folder?")
@@ -193,6 +195,21 @@ def write_txt(filename, string_of_citations):
     
     success_message = "\n\n" + ms.break_with_lines + \
         f"\nSuccess! A file with found citations has been created: {output_filename}."
+    
+    n_narrower_citations = len(citations.citations) 
+    try:
+        n_wider_citations = len(wider_citations.citations) 
+        total_citations = n_narrower_citations + n_wider_citations
+    except:
+        total_citations = n_narrower_citations
+    
+    if n_wider_citations:
+        success_message = success_message + \
+        f"\n{n_narrower_citations} citations have been found, along with" + \
+        f" {n_wider_citations} longer citations."
+    
+    success_message = success_message + \
+        f"\nA total of {total_citations} different citations have been recorded."
     
     return(success_message)
 
