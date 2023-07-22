@@ -4,6 +4,8 @@ try:
 except:
     pass
 
+import messages as ms
+
 import os
 import sys
 import textract
@@ -165,7 +167,7 @@ def write_excel(filename, citations, wider_citations):
     except:
         total_citations = n_narrower_citations
     
-    success_message = "\n\n" + ca.break_with_lines + \
+    success_message = "\n\n" + ms.break_with_lines + \
         f"\nSuccess! A file with found citations has been created: {output_filename}."
     
     if n_wider_citations:
@@ -195,7 +197,7 @@ def write_txt(filename, string_of_citations):
         input("\nPress Enter to exit the program.")
         sys.exit()
     
-    success_message = "\n\n" + ca.break_with_lines + \
+    success_message = "\n\n" + ms.break_with_lines + \
         f"\nSuccess! A file with found citations has been created: {output_filename}."
     
     return(success_message)
