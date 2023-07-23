@@ -171,10 +171,7 @@ def write_txt(filename, citations, wider_citations):
         with open(output_filename, 'w') as f:
             f.write(citations_string)
     except:
-        print(f"Cannot create a file at {output_filename}.")
-        print("Possible permissions issue, can you create files at that folder?")
-        input("\nPress Enter to exit the program.")
-        sys.exit()
+        raise Exception(ms.cant_write_file(output_filename))
     
     success_message = ms.report_found_citations(output_filename, citations, wider_citations)
     
