@@ -189,3 +189,16 @@ def shorten_filename(filename, nchar = 50):
     first_part = filename[0:(cutoff_length - 1)]
     shortened_name = first_part + "..."
     return(shortened_name)
+
+def any_citations_recorded(get_citations):
+    # Return true if appData houses any citations
+    if get_citations == []: return(False)
+    
+    narrow = get_citations[0].citations
+    wider = get_citations[1].citations
+    
+    if len(narrow) > 0 or len(wider) > 0:
+        return(True)
+    else:
+        return(False)
+    
