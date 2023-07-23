@@ -30,3 +30,5 @@ def report_found_citations(filename, citations, wider_citations):
         f"\nA total of {total_citations} different citations have been recorded."
     
     return(success_message)
+
+no_citations_to_save = "Cannot save file: no citations found."
