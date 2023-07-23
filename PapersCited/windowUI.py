@@ -4,6 +4,7 @@ from tkinter import messagebox
 
 import fileManipulation as fm
 import citationAnalysis as ca
+import messages as ms
 from appData import AppData
 
 # Variables ----
@@ -109,6 +110,11 @@ btn_choose.bind("<Button-1>", fn_btn_choose)
 
 def fn_btn_save_excel(event):
   citations = app_data.get_citations()
+  
+  if not fm.any_citations_recorded(citations):
+    app_data.reset_on_error(ms.no_citations_to_save, list_affected_wg = [txt_results])
+    return("break")
+  
   doc_filename = app_data.get_active_filename()
   try:
     message = fm.write_excel(doc_filename,
@@ -126,6 +132,11 @@ btn_save_xlsx.bind("<Button-1>", fn_btn_save_excel)
   
 def fn_btn_save_txt(event):
   citations = app_data.get_citations()
+  
+  if not fm.any_citations_recorded(citations):
+    app_data.reset_on_error(ms.no_citations_to_save, list_affected_wg = [txt_results])
+    return("break")
+  
   doc_filename = app_data.get_active_filename()
   try:
     message = fm.write_txt(doc_filename,
