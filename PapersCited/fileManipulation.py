@@ -17,10 +17,8 @@ def check_file(filename):
     # Check if the file entered actually exists
     file_exists = os.path.isfile(filename)
 
-    # If the filename is False, exit the program.
     if file_exists == False:
-        input("No file selected. Press Enter to end the program.")
-        sys.exit()
+        raise Exception("No file selected")
 
     file_extension = os.path.splitext(filename)[1]
     if file_extension.casefold() == ".pdf":
@@ -86,7 +84,11 @@ def read_document(filename):
 
 # "All-in-one" fn to perform all neccessary steps of analysis on a given file.
 def find_citations(filename):
-    check_file(filename)
+    try: 
+        check_file(filename)
+    except:
+        raise Exception("No file selected")
+    
     document = read_document(filename)
     
     # Get all types of citations
@@ -126,11 +128,9 @@ def write_excel(filename, citations, wider_citations):
     # Create a file
     try:
         workbook = xlsxwriter.Workbook(output_filename)
-    except:
-        print(f"Cannot create a file at {output_filename}.")
-        print("Possible permissions issue, can you create files at that folder?")
-        input("\nPress Enter to exit the program.")
-        sys.exit()
+    except Exception as e:
+        error = str(e)
+        raise Exception(ms.cant_write_file(output_filename) + f"\n{error}")
 
     worksheet1 = workbook.add_worksheet()
 
@@ -171,11 +171,9 @@ def write_txt(filename, citations, wider_citations):
     try:
         with open(output_filename, 'w') as f:
             f.write(citations_string)
-    except:
-        print(f"Cannot create a file at {output_filename}.")
-        print("Possible permissions issue, can you create files at that folder?")
-        input("\nPress Enter to exit the program.")
-        sys.exit()
+    except Exception as e:
+        error = str(e)
+        raise Exception(ms.cant_write_file(output_filename) + f"\n{error}")
     
     success_message = ms.report_found_citations(output_filename, citations, wider_citations)
     
