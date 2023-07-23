@@ -129,10 +129,7 @@ def write_excel(filename, citations, wider_citations):
     try:
         workbook = xlsxwriter.Workbook(output_filename)
     except:
-        print(f"Cannot create a file at {output_filename}.")
-        print("Possible permissions issue, can you create files at that folder?")
-        input("\nPress Enter to exit the program.")
-        sys.exit()
+        raise Exception(ms.cant_write_file(output_filename))
 
     worksheet1 = workbook.add_worksheet()
 
