@@ -128,8 +128,9 @@ def write_excel(filename, citations, wider_citations):
     # Create a file
     try:
         workbook = xlsxwriter.Workbook(output_filename)
-    except:
-        raise Exception(ms.cant_write_file(output_filename))
+    except Exception as e:
+        error = str(e)
+        raise Exception(ms.cant_write_file(output_filename) + f"\n{error}")
 
     worksheet1 = workbook.add_worksheet()
 
@@ -170,8 +171,9 @@ def write_txt(filename, citations, wider_citations):
     try:
         with open(output_filename, 'w') as f:
             f.write(citations_string)
-    except:
-        raise Exception(ms.cant_write_file(output_filename))
+    except Exception as e:
+        error = str(e)
+        raise Exception(ms.cant_write_file(output_filename) + f"\n{error}")
     
     success_message = ms.report_found_citations(output_filename, citations, wider_citations)
     
