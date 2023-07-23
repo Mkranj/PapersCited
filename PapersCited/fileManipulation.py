@@ -17,10 +17,8 @@ def check_file(filename):
     # Check if the file entered actually exists
     file_exists = os.path.isfile(filename)
 
-    # If the filename is False, exit the program.
     if file_exists == False:
-        input("No file selected. Press Enter to end the program.")
-        sys.exit()
+        raise Exception("No file selected")
 
     file_extension = os.path.splitext(filename)[1]
     if file_extension.casefold() == ".pdf":
@@ -86,7 +84,11 @@ def read_document(filename):
 
 # "All-in-one" fn to perform all neccessary steps of analysis on a given file.
 def find_citations(filename):
-    check_file(filename)
+    try: 
+        check_file(filename)
+    except:
+        raise Exception("No file selected")
+    
     document = read_document(filename)
     
     # Get all types of citations
