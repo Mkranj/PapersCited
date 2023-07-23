@@ -1,6 +1,8 @@
 import tkinter as tk
 import citationAnalysis as ca
+import messages as ms
 from fileManipulation import shorten_filename
+from fileManipulation import any_citations_recorded
 
 class AppData:
     def __init__(self, startup_filename, startup_results):
@@ -19,6 +21,10 @@ class AppData:
         citations_as_string = ca.citations_to_string_pretty(
             citations[0], citations[1]
         )
+        
+        if not any_citations_recorded(citations):
+            citations_as_string = ms.no_citations_found
+        
         self.active_results = citations_as_string
         for widget in list_affected_wg:
             widget.config(state = "normal")
