@@ -1,9 +1,5 @@
-# try-catch for testing purposes
-try:
-    import modules.citationAnalysis as ca
-    import modules.messages as ms
-except:
-    pass
+import modules.citationAnalysis as ca
+import modules.messages as ms
 
 import os
 import sys

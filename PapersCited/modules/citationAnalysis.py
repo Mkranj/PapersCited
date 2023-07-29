@@ -1,9 +1,7 @@
 import locale
 locale.setlocale(locale.LC_ALL, "")
-try:
-    import modules.messages as ms
-except:
-    pass
+
+import modules.messages as ms
 
 # regex in Python
 import regex
