@@ -1,4 +1,4 @@
-from modules.windowUI import main_window
+from UI.windowUI import main_window
 
 # -*- coding: utf-8 -*-
 version = "v.1.2.3"

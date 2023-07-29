@@ -2,10 +2,9 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
 
-import modules.fileManipulation as fm
-import modules.citationAnalysis as ca
-import modules.messages as ms
-from modules.appData import AppData
+import UI.fileManipulation as fm
+import UI.messages as ms
+from UI.appData import AppData
 
 # Variables ----
 light_yellow = "#ffe08f"
