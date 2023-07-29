@@ -1,4 +1,4 @@
-import modules.citationAnalysis as ca
+import citationAnalysis.citationAnalysis as ca
 
 # The \ indicates code continues in the next line
 # When testing individual detection functions, they SHOULD catch extra characters
