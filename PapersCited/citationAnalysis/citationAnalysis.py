@@ -1,7 +1,7 @@
 import locale
 locale.setlocale(locale.LC_ALL, "")
 
-import modules.messages as ms
+import UI.messages as ms
 
 # regex in Python
 import regex

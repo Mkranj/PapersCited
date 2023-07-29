@@ -1,5 +1,5 @@
-import modules.citationAnalysis as ca
-import modules.messages as ms
+import citationAnalysis.citationAnalysis as ca
+import UI.messages as ms
 
 import os
 import sys

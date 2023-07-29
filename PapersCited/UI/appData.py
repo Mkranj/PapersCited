@@ -1,8 +1,8 @@
 import tkinter as tk
-import modules.citationAnalysis as ca
-import modules.messages as ms
-from modules.fileManipulation import shorten_filename
-from modules.fileManipulation import any_citations_recorded
+import citationAnalysis.citationAnalysis as ca
+import UI.messages as ms
+from UI.fileManipulation import shorten_filename
+from UI.fileManipulation import any_citations_recorded
 
 class AppData:
     def __init__(self, startup_filename, startup_results):
