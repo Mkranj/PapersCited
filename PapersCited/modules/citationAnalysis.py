@@ -1,7 +1,7 @@
 import locale
 locale.setlocale(locale.LC_ALL, "")
 try:
-    import messages as ms
+    import modules.messages as ms
 except:
     pass
 

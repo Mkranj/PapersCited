@@ -1,7 +1,7 @@
 # try-catch for testing purposes
 try:
-    import citationAnalysis as ca
-    import messages as ms
+    import modules.citationAnalysis as ca
+    import modules.messages as ms
 except:
     pass
 
