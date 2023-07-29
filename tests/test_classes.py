@@ -1,5 +1,5 @@
 import pytest
-import PapersCited.citationAnalysis as ca
+import PapersCited.modules.citationAnalysis as ca
 
 # Test class behavour
 def test_PhrasesToChange_has_all_attributes():
