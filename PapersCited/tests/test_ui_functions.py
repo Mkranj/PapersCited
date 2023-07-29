@@ -1,6 +1,6 @@
-from PapersCited.fileManipulation import shorten_filename
-from PapersCited.fileManipulation import any_citations_recorded
-from PapersCited.citationAnalysis import CitationType
+from UI.fileManipulation import shorten_filename
+from UI.fileManipulation import any_citations_recorded
+from citationAnalysis.citationAnalysis import CitationType
 
 def test_shortening_names():
     short_name = "aeiou"

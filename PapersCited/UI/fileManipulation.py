@@ -1,9 +1,6 @@
-# try-catch for testing purposes
-try:
-    import citationAnalysis as ca
-    import messages as ms
-except:
-    pass
+import citationAnalysis.citationAnalysis as ca
+import UI.messages as ms
+import UI.transformCitations as tc
 
 import os
 import sys
@@ -165,7 +162,7 @@ def write_txt(filename, citations, wider_citations):
     output_file_prefix = os.path.splitext(filename)
     output_filename = output_file_prefix[0] + "_citations.txt"
 
-    citations_string = ca.citations_to_string_pretty(citations, wider_citations)
+    citations_string = tc.citations_to_string_pretty(citations, wider_citations)
     
     # Create a file
     try:

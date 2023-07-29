@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
-import PapersCited.citationAnalysis as ca
-from PapersCited.fileManipulation import read_document
+import citationAnalysis.citationAnalysis as ca
+from UI.fileManipulation import read_document
 import os
 
 import locale

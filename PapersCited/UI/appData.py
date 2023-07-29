@@ -1,8 +1,8 @@
 import tkinter as tk
-import citationAnalysis as ca
-import messages as ms
-from fileManipulation import shorten_filename
-from fileManipulation import any_citations_recorded
+import UI.transformCitations as tc
+import UI.messages as ms
+from UI.fileManipulation import shorten_filename
+from UI.fileManipulation import any_citations_recorded
 
 class AppData:
     def __init__(self, startup_filename, startup_results):
@@ -18,7 +18,7 @@ class AppData:
             
     def set_new_results_citations(self, citations, list_affected_wg):
         self.citations = citations
-        citations_as_string = ca.citations_to_string_pretty(
+        citations_as_string = tc.citations_to_string_pretty(
             citations[0], citations[1]
         )
         
