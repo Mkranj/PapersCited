@@ -86,7 +86,13 @@ main_window.title("PapersCited")
 
 # Bind functions ----
 
+# Helper to return buttons to rest state after a click
+def fn_btn_release(event, btn):
+  btn.config(relief = "raised")
+  return("break")
+
 def fn_btn_choose(event):
+  btn_choose.config(relief = "sunken")
   filename = filedialog.askopenfilename(
     title = "Select a document to search for citations:"
     )
@@ -106,8 +112,10 @@ def fn_btn_choose(event):
   return("break")
 
 btn_choose.bind("<Button-1>", fn_btn_choose)
+btn_choose.bind("<ButtonRelease>", lambda event, btn = btn_choose: fn_btn_release(event, btn))
 
 def fn_btn_save_excel(event):
+  btn_save_xlsx.config(relief = "sunken")
   citations = app_data.get_citations()
   
   if not fm.any_citations_recorded(citations):
@@ -128,8 +136,10 @@ def fn_btn_save_excel(event):
   return("break")
   
 btn_save_xlsx.bind("<Button-1>", fn_btn_save_excel)  
-  
+btn_save_xlsx.bind("<ButtonRelease>", lambda event, btn = btn_save_xlsx: fn_btn_release(event, btn))
+ 
 def fn_btn_save_txt(event):
+  btn_save_txt.config(relief = "sunken")
   citations = app_data.get_citations()
   
   if not fm.any_citations_recorded(citations):
@@ -148,5 +158,7 @@ def fn_btn_save_txt(event):
   app_data.update_text_widget(message,
                           list_affected_wg = [txt_results])
   return("break")
-  
+      
 btn_save_txt.bind("<Button-1>", fn_btn_save_txt) 
+btn_save_txt.bind("<ButtonRelease>", lambda event, btn = btn_save_txt: fn_btn_release(event, btn))
+ 
