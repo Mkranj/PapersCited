@@ -11,7 +11,7 @@ class AppData:
         self.active_results = startup_results
         
         # Options for dynamic trimming of displayed filename
-        self.__right_edge_buffer_px = 20
+        self.__right_edge_buffer_px = 0
         self.__char_width_px = 6
     
     def __calculate_chars_from_width(self, width):
