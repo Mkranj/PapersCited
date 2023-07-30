@@ -10,11 +10,35 @@ class AppData:
         self.citations = []
         self.active_results = startup_results
         
-    def set_new_filename(self, filename, list_affected_wg, length_display = 110):
-        self.active_filename = filename
-        for widget in list_affected_wg:
-            widget["text"] = shorten_filename(self.active_filename, length_display)
+        # Options for dynamic trimming of displayed filename
+        self.__right_edge_buffer_px = 0
+        self.__char_width_px = 6
+    
+    def __calculate_chars_from_width(self, width):
+        right_edge_buffer_px = self.__right_edge_buffer_px
+        frame_width = width - right_edge_buffer_px
+        char_width_px = self.__char_width_px
+        label_width_chars = round(frame_width / char_width_px)
+        return(label_width_chars)
         
+    def set_new_filename(self, filename, list_affected_wg, frame):
+        self.active_filename = filename
+        
+        frame_width = frame.winfo_width()
+        label_width_chars = self.__calculate_chars_from_width(frame_width)
+        
+        for widget in list_affected_wg:
+            widget["text"] = shorten_filename(self.active_filename, label_width_chars)
+        
+    # When the window gets resized    
+    def update_filename_display(self, list_affected_wg, frame):
+        filename = self.get_active_filename()
+        
+        frame_width = frame.winfo_width()
+        label_width_chars = self.__calculate_chars_from_width(frame_width)
+        
+        for widget in list_affected_wg:
+            widget["text"] = shorten_filename(filename, label_width_chars)  
             
     def set_new_results_citations(self, citations, list_affected_wg):
         self.citations = citations

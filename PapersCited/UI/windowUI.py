@@ -97,7 +97,8 @@ def fn_btn_choose(event):
     title = "Select a document to search for citations:"
     )
   app_data.set_new_filename(filename,
-                            list_affected_wg=[lbl_current_file])
+                            list_affected_wg=[lbl_current_file],
+                            frame = fr_current_file)
   try:
     citations = fm.find_citations(filename)
  
@@ -161,4 +162,13 @@ def fn_btn_save_txt(event):
       
 btn_save_txt.bind("<Button-1>", fn_btn_save_txt) 
 btn_save_txt.bind("<ButtonRelease>", lambda event, btn = btn_save_txt: fn_btn_release(event, btn))
- 
+
+
+# On resize, re-render the filename display
+def fn_window_resize(event):
+  app_data.update_filename_display(
+                            list_affected_wg=[lbl_current_file],
+                            frame = fr_current_file
+                            )
+  
+main_window.bind("<Configure>", fn_window_resize)
