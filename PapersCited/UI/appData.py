@@ -10,10 +10,16 @@ class AppData:
         self.citations = []
         self.active_results = startup_results
         
-    def set_new_filename(self, filename, list_affected_wg, length_display = 110):
+    def set_new_filename(self, filename, list_affected_wg, frame):
         self.active_filename = filename
+        
+        right_edge_buffer_px = 20
+        frame_width = frame.winfo_width() - right_edge_buffer_px
+        char_width_px = 6
+        label_width_chars = round(frame_width / char_width_px)
+        
         for widget in list_affected_wg:
-            widget["text"] = shorten_filename(self.active_filename, length_display)
+            widget["text"] = shorten_filename(self.active_filename, label_width_chars)
         
             
     def set_new_results_citations(self, citations, list_affected_wg):

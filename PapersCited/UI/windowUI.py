@@ -97,7 +97,8 @@ def fn_btn_choose(event):
     title = "Select a document to search for citations:"
     )
   app_data.set_new_filename(filename,
-                            list_affected_wg=[lbl_current_file])
+                            list_affected_wg=[lbl_current_file],
+                            frame = fr_current_file)
   try:
     citations = fm.find_citations(filename)
  
