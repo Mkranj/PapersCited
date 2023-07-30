@@ -166,9 +166,9 @@ btn_save_txt.bind("<ButtonRelease>", lambda event, btn = btn_save_txt: fn_btn_re
 
 # On resize, re-render the filename display
 def fn_window_resize(event):
-  filename = app_data.get_active_filename()
-  app_data.set_new_filename(filename,
+  app_data.update_filename_display(
                             list_affected_wg=[lbl_current_file],
-                            frame = fr_current_file)
+                            frame = fr_current_file
+                            )
   
 main_window.bind("<Configure>", fn_window_resize)
