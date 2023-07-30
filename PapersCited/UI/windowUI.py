@@ -58,6 +58,7 @@ scr_results = tk.Scrollbar(fr_results, orient = "vertical")
 scr_results.grid(row = 0, column = 1, sticky = "NS")
 
 txt_results = tk.Text(master = fr_results, bg = "white", yscrollcommand = scr_results.set)
+txt_results.configure(font = ("Segoe UI Variable", 11))
 txt_results.insert(tk.END, app_data.active_results)
 
 scr_results.config(command=txt_results.yview)
