@@ -12,6 +12,9 @@ light_yellow = "#ffe08f"
 startup_filename = ".../path/to/file"
 startup_results = "Results will be shown here..."
 
+citations_font = "Segoe UI Variable"
+citations_font_size = 11
+
 app_data = AppData(startup_filename, startup_results)
 
 # Build UI parts ----
@@ -57,7 +60,8 @@ fr_results.rowconfigure(0, weight = 1)
 scr_results = tk.Scrollbar(fr_results, orient = "vertical")
 scr_results.grid(row = 0, column = 1, sticky = "NS")
 
-txt_results = tk.Text(master = fr_results, bg = "white", yscrollcommand = scr_results.set)
+txt_results = tk.Text(master = fr_results, bg = "white", yscrollcommand = scr_results.set, wrap = tk.WORD)
+txt_results.configure(font = (citations_font, citations_font_size))
 txt_results.insert(tk.END, app_data.active_results)
 
 scr_results.config(command=txt_results.yview)
