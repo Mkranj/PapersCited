@@ -172,3 +172,16 @@ def fn_window_resize(event):
                             )
   
 main_window.bind("<Configure>", fn_window_resize)
+
+# Right-click menu for copying citations
+rc_menu = tk.Menu(main_window, tearoff = 0)
+rc_menu.add_command(label = "Copy")
+
+def popup_menu(event):
+  try: 
+    rc_menu.tk_popup(event.x_root, event.y_root)
+  finally:
+    rc_menu.grab_release()
+
+# Bind only to results pane, copying not important for other parts    
+txt_results.bind("<Button-3>", popup_menu)
