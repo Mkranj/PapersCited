@@ -185,7 +185,13 @@ def popup_menu(event):
 # Note - a menu command must NOT have event argument
 def copy_to_clipboard():
   main_window.clipboard_clear()
-  selected_text = txt_results.get(tk.SEL_FIRST, tk.SEL_LAST)
+  
+  try: 
+    selected_text = txt_results.get(tk.SEL_FIRST, tk.SEL_LAST)
+  except:
+    # In case the main window/selection is empty, there's no SEL_FIRST
+    selected_text = ""
+    
   main_window.clipboard_append(selected_text)
 
 rc_menu.add_command(label = "Copy", command = copy_to_clipboard)
