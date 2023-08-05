@@ -119,7 +119,7 @@ def fn_btn_save_excel(event):
   btn_save_xlsx.config(relief = "sunken")
   citations = app_data.get_citations()
   
-  if not fm.any_citations_recorded(citations):
+  if not app_data.any_citations_recorded():
     app_data.reset_on_error(ms.no_citations_to_save, list_affected_wg = [txt_results])
     return("break")
   
@@ -143,7 +143,7 @@ def fn_btn_save_txt(event):
   btn_save_txt.config(relief = "sunken")
   citations = app_data.get_citations()
   
-  if not fm.any_citations_recorded(citations):
+  if not app_data.any_citations_recorded():
     app_data.reset_on_error(ms.no_citations_to_save, list_affected_wg = [txt_results])
     return("break")
   

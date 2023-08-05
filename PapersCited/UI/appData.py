@@ -2,7 +2,6 @@ import tkinter as tk
 import UI.transformCitations as tc
 import UI.messages as ms
 from UI.fileManipulation import shorten_filename
-from UI.fileManipulation import any_citations_recorded
 
 class AppData:
     def __init__(self, startup_filename, startup_results):
@@ -46,7 +45,7 @@ class AppData:
             citations[0], citations[1]
         )
         
-        if not any_citations_recorded(citations):
+        if not self.any_citations_recorded():
             citations_as_string = ms.no_citations_found
         
         self.active_results = citations_as_string
@@ -71,6 +70,19 @@ class AppData:
     def get_citations(self):
         return(self.citations)
     
+    def any_citations_recorded(self):
+        citations_list = self.get_citations()
+        # Return true if appData houses any citations
+        if citations_list == []: return(False)
+        
+        narrow = citations_list[0].citations
+        wider = citations_list[1].citations
+        
+        if len(narrow) > 0 or len(wider) > 0:
+            return(True)
+        else:
+            return(False)
+        
     def get_active_results(self):
         return(self.active_results)
     
