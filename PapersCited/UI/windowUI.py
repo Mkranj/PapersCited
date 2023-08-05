@@ -175,7 +175,6 @@ main_window.bind("<Configure>", fn_window_resize)
 
 # Right-click menu for copying citations
 rc_menu = tk.Menu(main_window, tearoff = 0)
-rc_menu.add_command(label = "Copy")
 
 def popup_menu(event):
   try: 
@@ -183,5 +182,13 @@ def popup_menu(event):
   finally:
     rc_menu.grab_release()
 
+# Note - a menu command must NOT have event argument
+def copy_to_clipboard():
+  main_window.clipboard_clear()
+  selected_text = txt_results.get(tk.SEL_FIRST, tk.SEL_LAST)
+  main_window.clipboard_append(selected_text)
+
+rc_menu.add_command(label = "Copy", command = copy_to_clipboard)
+  
 # Bind only to results pane, copying not important for other parts    
 txt_results.bind("<Button-3>", popup_menu)
