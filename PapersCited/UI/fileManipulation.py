@@ -55,6 +55,11 @@ def read_docx_footnotes(filename):
 
 def read_document(filename):
 
+    try: 
+        message = check_file(filename)
+    except:
+        raise Exception("No file selected")
+    
     try:
         target_document = textract.process(filename, output_encoding="utf-8-sig")
     except Exception as e:
@@ -77,25 +82,26 @@ def read_document(filename):
     if file_extension.casefold() == ".docx":
         footnote_text = read_docx_footnotes(filename)
         target_document = target_document + " \n " + footnote_text
+    
+    operation_success = {"document_text": target_document,
+                         "status_message": message}
         
-    return(target_document)
+    return(operation_success)
 
-# "All-in-one" fn to perform all neccessary steps of analysis on a given file.
-def find_citations(filename):
-    try: 
-        check_file(filename)
-    except:
-        raise Exception("No file selected")
+
     
     document = read_document(filename)
-    
+
+# "All-in-one" fn to perform all neccessary steps of analysis on a given file.
+def find_citations(document_text):
+
     # Get all types of citations
-    solo_authors = ca.get_matches_solo_author(document, drop_excluded_phrases = True)
-    two_authors = ca.get_matches_two_authors(document, drop_excluded_phrases = True)
-    three_authors = ca.get_matches_three_authors(document, drop_excluded_phrases = True)
-    author_et_al = ca.get_matches_author_et_al(document, drop_excluded_phrases = True)
-    two_surnames = ca.get_matches_two_surnames(document, drop_excluded_phrases = True)
-    two_surnames_et_al = ca.get_matches_two_surnames_et_al(document, drop_excluded_phrases = True)
+    solo_authors = ca.get_matches_solo_author(document_text, drop_excluded_phrases = True)
+    two_authors = ca.get_matches_two_authors(document_text, drop_excluded_phrases = True)
+    three_authors = ca.get_matches_three_authors(document_text, drop_excluded_phrases = True)
+    author_et_al = ca.get_matches_author_et_al(document_text, drop_excluded_phrases = True)
+    two_surnames = ca.get_matches_two_surnames(document_text, drop_excluded_phrases = True)
+    two_surnames_et_al = ca.get_matches_two_surnames_et_al(document_text, drop_excluded_phrases = True)
         
     solo_authors.delete_clones_of_citations(two_authors)
     
