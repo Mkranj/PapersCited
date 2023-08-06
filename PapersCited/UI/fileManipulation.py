@@ -17,15 +17,16 @@ def check_file(filename):
     if file_exists == False:
         raise Exception("No file selected")
 
+    warning = None
+    
     file_extension = os.path.splitext(filename)[1]
     if file_extension.casefold() == ".pdf":
-        print("Warning!\nReading PDF files is not recommended and might result in inaccurate transcription.\n")
+        warning = ms.reading_pdf_warning
 
     if file_extension.casefold() == ".txt":
-        print("Warning! Reading .txt files might lead to problems with special characters." +
-              "\nTo ensure the best format is used, backup the .txt file, \
-                then try saving it in UTF-8 or ANSI encoding." +
-              "\n(\"Save as...\" dialog, \"Encoding:\" at the bottom.)\n")
+        warning = ms.reading_txt_warning
+        
+    return(warning)
 
 
 def read_docx_footnotes(filename):
