@@ -127,11 +127,7 @@ def write_excel(filename, citations, wider_citations):
     output_filename = output_file_prefix[0] + "_citations.xlsx"
 
     # Create a file
-    try:
-        workbook = xlsxwriter.Workbook(output_filename)
-    except Exception as e:
-        error = str(e)
-        raise Exception(ms.cant_write_file(output_filename) + f"\n{error}")
+    workbook = xlsxwriter.Workbook(output_filename)
 
     worksheet1 = workbook.add_worksheet()
 
