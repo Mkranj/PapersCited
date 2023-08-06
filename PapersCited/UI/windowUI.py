@@ -88,7 +88,7 @@ btn_save_txt = tk.Button(master = main_window,
 btn_save_txt.grid(row = 2, column = 3, sticky = "SE",
                         padx = 10, pady = 5)
 
-main_window.title("PapersCited")
+main_window.title("PapersCited " + version)
 
 # Bind functions ----
 
