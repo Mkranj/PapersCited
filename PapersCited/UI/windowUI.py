@@ -7,10 +7,12 @@ import UI.messages as ms
 from UI.appData import AppData
 
 # Variables ----
+version = "v.1.2.3"
+
 light_yellow = "#ffe08f"
 
 startup_filename = ".../path/to/file"
-startup_results = "Results will be shown here..."
+startup_results = "Welcome to PapersCited " + version + "\nResults will be shown here..."
 
 citations_font = "Segoe UI Variable"
 citations_font_size = 11
@@ -86,7 +88,7 @@ btn_save_txt = tk.Button(master = main_window,
 btn_save_txt.grid(row = 2, column = 3, sticky = "SE",
                         padx = 10, pady = 5)
 
-main_window.title("PapersCited")
+main_window.title("PapersCited " + version)
 
 # Bind functions ----
 
@@ -104,7 +106,11 @@ def fn_btn_choose(event):
                             list_affected_wg=[lbl_current_file],
                             frame = fr_current_file)
   try:
-    citations = fm.find_citations(filename)
+    reading_operation = fm.read_document(filename)
+    
+    message = reading_operation["status_message"]
+    contents = reading_operation["document_text"]
+    citations = fm.find_citations(contents)
  
   except Exception as e:
     error = str(e)
@@ -113,6 +119,9 @@ def fn_btn_choose(event):
   
   app_data.set_new_results_citations(citations,
                                      list_affected_wg = [txt_results])
+  
+  if message:
+    app_data.warning_in_text_widget(message, list_affected_wg = [txt_results])
   
   return("break")
 

@@ -1,7 +1,7 @@
 from UI.windowUI import main_window
+from UI.windowUI import version
 
 # -*- coding: utf-8 -*-
-version = "v.1.2.3"
 
 # Welcome message, before loading anything
 if __name__ == "__main__":
