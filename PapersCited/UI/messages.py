@@ -35,7 +35,7 @@ no_citations_found = "No citations were found."
 no_citations_to_save = "Cannot save file: no citations found."
 
 def cant_write_file(filename):
-    message = f"Cannot create file at {filename}." + \
+    message = f"Cannot create citation file for {filename}." + \
         "\nPossible permissions issue, can you create files at that folder?"
     return(message)
 

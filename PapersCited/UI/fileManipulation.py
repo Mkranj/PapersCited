@@ -127,11 +127,7 @@ def write_excel(filename, citations, wider_citations):
     output_filename = output_file_prefix[0] + "_citations.xlsx"
 
     # Create a file
-    try:
-        workbook = xlsxwriter.Workbook(output_filename)
-    except Exception as e:
-        error = str(e)
-        raise Exception(ms.cant_write_file(output_filename) + f"\n{error}")
+    workbook = xlsxwriter.Workbook(output_filename)
 
     worksheet1 = workbook.add_worksheet()
 
@@ -169,12 +165,8 @@ def write_txt(filename, citations, wider_citations):
     citations_string = tc.citations_to_string_pretty(citations, wider_citations)
     
     # Create a file
-    try:
-        with open(output_filename, 'w') as f:
-            f.write(citations_string)
-    except Exception as e:
-        error = str(e)
-        raise Exception(ms.cant_write_file(output_filename) + f"\n{error}")
+    with open(output_filename, 'w') as f:
+        f.write(citations_string)
     
     success_message = ms.report_found_citations(output_filename, citations, wider_citations)
     
