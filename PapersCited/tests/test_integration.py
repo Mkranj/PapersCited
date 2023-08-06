@@ -41,7 +41,7 @@ def test_read_analyze_text(rootdir):
     assert narrower_citations.citations == expected_output
     
 def test_main_text_and_docx_footnotes_analyzed(rootdir):
-    text = read_document(os.path.join(rootdir, "document_footnotes.docx"))
+    text = read_document(os.path.join(rootdir, "document_footnotes.docx"))["document_text"]
     
     # Get all types of citations
     solo_authors = ca.get_matches_solo_author(text, drop_excluded_phrases = True)
@@ -69,7 +69,7 @@ def test_main_text_and_docx_footnotes_analyzed(rootdir):
     assert narrower_citations.citations == expected_output
 
 def test_docx_without_footnotes_analyzed(rootdir):
-    text = read_document(os.path.join(rootdir, "document_no_footnotes.docx"))
+    text = read_document(os.path.join(rootdir, "document_no_footnotes.docx"))["document_text"]
     
     # Get all types of citations
     solo_authors = ca.get_matches_solo_author(text, drop_excluded_phrases = True)

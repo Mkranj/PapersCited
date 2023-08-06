@@ -89,9 +89,6 @@ def read_document(filename):
     return(operation_success)
 
 
-    
-    document = read_document(filename)
-
 # "All-in-one" fn to perform all neccessary steps of analysis on a given file.
 def find_citations(document_text):
 
