@@ -1,14 +1,5 @@
 import UI.messages as ms
 
-def preview_citations(citations, wider_citations):
-    print("\n")
-    print("Citations found:")
-    [print(citation) for citation in citations.citations]
-    if len(wider_citations.citations) > 0:
-        print("\n")
-        print("Wider citations found:")
-        [print(citation) for citation in wider_citations.citations]
-
 def citations_to_string(narrower_citations, wider_citations):
   citation_string = []
   [citation_string.append(citation + "\n") for citation in narrower_citations.citations]
