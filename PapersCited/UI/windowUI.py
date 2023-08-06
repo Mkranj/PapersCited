@@ -142,7 +142,7 @@ def fn_btn_save_excel(event):
                  citations[0], citations[1])
   except Exception as e:
     error = str(e)
-    app_data.reset_on_error(ms.cant_write_file(doc_filename) + f"\n{error}",
+    app_data.reset_on_error(ms.cant_write_file(doc_filename) + f"\n\n{error}",
                             list_affected_wg = [txt_results])
     return("break")
   
@@ -167,7 +167,7 @@ def fn_btn_save_txt(event):
                  citations[0], citations[1])
   except Exception as e:
     error = str(e)
-    app_data.reset_on_error(ms.cant_write_file(doc_filename) + f"\n{error}",
+    app_data.reset_on_error(ms.cant_write_file(doc_filename) + f"\n\n{error}",
                             list_affected_wg = [txt_results])
     return("break")
   
