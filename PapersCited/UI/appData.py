@@ -69,9 +69,9 @@ class AppData:
         
         for widget in list_affected_wg:
             widget.config(state = "normal")
-            widget.insert(tk.FIRST, warning_text)
+            widget.insert('1.0', warning_text + "\n")
             widget.config(state = "disabled")
-            widget.see(tk.FIRST)
+            widget.see('1.0')
     
     def get_active_filename(self):
         return(self.active_filename)
