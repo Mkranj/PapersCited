@@ -104,7 +104,11 @@ def fn_btn_choose(event):
                             list_affected_wg=[lbl_current_file],
                             frame = fr_current_file)
   try:
-    citations = fm.find_citations(filename)
+    reading_operation = fm.read_document(filename)
+    
+    message = reading_operation["status_message"]
+    contents = reading_operation["document_text"]
+    citations = fm.find_citations(contents)
  
   except Exception as e:
     error = str(e)
@@ -113,6 +117,9 @@ def fn_btn_choose(event):
   
   app_data.set_new_results_citations(citations,
                                      list_affected_wg = [txt_results])
+  
+  if message:
+    app_data.warning_in_text_widget(message, list_affected_wg = [txt_results])
   
   return("break")
 
