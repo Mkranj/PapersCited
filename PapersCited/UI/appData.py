@@ -63,6 +63,15 @@ class AppData:
             widget.insert(tk.END, update_text)
             widget.config(state = "disabled")
             widget.see(tk.END)
+            
+    def warning_in_text_widget(self, warning_text, list_affected_wg):
+        # Add new text to window, like success messages.
+        
+        for widget in list_affected_wg:
+            widget.config(state = "normal")
+            widget.insert(tk.FIRST, warning_text)
+            widget.config(state = "disabled")
+            widget.see(tk.FIRST)
     
     def get_active_filename(self):
         return(self.active_filename)
