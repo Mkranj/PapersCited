@@ -7,10 +7,12 @@ import UI.messages as ms
 from UI.appData import AppData
 
 # Variables ----
+version = "v.1.2.3"
+
 light_yellow = "#ffe08f"
 
 startup_filename = ".../path/to/file"
-startup_results = "Results will be shown here..."
+startup_results = "Welcome to PapersCited " + version + "\nResults will be shown here..."
 
 citations_font = "Segoe UI Variable"
 citations_font_size = 11
