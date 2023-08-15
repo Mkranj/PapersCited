@@ -45,7 +45,7 @@ fr_current_file.grid(row = 0, column = 1, columnspan = 3, sticky = "NWES",
                       padx = 10, pady = 5)
 
 lbl_current_file = tk.Label(master = fr_current_file,
-                            text = app_data.active_filename, bg = light_yellow,
+                            text = app_data.input_filename, bg = light_yellow,
                             pady = 3)
 
 lbl_current_file.grid(row = 0, column = 0, sticky = "W", padx = 5, pady = 5)
