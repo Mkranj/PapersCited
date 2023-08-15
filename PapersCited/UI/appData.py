@@ -6,6 +6,7 @@ from UI.fileManipulation import shorten_filename
 class AppData:
     def __init__(self, startup_filename, startup_results):
         self.input_filename = startup_filename
+        self.output_filename = ""
         self.citations = []
         self.active_results = startup_results
         
@@ -31,7 +32,7 @@ class AppData:
         
     # When the window gets resized    
     def update_filename_display(self, list_affected_wg, frame):
-        filename = self.get_active_filename()
+        filename = self.get_input_filename()
         
         frame_width = frame.winfo_width()
         label_width_chars = self.__calculate_chars_from_width(frame_width)
@@ -73,7 +74,7 @@ class AppData:
             widget.config(state = "disabled")
             widget.see('1.0')
     
-    def get_active_filename(self):
+    def get_input_filename(self):
         return(self.input_filename)
     
     def get_citations(self):
