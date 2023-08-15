@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter.filedialog import asksaveasfilename
 import UI.transformCitations as tc
 import UI.messages as ms
 import os
@@ -88,6 +89,18 @@ class AppData:
         
     def get_output_filename(self):
         return(self.output_filename)
+    
+    def popup_ask_save_file(self, extension):
+        output_filename = self.get_output_filename()
+        given_extension = extension
+        
+        default_filename = output_filename + given_extension
+        
+        user_filename = asksaveasfilename(
+            initialfile = default_filename
+            )
+        
+        return(user_filename)
     
     def get_citations(self):
         return(self.citations)

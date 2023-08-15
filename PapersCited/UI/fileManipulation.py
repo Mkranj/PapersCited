@@ -125,7 +125,7 @@ def write_excel(filename, citations, wider_citations):
     # in the same directory.
     output_file_prefix = os.path.splitext(filename)
     output_filename = output_file_prefix[0] + ".xlsx"
-
+    
     # Create a file
     workbook = xlsxwriter.Workbook(output_filename)
 

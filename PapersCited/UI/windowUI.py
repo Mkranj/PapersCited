@@ -136,7 +136,8 @@ def fn_btn_save_excel(event):
     app_data.reset_on_error(ms.no_citations_to_save, list_affected_wg = [txt_results])
     return("break")
   
-  doc_filename = app_data.get_output_filename()
+  doc_filename = app_data.popup_ask_save_file(".xlsx")
+  
   try:
     message = fm.write_excel(doc_filename,
                  citations[0], citations[1])
@@ -161,7 +162,8 @@ def fn_btn_save_txt(event):
     app_data.reset_on_error(ms.no_citations_to_save, list_affected_wg = [txt_results])
     return("break")
   
-  doc_filename = app_data.get_output_filename()
+  doc_filename = app_data.popup_ask_save_file(".txt")
+  
   try:
     message = fm.write_txt(doc_filename,
                  citations[0], citations[1])
