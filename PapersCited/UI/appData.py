@@ -1,6 +1,7 @@
 import tkinter as tk
 import UI.transformCitations as tc
 import UI.messages as ms
+import os
 from UI.fileManipulation import shorten_filename
 
 class AppData:
@@ -23,6 +24,7 @@ class AppData:
         
     def set_new_filename(self, filename, list_affected_wg, frame):
         self.input_filename = filename
+        self.__set_output_filename()
         
         frame_width = frame.winfo_width()
         label_width_chars = self.__calculate_chars_from_width(frame_width)
@@ -76,6 +78,16 @@ class AppData:
     
     def get_input_filename(self):
         return(self.input_filename)
+    
+    def __set_output_filename(self):
+        # append _citations, no extension
+        input = self.get_input_filename()
+        output_file_prefix = os.path.splitext(input)
+        output_filename = output_file_prefix[0] + "_citations"
+        self.output_filename = output_filename
+        
+    def get_output_filename(self):
+        return(self.output_filename)
     
     def get_citations(self):
         return(self.citations)

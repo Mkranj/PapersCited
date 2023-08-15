@@ -124,7 +124,7 @@ def write_excel(filename, citations, wider_citations):
     # The output file will have a similar name and be created 
     # in the same directory.
     output_file_prefix = os.path.splitext(filename)
-    output_filename = output_file_prefix[0] + "_citations.xlsx"
+    output_filename = output_file_prefix[0] + ".xlsx"
 
     # Create a file
     workbook = xlsxwriter.Workbook(output_filename)
@@ -160,7 +160,7 @@ def write_txt(filename, citations, wider_citations):
     # The output file will have a similar name and be created 
     # in the same directory.
     output_file_prefix = os.path.splitext(filename)
-    output_filename = output_file_prefix[0] + "_citations.txt"
+    output_filename = output_file_prefix[0] + ".txt"
 
     citations_string = tc.citations_to_string_pretty(citations, wider_citations)
     
