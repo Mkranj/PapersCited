@@ -1,13 +1,15 @@
 # PapersCited v1.3 
-Find all citations mentioned in a document. Build and check your reference lists quickliy and easily.  
+Find all citations mentioned in a document. Build and check your reference lists quickly and easily.  
 
 ## About:
-***PapersCited*** is a Python program designed to help you with **writing and reviewing reference lists** in your scientific articles. It reads through a document of your choice and takes a note every time something is cited. At the end, it writes all of those citations in alphabetical order, omitting duplicate entries. You can also save them in an Excel or textual file.
+***PapersCited*** is a program designed to help you with **writing and reviewing reference lists** in your scientific articles. It reads through a document of your choice and takes a note every time something is cited. At the end, it lists all of those citations in alphabetical order, omitting duplicate entries. You can also save them in an Excel or textual file.
 Now you can easily go through your reference list and note if you cited something but didn't include it or, conversely, you wrote a reference that isn't cited anywhere in the article. It is also handy for writing a reference list from stratch. You no longer need to manually go over the whole article and note all the times you cite another source.  
 
-This program is appropriate for texts written in **English** and **Croatian**. Some sources may be detected incorrectly in other languages. The software is written with **APA style** citations in mind, but **Chicago style** and similar would work as well.
+The program was built with texts written in **English** and **Croatian** in mind. Some sources may be detected incorrectly in other languages. **APA style** citations are the primary target, but **Chicago style** and similar should work as well.
 
 Tested on Windows 10 using .docx, .txt, .doc and .pdf files. 
+
+Found PapersCited useful? How about [**buying me a coffee**](https://www.buymeacoffee.com/mkranj61) and supporting development? After all, coffee makes the world go round :star_struck:
 
 ## Instructions:
 - Download the latest version of **PapersCited.zip** from the *Releases* tab, to the right.
