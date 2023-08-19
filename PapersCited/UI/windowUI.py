@@ -24,7 +24,8 @@ app_data = AppData(startup_filename, startup_results)
 main_window = tk.Tk()
 main_window.columnconfigure(0, weight = 0, minsize = 50)
 main_window.columnconfigure(1, weight = 0, minsize = 50)
-main_window.columnconfigure(2, weight = 1, minsize = 100)
+main_window.columnconfigure(2, weight = 0, minsize = 20)
+main_window.columnconfigure(3, weight = 1, minsize = 100)
 main_window.rowconfigure(0, weight = 0, minsize = 30)
 main_window.rowconfigure(1, weight = 2, minsize = 400)
 main_window.rowconfigure(2, weight = 0, minsize = 30)
@@ -45,11 +46,11 @@ btn_from_clipboard = tk.Button(master = main_window,
                         padx = 8, pady = 5
                         )
 
-btn_from_clipboard.grid(row = 0, column = 1, sticky = "NW", padx = 10, pady = 5)
+btn_from_clipboard.grid(row = 0, column = 1, sticky = "NW", padx = 5, pady = 5)
 
 
 fr_current_file = tk.Frame(master = main_window, bg = light_yellow)
-fr_current_file.grid(row = 0, column = 2, columnspan = 2, sticky = "NWES",
+fr_current_file.grid(row = 0, column = 3, columnspan = 2, sticky = "NWES",
                       padx = 10, pady = 5)
 
 lbl_current_file = tk.Label(master = fr_current_file,
@@ -60,7 +61,7 @@ lbl_current_file.grid(row = 0, column = 0, sticky = "W", padx = 5, pady = 5)
 
 fr_results = tk.Frame(master = main_window, bg = "white",
                       borderwidth = 2, relief = tk.GROOVE)
-fr_results.grid(row = 1, column = 0, sticky = "NWSE", columnspan = 4,
+fr_results.grid(row = 1, column = 0, sticky = "NWSE", columnspan = 5,
                  padx = 10)
 
 fr_results.columnconfigure(0, weight = 1)
@@ -85,7 +86,7 @@ btn_save_xlsx = tk.Button(master = main_window,
                         borderwidth = 2,
                         padx = 5, pady = 5)
 
-btn_save_xlsx.grid(row = 2, column = 2, sticky = "SE",
+btn_save_xlsx.grid(row = 2, column = 3, sticky = "SE",
                         padx = 10, pady = 5)
 
 btn_save_txt = tk.Button(master = main_window,
@@ -93,7 +94,7 @@ btn_save_txt = tk.Button(master = main_window,
                         borderwidth = 2,
                         padx = 5, pady = 5)
 
-btn_save_txt.grid(row = 2, column = 3, sticky = "SE",
+btn_save_txt.grid(row = 2, column = 4, sticky = "SE",
                         padx = 10, pady = 5)
 
 main_window.title("PapersCited " + version)
