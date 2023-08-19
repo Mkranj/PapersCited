@@ -15,6 +15,9 @@ class AppData:
         # Options for dynamic trimming of displayed filename
         self.__right_edge_buffer_px = 0
         self.__char_width_px = 6
+        
+        # What to display when no file chosen:
+        self.__no_file_selected_txt = "(No file selected)"
     
     def __calculate_chars_from_width(self, width):
         right_edge_buffer_px = self.__right_edge_buffer_px
@@ -24,7 +27,11 @@ class AppData:
         return(label_width_chars)
         
     def set_new_filename(self, filename, list_affected_wg, frame):
-        self.input_filename = filename
+        user_filename = filename
+        if user_filename == "":
+            user_filename = self.__no_file_selected_txt
+        
+        self.input_filename = user_filename
         self.__set_output_filename()
         
         frame_width = frame.winfo_width()
