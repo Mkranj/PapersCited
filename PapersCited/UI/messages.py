@@ -1,3 +1,5 @@
+version = "1.3"
+
 break_with_lines = "--------------------"
 
 def filename_cant_be_read_message(filename):
