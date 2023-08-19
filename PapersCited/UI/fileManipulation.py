@@ -20,8 +20,6 @@ def check_file(filename):
     warning = None
     
     file_extension = os.path.splitext(filename)[1]
-    if file_extension.casefold() == ".pdf":
-        warning = ms.reading_pdf_warning
 
     if file_extension.casefold() == ".txt":
         warning = ms.reading_txt_warning
@@ -60,26 +58,27 @@ def read_document(filename):
     except:
         raise Exception("No file selected")
     
+    file_extension = os.path.splitext(filename)[1].casefold()
+    
     try:
         target_document = textract.process(filename, output_encoding="utf-8-sig")
     except Exception as e:
         # get only the text of the exception
         error = str(e)
         # If the file exists, but cannot be read, an error will be raised.
-        error_message = ms.filename_cant_be_read_message(filename) + \
+        error_message = ms.filename_cant_be_read_message(filename, file_extension) + \
             "\nThe error message:\n" + error
         raise Exception(error_message)
 
     # UTF-8 encoding so it recognises foreign characters
     target_document = target_document.decode("utf-8-sig")
     
-    file_extension = os.path.splitext(filename)[1]
-    if file_extension.casefold() == ".pdf":
+    if file_extension == ".pdf":
         target_document = target_document.replace("\r\n", " ")
         target_document = target_document.replace("\r", "")
         target_document = target_document.replace("\n", " ")
     
-    if file_extension.casefold() == ".docx":
+    if file_extension == ".docx":
         footnote_text = read_docx_footnotes(filename)
         target_document = target_document + " \n " + footnote_text
     

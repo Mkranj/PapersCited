@@ -1,12 +1,26 @@
 break_with_lines = "--------------------"
 
-def filename_cant_be_read_message(filename):
-    message = f"The file {filename} couldn't be read. Make sure the file is a valid textual file." + \
-        "If you can regularly open it, you may be missing certain libraries:" + \
-        "\nantiword for .doc (not .docx)" + \
-        "\npoppler for .pdf" + \
-        "\n\nPlease check 'help_with_libraries.txt' at PapersCited Github:" + \
-        "https://github.com/Mkranj/PapersCited/blob/main/help_with_libraries.txt"
+cant_read_doc_msg = "NOTE: An additional library is required to read .doc files." + \
+    "\nThe simplest solution is to convert the file to a .docx file, then try analysing it again." + \
+    "\n\nAnother solution is to setup Antiword." + \
+    "\nFor more information, please check 'help_with_libraries.txt' at PapersCited Github: " + \
+    "https://github.com/Mkranj/PapersCited/blob/main/help_with_libraries.txt"
+    
+cant_read_pdf_msg = "NOTE: An additional library, poppler, is required to read .pdf files." + \
+    "\nFor more information, please check 'help_with_libraries.txt' at PapersCited Github: " + \
+    "https://github.com/Mkranj/PapersCited/blob/main/help_with_libraries.txt" + \
+    "\nAlternatively, you can manually copy the text from the .pdf and paste it into a" + \
+    "supported file format, such as .docx or .txt."
+
+def filename_cant_be_read_message(filename, extension):
+    message = f"The file {filename} couldn't be read. Make sure the file is a valid textual file."
+    
+    if extension == ".doc":
+        message = message + "\n" + cant_read_doc_msg + "\n"
+        
+    if extension == ".pdf":
+        message = message + "\n" + cant_read_pdf_msg + "\n"
+
     return(message)
 
 def report_found_citations(filename, citations, wider_citations):
@@ -39,7 +53,6 @@ def cant_write_file(filename):
         "\nPossible permissions issue, can you create files at that folder?"
     return(message)
 
-reading_pdf_warning = "Warning!\nReading PDF files is not recommended and might result in inaccurate transcription.\n"
-reading_txt_warning = "Warning! Reading .txt files might lead to problems with special characters. \
-    \nTo ensure the best format is used, backup the .txt file, then try saving it in UTF-8 or ANSI encoding. \
+reading_txt_warning = "Warning! " + \
+    "If you encounter problems reading this .txt file, backup the original file, then try saving it in UTF-8 or ANSI encoding.\
     \n(\"Save as...\" dialog, \"Encoding:\" at the bottom.)\n"
