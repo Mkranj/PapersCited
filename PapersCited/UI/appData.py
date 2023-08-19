@@ -1,11 +1,14 @@
 import tkinter as tk
+from tkinter.filedialog import asksaveasfilename
 import UI.transformCitations as tc
 import UI.messages as ms
+import os
 from UI.fileManipulation import shorten_filename
 
 class AppData:
     def __init__(self, startup_filename, startup_results):
-        self.active_filename = startup_filename
+        self.input_filename = startup_filename
+        self.output_filename = ""
         self.citations = []
         self.active_results = startup_results
         
@@ -21,17 +24,18 @@ class AppData:
         return(label_width_chars)
         
     def set_new_filename(self, filename, list_affected_wg, frame):
-        self.active_filename = filename
+        self.input_filename = filename
+        self.__set_output_filename()
         
         frame_width = frame.winfo_width()
         label_width_chars = self.__calculate_chars_from_width(frame_width)
         
         for widget in list_affected_wg:
-            widget["text"] = shorten_filename(self.active_filename, label_width_chars)
+            widget["text"] = shorten_filename(self.input_filename, label_width_chars)
         
     # When the window gets resized    
     def update_filename_display(self, list_affected_wg, frame):
-        filename = self.get_active_filename()
+        filename = self.get_input_filename()
         
         frame_width = frame.winfo_width()
         label_width_chars = self.__calculate_chars_from_width(frame_width)
@@ -73,8 +77,44 @@ class AppData:
             widget.config(state = "disabled")
             widget.see('1.0')
     
-    def get_active_filename(self):
-        return(self.active_filename)
+    def get_input_filename(self):
+        return(self.input_filename)
+    
+    def __set_output_filename(self):
+        # append _citations, no extension
+        # TODO
+        # - return both directory and basename, suggest only basename
+        # - offer only viable file type - argument tuple
+        input = self.get_input_filename()
+        output_file_prefix = os.path.splitext(input)
+        output_filename = output_file_prefix[0] + "_citations"
+        self.output_filename = output_filename
+        
+    def get_output_filename(self):
+        return(self.output_filename)
+    
+    def popup_ask_save_file(self, extension):
+        output_filename = self.get_output_filename()
+        given_extension = extension
+        
+        directory, name = os.path.split(output_filename)
+        
+        default_filename = name + given_extension
+        
+        # Create a tuple matching extension
+        filetype = ()
+        if given_extension == ".xlsx":
+            filetype = ("Excel file", "*.xlsx")
+        elif given_extension == ".txt":
+            filetype = ("Text file", "*.txt")
+            
+        user_filename = asksaveasfilename(
+            initialfile = default_filename,
+            initialdir= directory,
+            filetypes= (filetype, ) # Tuple of tuples required, single item requires comma
+            )
+        
+        return(user_filename)
     
     def get_citations(self):
         return(self.citations)
