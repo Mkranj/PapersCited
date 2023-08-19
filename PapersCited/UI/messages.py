@@ -41,7 +41,9 @@ def cant_write_file(filename):
         "\nPossible permissions issue, can you create files at that folder?"
     return(message)
 
-reading_pdf_warning = "Warning!\nReading PDF files is not recommended and might result in inaccurate transcription.\n"
-reading_txt_warning = "Warning! Reading .txt files might lead to problems with special characters. \
-    \nTo ensure the best format is used, backup the .txt file, then try saving it in UTF-8 or ANSI encoding. \
+reading_pdf_warning = "Warning!\
+    \nReading PDF files is not recommended and might result in inaccurate transcription.\n"
+
+reading_txt_warning = "Warning! " + \
+    "If you encounter problems reading this .txt file, backup the original file, then try saving it in UTF-8 or ANSI encoding.\
     \n(\"Save as...\" dialog, \"Encoding:\" at the bottom.)\n"
