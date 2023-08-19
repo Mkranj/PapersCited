@@ -20,8 +20,6 @@ def check_file(filename):
     warning = None
     
     file_extension = os.path.splitext(filename)[1]
-    if file_extension.casefold() == ".pdf":
-        warning = ms.reading_pdf_warning
 
     if file_extension.casefold() == ".txt":
         warning = ms.reading_txt_warning
