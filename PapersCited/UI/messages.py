@@ -1,3 +1,5 @@
+version = "1.3"
+
 break_with_lines = "--------------------"
 
 cant_read_doc_msg = "NOTE: An additional library is required to read .doc files." + \

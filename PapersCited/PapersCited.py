@@ -1,5 +1,5 @@
 from UI.windowUI import main_window
-from UI.windowUI import version
+from UI.messages import version
 
 # -*- coding: utf-8 -*-
 
