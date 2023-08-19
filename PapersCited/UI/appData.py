@@ -101,9 +101,17 @@ class AppData:
         
         default_filename = name + given_extension
         
+        # Create a tuple matching extension
+        filetype = ()
+        if given_extension == ".xlsx":
+            filetype = ("Excel file", "*.xlsx")
+        elif given_extension == ".txt":
+            filetype = ("Text file", "*.txt")
+            
         user_filename = asksaveasfilename(
             initialfile = default_filename,
-            initialdir= directory
+            initialdir= directory,
+            filetypes= (filetype, ) # Tuple of tuples required, single item requires comma
             )
         
         return(user_filename)
