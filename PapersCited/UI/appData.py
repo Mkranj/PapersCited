@@ -82,6 +82,9 @@ class AppData:
     
     def __set_output_filename(self):
         # append _citations, no extension
+        # TODO
+        # - return both directory and basename, suggest only basename
+        # - offer only viable file type - argument tuple
         input = self.get_input_filename()
         output_file_prefix = os.path.splitext(input)
         output_filename = output_file_prefix[0] + "_citations"
@@ -94,10 +97,13 @@ class AppData:
         output_filename = self.get_output_filename()
         given_extension = extension
         
-        default_filename = output_filename + given_extension
+        directory, name = os.path.split(output_filename)
+        
+        default_filename = name + given_extension
         
         user_filename = asksaveasfilename(
-            initialfile = default_filename
+            initialfile = default_filename,
+            initialdir= directory
             )
         
         return(user_filename)
