@@ -145,7 +145,13 @@ def fn_btn_save_excel(event):
     app_data.reset_on_error(ms.no_citations_to_save, list_affected_wg = [txt_results])
     return("break")
   
-  doc_filename = app_data.popup_ask_save_file(".xlsx")
+  # Ask user where to save, notify if cancelled
+  try:
+    doc_filename = app_data.popup_ask_save_file(".xlsx")
+  except Exception as e:
+    app_data.update_text_widget(ms.saving_cancelled,
+                          list_affected_wg = [txt_results])
+    return("break")
   
   try:
     message = fm.write_excel(doc_filename,
@@ -171,7 +177,13 @@ def fn_btn_save_txt(event):
     app_data.reset_on_error(ms.no_citations_to_save, list_affected_wg = [txt_results])
     return("break")
   
-  doc_filename = app_data.popup_ask_save_file(".txt")
+  # Ask user where to save, notify if cancelled
+  try:
+    doc_filename = app_data.popup_ask_save_file(".txt")
+  except Exception as e:
+    app_data.update_text_widget(ms.saving_cancelled,
+                          list_affected_wg = [txt_results])
+    return("break")
   
   try:
     message = fm.write_txt(doc_filename,

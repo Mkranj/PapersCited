@@ -118,6 +118,10 @@ class AppData:
             filetypes= (filetype, ) # Tuple of tuples required, single item requires comma
             )
         
+        # Check if user cancelled the action:
+        if user_filename == "":
+            raise(Exception("Saving cancelled."))
+        
         return(user_filename)
     
     def get_citations(self):
