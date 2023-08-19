@@ -23,7 +23,8 @@ app_data = AppData(startup_filename, startup_results)
 
 main_window = tk.Tk()
 main_window.columnconfigure(0, weight = 0, minsize = 50)
-main_window.columnconfigure(1, weight = 1, minsize = 100)
+main_window.columnconfigure(1, weight = 0, minsize = 50)
+main_window.columnconfigure(2, weight = 1, minsize = 100)
 main_window.rowconfigure(0, weight = 0, minsize = 30)
 main_window.rowconfigure(1, weight = 2, minsize = 400)
 main_window.rowconfigure(2, weight = 0, minsize = 30)
@@ -31,17 +32,24 @@ main_window.rowconfigure(2, weight = 0, minsize = 30)
 main_window.minsize(750, 500)
 
 btn_choose = tk.Button(master = main_window,
-                        text = "Analyse document",
+                        text = "Choose document",
                         borderwidth = 3, relief=tk.RAISED,
                         padx = 8, pady = 5
                         )
 
 btn_choose.grid(row = 0, column = 0, sticky = "NW", padx = 10, pady = 5)
 
-# TODO Make filepath and contents gray when nothing is selected
+btn_from_clipboard = tk.Button(master = main_window,
+                        text = "From clipboard",
+                        borderwidth = 3, relief=tk.RAISED,
+                        padx = 8, pady = 5
+                        )
+
+btn_from_clipboard.grid(row = 0, column = 1, sticky = "NW", padx = 10, pady = 5)
+
 
 fr_current_file = tk.Frame(master = main_window, bg = light_yellow)
-fr_current_file.grid(row = 0, column = 1, columnspan = 3, sticky = "NWES",
+fr_current_file.grid(row = 0, column = 2, columnspan = 2, sticky = "NWES",
                       padx = 10, pady = 5)
 
 lbl_current_file = tk.Label(master = fr_current_file,
