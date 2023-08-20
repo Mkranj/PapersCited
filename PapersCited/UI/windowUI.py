@@ -137,6 +137,35 @@ def fn_btn_choose(event):
 btn_choose.bind("<Button-1>", fn_btn_choose)
 btn_choose.bind("<ButtonRelease>", lambda event, btn = btn_choose: fn_btn_release(event, btn))
 
+# Reading from clipboard
+def fn_from_clipboard(event):
+  btn_from_clipboard.config(relief = "sunken")
+
+  clipboard_text = main_window.clipboard_get()
+  
+  app_data.set_new_filename(filename = "",
+                            list_affected_wg=[lbl_current_file],
+                            frame = fr_current_file)
+  try:
+    message = None
+    citations = fm.find_citations(clipboard_text)
+ 
+  except Exception as e:
+    error = str(e)
+    app_data.reset_on_error(error, list_affected_wg = [txt_results])
+    return("break")
+  
+  app_data.set_new_results_citations(citations,
+                                     list_affected_wg = [txt_results])
+  
+  if message:
+    app_data.warning_in_text_widget(message, list_affected_wg = [txt_results])
+  
+  return("break")
+
+btn_from_clipboard.bind("<Button-1>", fn_from_clipboard)
+btn_from_clipboard.bind("<ButtonRelease>", lambda event, btn = btn_from_clipboard: fn_btn_release(event, btn))
+
 def fn_btn_save_excel(event):
   btn_save_xlsx.config(relief = "sunken")
   citations = app_data.get_citations()
