@@ -265,3 +265,7 @@ rc_menu.add_command(label = "Copy", command = copy_to_clipboard)
   
 # Bind only to results pane, copying not important for other parts    
 txt_results.bind("<Button-3>", popup_menu)
+
+# Create an icon for the main window
+PC_icon = tk.PhotoImage(file = "UI/miniicon.png")
+main_window.iconphoto(True, PC_icon)
