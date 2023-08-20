@@ -15,6 +15,9 @@ class AppData:
         # Options for dynamic trimming of displayed filename
         self.__right_edge_buffer_px = 0
         self.__char_width_px = 6
+        
+        # What to display when no file chosen:
+        self.__no_file_selected_txt = "(No file selected)"
     
     def __calculate_chars_from_width(self, width):
         right_edge_buffer_px = self.__right_edge_buffer_px
@@ -24,7 +27,11 @@ class AppData:
         return(label_width_chars)
         
     def set_new_filename(self, filename, list_affected_wg, frame):
-        self.input_filename = filename
+        user_filename = filename
+        if user_filename == "":
+            user_filename = self.__no_file_selected_txt
+        
+        self.input_filename = user_filename
         self.__set_output_filename()
         
         frame_width = frame.winfo_width()
@@ -82,12 +89,16 @@ class AppData:
     
     def __set_output_filename(self):
         # append _citations, no extension
-        # TODO
-        # - return both directory and basename, suggest only basename
-        # - offer only viable file type - argument tuple
         input = self.get_input_filename()
+        
+        # Special case: blank filename when pasting from clipboard
+        if input == self.__no_file_selected_txt:
+            self.output_filename = "Citations_found"
+            return(None)
+        
         output_file_prefix = os.path.splitext(input)
         output_filename = output_file_prefix[0] + "_citations"
+        
         self.output_filename = output_filename
         
     def get_output_filename(self):

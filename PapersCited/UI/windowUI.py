@@ -23,7 +23,9 @@ app_data = AppData(startup_filename, startup_results)
 
 main_window = tk.Tk()
 main_window.columnconfigure(0, weight = 0, minsize = 50)
-main_window.columnconfigure(1, weight = 1, minsize = 100)
+main_window.columnconfigure(1, weight = 0, minsize = 50)
+main_window.columnconfigure(2, weight = 0, minsize = 20)
+main_window.columnconfigure(3, weight = 1, minsize = 100)
 main_window.rowconfigure(0, weight = 0, minsize = 30)
 main_window.rowconfigure(1, weight = 2, minsize = 400)
 main_window.rowconfigure(2, weight = 0, minsize = 30)
@@ -31,17 +33,24 @@ main_window.rowconfigure(2, weight = 0, minsize = 30)
 main_window.minsize(750, 500)
 
 btn_choose = tk.Button(master = main_window,
-                        text = "Analyse document",
+                        text = "Choose document",
                         borderwidth = 3, relief=tk.RAISED,
                         padx = 8, pady = 5
                         )
 
 btn_choose.grid(row = 0, column = 0, sticky = "NW", padx = 10, pady = 5)
 
-# TODO Make filepath and contents gray when nothing is selected
+btn_from_clipboard = tk.Button(master = main_window,
+                        text = "From clipboard",
+                        borderwidth = 3, relief=tk.RAISED,
+                        padx = 8, pady = 5
+                        )
+
+btn_from_clipboard.grid(row = 0, column = 1, sticky = "NW", padx = 5, pady = 5)
+
 
 fr_current_file = tk.Frame(master = main_window, bg = light_yellow)
-fr_current_file.grid(row = 0, column = 1, columnspan = 3, sticky = "NWES",
+fr_current_file.grid(row = 0, column = 3, columnspan = 2, sticky = "NWES",
                       padx = 10, pady = 5)
 
 lbl_current_file = tk.Label(master = fr_current_file,
@@ -52,7 +61,7 @@ lbl_current_file.grid(row = 0, column = 0, sticky = "W", padx = 5, pady = 5)
 
 fr_results = tk.Frame(master = main_window, bg = "white",
                       borderwidth = 2, relief = tk.GROOVE)
-fr_results.grid(row = 1, column = 0, sticky = "NWSE", columnspan = 4,
+fr_results.grid(row = 1, column = 0, sticky = "NWSE", columnspan = 5,
                  padx = 10)
 
 fr_results.columnconfigure(0, weight = 1)
@@ -77,7 +86,7 @@ btn_save_xlsx = tk.Button(master = main_window,
                         borderwidth = 2,
                         padx = 5, pady = 5)
 
-btn_save_xlsx.grid(row = 2, column = 2, sticky = "SE",
+btn_save_xlsx.grid(row = 2, column = 3, sticky = "SE",
                         padx = 10, pady = 5)
 
 btn_save_txt = tk.Button(master = main_window,
@@ -85,7 +94,7 @@ btn_save_txt = tk.Button(master = main_window,
                         borderwidth = 2,
                         padx = 5, pady = 5)
 
-btn_save_txt.grid(row = 2, column = 3, sticky = "SE",
+btn_save_txt.grid(row = 2, column = 4, sticky = "SE",
                         padx = 10, pady = 5)
 
 main_window.title("PapersCited " + version)
@@ -127,6 +136,35 @@ def fn_btn_choose(event):
 
 btn_choose.bind("<Button-1>", fn_btn_choose)
 btn_choose.bind("<ButtonRelease>", lambda event, btn = btn_choose: fn_btn_release(event, btn))
+
+# Reading from clipboard
+def fn_from_clipboard(event):
+  btn_from_clipboard.config(relief = "sunken")
+
+  clipboard_text = main_window.clipboard_get()
+  
+  app_data.set_new_filename(filename = "",
+                            list_affected_wg=[lbl_current_file],
+                            frame = fr_current_file)
+  try:
+    message = None
+    citations = fm.find_citations(clipboard_text)
+ 
+  except Exception as e:
+    error = str(e)
+    app_data.reset_on_error(error, list_affected_wg = [txt_results])
+    return("break")
+  
+  app_data.set_new_results_citations(citations,
+                                     list_affected_wg = [txt_results])
+  
+  if message:
+    app_data.warning_in_text_widget(message, list_affected_wg = [txt_results])
+  
+  return("break")
+
+btn_from_clipboard.bind("<Button-1>", fn_from_clipboard)
+btn_from_clipboard.bind("<ButtonRelease>", lambda event, btn = btn_from_clipboard: fn_btn_release(event, btn))
 
 def fn_btn_save_excel(event):
   btn_save_xlsx.config(relief = "sunken")
