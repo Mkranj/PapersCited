@@ -90,8 +90,15 @@ class AppData:
     def __set_output_filename(self):
         # append _citations, no extension
         input = self.get_input_filename()
+        
+        # Special case: blank filename when pasting from clipboard
+        if input == self.__no_file_selected_txt:
+            self.output_filename = "Citations_found"
+            return(None)
+        
         output_file_prefix = os.path.splitext(input)
         output_filename = output_file_prefix[0] + "_citations"
+        
         self.output_filename = output_filename
         
     def get_output_filename(self):
