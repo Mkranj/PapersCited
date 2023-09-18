@@ -141,7 +141,12 @@ btn_choose.bind("<ButtonRelease>", lambda event, btn = btn_choose: fn_btn_releas
 def fn_from_clipboard(event):
   btn_from_clipboard.config(relief = "sunken")
 
-  clipboard_text = main_window.clipboard_get()
+  # clipboard_get() errors when clipboard is empty
+  try:
+    clipboard_text = main_window.clipboard_get()
+  
+  except Exception as e:
+    clipboard_text = ""
   
   app_data.set_new_filename(filename = "",
                             list_affected_wg=[lbl_current_file],
