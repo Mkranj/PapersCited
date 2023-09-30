@@ -29,6 +29,7 @@ The first column in the Excel file is empty so you can easily mark certain citat
 - If you get an error reading .doc or .pdf files on Windows, you might need to download additional libraries for working with these files. See [help_with_libraries.txt](https://github.com/Mkranj/PapersCited/blob/main/help_with_libraries.txt) for detailed instructions on how to do so. 
 
 ## Known limitations:
+- Copying PDF text to clipboard might yield unexpected characters, such as *´c* instead of *č*. This depends on the individual PDF file's encoding, however, it might lead to incorrect text scanning. 
 - Secondary citations ("*XX 2010, as cited in YY 2012*"). *YY 2012* is detected correctly. However, *XX 2010* also gets recorded as a primary source. *XX 2010* should not be included in the reference list.
 - In Croatian, different declinations of the author's surnames get detected as different authors.
 - Surnames with three or more words, such as van der Flier, will get recorded only as the last word or last two words - *Kappe and van der Flier (2010)* will be recorded as *Flier 2010*, **skipping the first author**! These require special attention when writing or reviewing a reference list. Multiple surnames with an "*-*", however, will be recorded correctly.

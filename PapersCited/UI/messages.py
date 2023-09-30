@@ -58,3 +58,6 @@ def cant_write_file(filename):
 reading_txt_warning = "Warning! " + \
     "If you encounter problems reading this .txt file, backup the original file, then try saving it in UTF-8 or ANSI encoding.\
     \n(\"Save as...\" dialog, \"Encoding:\" at the bottom.)\n"
+    
+saving_cancelled = "\n" + break_with_lines + \
+    "\nSaving cancelled."
