@@ -12,8 +12,7 @@ from UI.appData import AppData
 light_yellow = "#ffe08f"
 
 startup_filename = ".../path/to/file"
-startup_results = "Welcome to PapersCited " + version + "!" + \
-  "\n\nFind citations in the text of a file by selecting 'Choose document'. Alternatively, analyse the text in your clipboard by selecting 'From clipboard'."
+startup_results = ms.intro_message
 
 citations_font = "Segoe UI Variable"
 citations_font_size = 11

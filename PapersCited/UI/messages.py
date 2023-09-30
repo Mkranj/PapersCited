@@ -2,6 +2,9 @@ version = "1.3"
 
 break_with_lines = "--------------------"
 
+intro_message = "Welcome to PapersCited " + version + "!" + \
+  "\n\nFind citations in the text of a file by selecting 'Choose document'. Alternatively, analyse the text in your clipboard by selecting 'From clipboard'."
+
 cant_read_doc_msg = "NOTE: An additional library is required to read .doc files." + \
     "\nThe simplest solution is to convert the file to a .docx file, then try analysing it again." + \
     "\n\nAnother solution is to setup Antiword." + \
