@@ -7,7 +7,7 @@ from UI.fileManipulation import shorten_filename
 
 class AppData:
     def __init__(self, startup_filename, startup_results):
-        self.input_filename = startup_filename
+        self.input_filepath = startup_filename
         self.output_filename = ""
         self.citations = []
         self.active_results = startup_results
@@ -26,23 +26,25 @@ class AppData:
         label_width_chars = round(frame_width / char_width_px)
         return(label_width_chars)
         
-    def set_new_filename(self, filename, list_affected_wg, frame):
-        user_filename = filename
-        if user_filename == "":
-            user_filename = self.__no_file_selected_txt
+    def set_new_filename(self, filename, list_affected_wg):
+        user_filepath = filename
+        if user_filepath == "":
+            user_filepath = self.__no_file_selected_txt
         
-        self.input_filename = user_filename
+        self.input_filepath = user_filepath
         self.__set_output_filename()
         
-        frame_width = frame.winfo_width()
-        label_width_chars = self.__calculate_chars_from_width(frame_width)
+        print(os.path.splitext(user_filepath))
         
+        input_filename = os.path.basename(user_filepath)
+        
+        # Display the document title in main window
         for widget in list_affected_wg:
-            widget["text"] = shorten_filename(self.input_filename, label_width_chars)
+            widget.title(input_filename)
         
     # When the window gets resized    
     def update_filename_display(self, list_affected_wg, frame):
-        filename = self.get_input_filename()
+        filename = self.get_input_filepath()
         
         frame_width = frame.winfo_width()
         label_width_chars = self.__calculate_chars_from_width(frame_width)
@@ -84,12 +86,12 @@ class AppData:
             widget.config(state = "disabled")
             widget.see('1.0')
     
-    def get_input_filename(self):
-        return(self.input_filename)
+    def get_input_filepath(self):
+        return(self.input_filepath)
     
     def __set_output_filename(self):
         # append _citations, no extension
-        input = self.get_input_filename()
+        input = self.get_input_filepath()
         
         # Special case: blank filename when pasting from clipboard
         if input == self.__no_file_selected_txt:

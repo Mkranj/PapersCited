@@ -53,12 +53,6 @@ fr_current_file = tk.Frame(master = main_window, bg = light_yellow)
 fr_current_file.grid(row = 0, column = 3, columnspan = 2, sticky = "NWES",
                       padx = 10, pady = 5)
 
-lbl_current_file = tk.Label(master = fr_current_file,
-                            text = app_data.input_filename, bg = light_yellow,
-                            pady = 3)
-
-lbl_current_file.grid(row = 0, column = 0, sticky = "W", padx = 5, pady = 5)
-
 fr_results = tk.Frame(master = main_window, bg = "white",
                       borderwidth = 2, relief = tk.GROOVE)
 fr_results.grid(row = 1, column = 0, sticky = "NWSE", columnspan = 5,
@@ -112,8 +106,7 @@ def fn_btn_choose(event):
     title = "Select a document to search for citations:"
     )
   app_data.set_new_filename(filename,
-                            list_affected_wg=[lbl_current_file],
-                            frame = fr_current_file)
+                            list_affected_wg=[main_window])
   try:
     reading_operation = fm.read_document(filename)
     
@@ -149,8 +142,7 @@ def fn_from_clipboard(event):
     clipboard_text = ""
   
   app_data.set_new_filename(filename = "",
-                            list_affected_wg=[lbl_current_file],
-                            frame = fr_current_file)
+                            list_affected_wg=[main_window])
   try:
     message = None
     citations = fm.find_citations(clipboard_text)
@@ -234,16 +226,6 @@ def fn_btn_save_txt(event):
       
 btn_save_txt.bind("<Button-1>", fn_btn_save_txt) 
 btn_save_txt.bind("<ButtonRelease>", lambda event, btn = btn_save_txt: fn_btn_release(event, btn))
-
-
-# On resize, re-render the filename display
-def fn_window_resize(event):
-  app_data.update_filename_display(
-                            list_affected_wg=[lbl_current_file],
-                            frame = fr_current_file
-                            )
-  
-main_window.bind("<Configure>", fn_window_resize)
 
 # Right-click menu for copying citations
 rc_menu = tk.Menu(main_window, tearoff = 0)
