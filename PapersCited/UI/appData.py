@@ -17,13 +17,6 @@ class AppData:
         
         # What to display when no file chosen:
         self.__no_file_selected_txt = ""
-    
-    def __calculate_chars_from_width(self, width):
-        right_edge_buffer_px = self.__right_edge_buffer_px
-        frame_width = width - right_edge_buffer_px
-        char_width_px = self.__char_width_px
-        label_width_chars = round(frame_width / char_width_px)
-        return(label_width_chars)
         
     def set_new_filename(self, filename, list_affected_wg):
         user_filepath = filename
