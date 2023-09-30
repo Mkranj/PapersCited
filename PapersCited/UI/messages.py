@@ -28,6 +28,8 @@ no_citations_found = "No citations were found."
 
 no_citations_to_save = "Cannot save file: no citations found."
 
+no_file_selected = "No file selected."
+
 def filename_cant_be_read_message(filename, extension):
     message = f"The file {filename} couldn't be read. Make sure the file is a valid textual file."
     
