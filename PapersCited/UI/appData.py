@@ -8,7 +8,7 @@ from UI.fileManipulation import shorten_filename
 class AppData:
     def __init__(self, startup_filename, startup_results):
         self.input_filepath = startup_filename
-        self.output_filename = ""
+        self.output_filepath = ""
         self.citations = []
         self.active_results = startup_results
         
@@ -32,7 +32,7 @@ class AppData:
             user_filepath = self.__no_file_selected_txt
         
         self.input_filepath = user_filepath
-        self.__set_output_filename()
+        self.__set_output_filepath()
         
         # Display the document title in main window
         input_filename = os.path.basename(user_filepath)
@@ -44,16 +44,6 @@ class AppData:
         
         for widget in list_affected_wg:
             widget.title(input_filename)
-        
-    # When the window gets resized    
-    def update_filename_display(self, list_affected_wg, frame):
-        filename = self.get_input_filepath()
-        
-        frame_width = frame.winfo_width()
-        label_width_chars = self.__calculate_chars_from_width(frame_width)
-        
-        for widget in list_affected_wg:
-            widget["text"] = shorten_filename(filename, label_width_chars)  
             
     def set_new_results_citations(self, citations, list_affected_wg):
         self.citations = citations
@@ -92,28 +82,28 @@ class AppData:
     def get_input_filepath(self):
         return(self.input_filepath)
     
-    def __set_output_filename(self):
+    def __set_output_filepath(self):
         # append _citations, no extension
         input = self.get_input_filepath()
         
         # Special case: blank filename when pasting from clipboard
         if input == self.__no_file_selected_txt:
-            self.output_filename = "Citations_found"
+            self.output_filepath = "Citations_found"
             return(None)
         
         output_file_prefix = os.path.splitext(input)
-        output_filename = output_file_prefix[0] + "_citations"
+        output_filepath = output_file_prefix[0] + "_citations"
         
-        self.output_filename = output_filename
+        self.output_filepath = output_filepath
         
-    def get_output_filename(self):
-        return(self.output_filename)
+    def get_output_filepath(self):
+        return(self.output_filepath)
     
     def popup_ask_save_file(self, extension):
-        output_filename = self.get_output_filename()
+        output_filepath = self.get_output_filepath()
         given_extension = extension
         
-        directory, name = os.path.split(output_filename)
+        directory, name = os.path.split(output_filepath)
         
         default_filename = name + given_extension
         
@@ -126,8 +116,8 @@ class AppData:
             
         user_filename = asksaveasfilename(
             initialfile = default_filename,
-            initialdir= directory,
-            filetypes= (filetype, ) # Tuple of tuples required, single item requires comma
+            initialdir = directory,
+            filetypes = (filetype, ) # Tuple of tuples required, single item requires comma
             )
         
         # Check if user cancelled the action:
