@@ -4,10 +4,10 @@ from tkinter import messagebox
 
 import UI.fileManipulation as fm
 import UI.messages as ms
+from UI.messages import version
 from UI.appData import AppData
 
 # Variables ----
-version = "v.1.2.3"
 
 light_yellow = "#ffe08f"
 
