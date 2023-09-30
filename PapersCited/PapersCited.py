@@ -1,7 +1,6 @@
+# -*- coding: utf-8 -*-
 from UI.windowUI import main_window
 from UI.messages import version
-
-# -*- coding: utf-8 -*-
 
 # Welcome message, before loading anything
 if __name__ == "__main__":
