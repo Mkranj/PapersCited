@@ -17,7 +17,7 @@ class AppData:
         self.__char_width_px = 6
         
         # What to display when no file chosen:
-        self.__no_file_selected_txt = "(No file selected)"
+        self.__no_file_selected_txt = "(No file selected.)"
     
     def __calculate_chars_from_width(self, width):
         right_edge_buffer_px = self.__right_edge_buffer_px
