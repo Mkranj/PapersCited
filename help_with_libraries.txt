@@ -21,7 +21,7 @@ With this, you have added the Antiword libraries to your %PATH% variable, so pro
 The Poppler utility is used to read text from PDF files. It can be installed on Windows
 in a few steps. PapersCited is tested using Poppler 23.08.0, so the links will reflect that.
 
-1) Download Release-23.08.0-0.zip from (the following Github link)[https://github.com/oschwartz10612/poppler-windows/releases/tag/v23.08.0-0]
+1) Download Release-23.08.0-0.zip from the following Github link: https://github.com/oschwartz10612/poppler-windows/releases/tag/v23.08.0-0
 2) Extract the archive using a tool like 7zip.
 3) Move the *"poppler-23.08.0"* folder to "C:\Program Files"
 4) Now you need to add it to %PATH%. To do so, open the Windows start menu and type "Edit the system environment variables", then select it.
