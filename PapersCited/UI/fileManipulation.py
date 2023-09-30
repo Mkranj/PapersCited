@@ -171,13 +171,4 @@ def write_txt(filename, citations, wider_citations):
     
     return(success_message)
 
-def shorten_filename(filename, nchar = 50):
-    f_length = len(filename)
-    if f_length <= nchar: return(filename)
-    
-    cutoff_length = nchar - 2
-    first_part = filename[0:(cutoff_length - 1)]
-    shortened_name = first_part + "..."
-    return(shortened_name)
-
     

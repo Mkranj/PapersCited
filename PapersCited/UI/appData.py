@@ -3,7 +3,6 @@ from tkinter.filedialog import asksaveasfilename
 import UI.transformCitations as tc
 import UI.messages as ms
 import os
-from UI.fileManipulation import shorten_filename
 
 class AppData:
     def __init__(self, startup_filename, startup_results):
