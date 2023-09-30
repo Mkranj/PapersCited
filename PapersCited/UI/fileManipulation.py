@@ -164,7 +164,7 @@ def write_txt(filename, citations, wider_citations):
     citations_string = tc.citations_to_string_pretty(citations, wider_citations)
     
     # Create a file
-    with open(output_filename, 'w') as f:
+    with open(output_filename, 'w', encoding = "utf-8") as f:
         f.write(citations_string)
     
     success_message = ms.report_found_citations(output_filename, citations, wider_citations)
