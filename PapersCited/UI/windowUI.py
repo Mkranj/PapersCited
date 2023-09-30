@@ -50,11 +50,6 @@ btn_from_clipboard = tk.Button(master = main_window,
 
 btn_from_clipboard.grid(row = 0, column = 1, sticky = "NW", padx = 5, pady = 5)
 
-
-fr_current_file = tk.Frame(master = main_window, bg = light_yellow)
-fr_current_file.grid(row = 0, column = 3, columnspan = 2, sticky = "NWES",
-                      padx = 10, pady = 5)
-
 fr_results = tk.Frame(master = main_window, bg = "white",
                       borderwidth = 2, relief = tk.GROOVE)
 fr_results.grid(row = 1, column = 0, sticky = "NWSE", columnspan = 5,
