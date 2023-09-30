@@ -15,7 +15,7 @@ def check_file(filename):
     file_exists = os.path.isfile(filename)
 
     if file_exists == False:
-        raise Exception("No file selected")
+        raise Exception(ms.no_file_selected)
 
     warning = None
     
@@ -56,7 +56,7 @@ def read_document(filename):
     try: 
         message = check_file(filename)
     except:
-        raise Exception("No file selected")
+        raise Exception(ms.no_file_selected)
     
     file_extension = os.path.splitext(filename)[1].casefold()
     
