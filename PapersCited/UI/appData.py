@@ -17,7 +17,7 @@ class AppData:
         self.__char_width_px = 6
         
         # What to display when no file chosen:
-        self.__no_file_selected_txt = "(No file selected.)"
+        self.__no_file_selected_txt = ""
     
     def __calculate_chars_from_width(self, width):
         right_edge_buffer_px = self.__right_edge_buffer_px
@@ -34,11 +34,14 @@ class AppData:
         self.input_filepath = user_filepath
         self.__set_output_filename()
         
-        print(os.path.splitext(user_filepath))
-        
+        # Display the document title in main window
         input_filename = os.path.basename(user_filepath)
         
-        # Display the document title in main window
+        if input_filename == self.__no_file_selected_txt:
+            input_filename = "PapersCited"
+        else:
+            input_filename = input_filename + " - PapersCited"
+        
         for widget in list_affected_wg:
             widget.title(input_filename)
         

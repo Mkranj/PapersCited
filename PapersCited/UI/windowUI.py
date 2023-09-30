@@ -30,6 +30,8 @@ main_window.rowconfigure(0, weight = 0, minsize = 30)
 main_window.rowconfigure(1, weight = 2, minsize = 400)
 main_window.rowconfigure(2, weight = 0, minsize = 30)
 
+main_window.title("PapersCited")
+
 main_window.minsize(750, 500)
 
 btn_choose = tk.Button(master = main_window,
@@ -91,7 +93,6 @@ btn_save_txt = tk.Button(master = main_window,
 btn_save_txt.grid(row = 2, column = 4, sticky = "SE",
                         padx = 10, pady = 5)
 
-main_window.title("PapersCited " + version)
 
 # Bind functions ----
 
