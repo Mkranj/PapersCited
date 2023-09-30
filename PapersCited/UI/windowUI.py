@@ -11,7 +11,7 @@ from UI.appData import AppData
 
 light_yellow = "#ffe08f"
 
-startup_filename = ".../path/to/file"
+startup_filename = ""
 startup_results = ms.intro_message
 
 citations_font = "Segoe UI Variable"
