@@ -45,6 +45,7 @@ class main_window(tk.Tk):
         self.__build_results()
         self.__build_save_xlsx()
         self.__build_save_txt()
+        self.__build_right_click_menu()
         
     def __build_btn_choose(self):
         btn_choose = tk.Button(master = self,
@@ -112,6 +113,10 @@ class main_window(tk.Tk):
         btn_save_txt.grid(row = 2, column = 4, sticky = "SE",
                         padx = 10, pady = 5)
         self.btn_save_txt = btn_save_txt
+    
+    def __build_right_click_menu(self):
+        rc_menu = tk.Menu(master = self, tearoff=0)
+        self.rc_menu = rc_menu
         
     def create_event_bindings(self):
         # Bind functionality to UI parts. Functions itself defined in btn_functions
@@ -134,6 +139,10 @@ class main_window(tk.Tk):
             bfn.fn_btn_save_txt(event, self.btn_save_txt, master=self, data=self.data))
         self.btn_save_txt.bind(
             "<ButtonRelease>", lambda event: bfn.fn_btn_release(event, self.btn_save_txt))
+        
+        # The text widget can be copied from
+        self.rc_menu.add_command(label="Copy", command = lambda: bfn.copy_to_clipboard(master = self))
+        self.txt_results.bind("<Button-3>", lambda event: bfn.popup_menu(event, self.rc_menu))
         
     def update_text_widget(self, new_text, replace = False, position = "end", scroll_to_update = False):
         """Change displayed text.

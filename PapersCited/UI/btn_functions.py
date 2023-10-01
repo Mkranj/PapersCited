@@ -167,3 +167,32 @@ def fn_btn_save_txt(event, btn_save_txt, master, data):
 
     master.update_text_widget(message, position="end", scroll_to_update=True)
     return("break")
+
+def popup_menu(event, rc_menu):
+    """The binded object allows right-clicking to access menu. Should be bound to the textbox only.
+
+    Args:
+        event (event): UI event
+        rc_menu (tk.Menu): UI right_click_menu element 
+    """
+    try: 
+        rc_menu.tk_popup(event.x_root, event.y_root)
+    finally:
+        rc_menu.grab_release()
+
+# Note - a menu command must NOT have event argument
+def copy_to_clipboard(master):
+    """Command to copy selected text from a text widget to clipboard.
+
+    Args:
+        master (main_window): The master window.
+    """
+    master.clipboard_clear()
+
+    try:
+        selected_text = master.txt_results.get(tk.SEL_FIRST, tk.SEL_LAST)
+    except:
+        # In case the main window/selection is empty, there's no SEL_FIRST
+        selected_text = ""
+
+    master.clipboard_append(selected_text)
