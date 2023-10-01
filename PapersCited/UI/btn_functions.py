@@ -42,10 +42,7 @@ def fn_btn_choose(event, btn_choose, master, data, text_component):
         
         data.reset_on_error(error)
         
-        text_component.config(state = "normal")
-        text_component.delete("1.0", tk.END)
-        text_component.insert("1.0", data.active_results)
-        text_component.config(state = "disabled")
+        master.update_text_widget(data.active_results, replace = True)
         return("break")
 
     data.set_new_results_citations(citations)
