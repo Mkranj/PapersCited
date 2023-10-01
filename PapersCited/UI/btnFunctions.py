@@ -26,7 +26,6 @@ def fn_btn_choose(event, btn_choose, master):
         event (event): UI event
         btn_choose (tk.Button): The button this function should be bound to.
         master (main_window): The master window.
-        data (AppData): Application data belonging to master.
     """
     btn_choose.config(relief="sunken")
     
@@ -78,7 +77,6 @@ def fn_btn_from_clipboard(event, btn_from_clipboard, master):
         event (event): UI event
         btn_from_clipboard (tk.Button): The button this function should be bound to.
         master (main_window): The master window.
-        data (AppData): Application data belonging to master.
     """
     btn_from_clipboard.config(relief="sunken")
 
