@@ -9,17 +9,15 @@ from UI.messages import version
 from UI.appData import AppData
 import UI.btn_functions as bfn
 
-# Variables ----
+# Constants ----
 
 light_yellow = "#ffe08f"
 
 startup_filename = ""
-startup_results = ms.intro_message
+startup_text = ms.intro_message
 
 citations_font = "Segoe UI Variable"
 citations_font_size = 11
-
-app_data = AppData(startup_filename, startup_results)
 
 class main_window(tk.Tk):
     def __init__(self):
@@ -36,7 +34,7 @@ class main_window(tk.Tk):
         self.rowconfigure(1, weight = 2, minsize = 400)
         self.rowconfigure(2, weight = 0, minsize = 30)
         
-        self.data = app_data
+        self.data = AppData(startup_filename, startup_text)
         self.create_widgets()
         self.create_event_bindings()
         
@@ -86,7 +84,7 @@ class main_window(tk.Tk):
         # Text field element
         txt_results = tk.Text(master = fr_results, bg = "white", yscrollcommand = scr_results.set, wrap = tk.WORD)
         txt_results.configure(font = (citations_font, citations_font_size))
-        txt_results.insert(tk.END, app_data.active_results)
+        txt_results.insert(tk.END, self.data.get_active_results())
 
         scr_results.config(command=txt_results.yview)
 

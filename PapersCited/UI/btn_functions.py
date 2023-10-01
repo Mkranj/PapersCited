@@ -60,12 +60,12 @@ def fn_btn_choose(event, btn_choose, master, data):
         
         data.reset_on_error(error)
         
-        master.update_text_widget(data.active_results, replace = True)
+        master.update_text_widget(data.get_active_results(), replace=True)
         return("break")
 
     data.set_new_results_citations(citations)
     
-    master.update_text_widget(data.active_results, replace = True)
+    master.update_text_widget(data.get_active_results(), replace = True)
 
     if message:
         master.update_text_widget(message + "\n", position = "start")
@@ -102,12 +102,12 @@ def fn_btn_from_clipboard(event, btn_from_clipboard, master, data):
     except Exception as e:
         error = str(e)
         data.reset_on_error(error)
-        master.update_text_widget(data.active_results, replace=True)
+        master.update_text_widget(data.get_active_results(), replace=True)
         return("break")
 
     data.set_new_results_citations(citations)
 
-    master.update_text_widget(data.active_results, replace = True)
+    master.update_text_widget(data.get_active_results(), replace=True)
     
     return("break")
 

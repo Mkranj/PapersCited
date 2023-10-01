@@ -5,11 +5,11 @@ import UI.messages as ms
 import os
 
 class AppData:
-    def __init__(self, startup_filename, startup_results):
+    def __init__(self, startup_filename, startup_text):
         self.input_filepath = startup_filename
         self.output_filepath = ""
         self.citations = []
-        self.active_results = startup_results
+        self.active_results = startup_text
         
         # Options for dynamic trimming of displayed filename
         self.__right_edge_buffer_px = 0
@@ -37,15 +37,6 @@ class AppData:
             citations_as_string = ms.no_citations_found
         
         self.active_results = citations_as_string
-    
-    def update_text_widget(self, update_text, list_affected_wg):
-        # Add new text to window, like success messages.
-        
-        for widget in list_affected_wg:
-            widget.config(state = "normal")
-            widget.insert(tk.END, update_text)
-            widget.config(state = "disabled")
-            widget.see(tk.END)
             
     def get_input_filepath(self):
         return(self.input_filepath)
