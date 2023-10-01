@@ -49,22 +49,18 @@ def fn_btn_choose(event, btn_choose, master):
     # Read document text and find citations
     try:
         reading_operation = fm.read_document(filepath)
-
-        message = reading_operation["status_message"]
-        contents = reading_operation["document_text"]
-        citations = fm.find_citations(contents)
-
     except Exception as e:
         # Failure to read file
         error = str(e)
-        
         master.data.reset_on_error(error)
-        
         master.update_text_widget(master.data.get_active_results(), replace=True)
         return("break")
 
-    master.data.set_new_results_citations(citations)
+    message = reading_operation["status_message"]
+    contents = reading_operation["document_text"]
     
+    citations = fm.find_citations(contents)
+    master.data.set_new_results_citations(citations)
     master.update_text_widget(master.data.get_active_results(), replace = True)
 
     if message:
@@ -96,17 +92,8 @@ def fn_btn_from_clipboard(event, btn_from_clipboard, master):
     master.data.set_new_filename(filename="")
     master.title("PapersCited")
     
-    try:
-        citations = fm.find_citations(clipboard_text)
-
-    except Exception as e:
-        error = str(e)
-        master.data.reset_on_error(error)
-        master.update_text_widget(master.data.get_active_results(), replace=True)
-        return("break")
-
+    citations = fm.find_citations(clipboard_text)
     master.data.set_new_results_citations(citations)
-
     master.update_text_widget(master.data.get_active_results(), replace=True)
     
     return("break")
