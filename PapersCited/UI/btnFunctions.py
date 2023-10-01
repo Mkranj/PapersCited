@@ -86,7 +86,7 @@ def fn_btn_from_clipboard(event, btn_from_clipboard, master):
     try:
         clipboard_text = master.clipboard_get()
 
-    except Exception as e:
+    except tk.TclError as e:
         clipboard_text = ""
 
     master.data.set_new_filename(filename="")
