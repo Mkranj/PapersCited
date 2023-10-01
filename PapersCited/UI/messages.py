@@ -26,7 +26,8 @@ saving_cancelled = "\n" + break_with_lines + \
 
 no_citations_found = "No citations were found."
 
-no_citations_to_save = "Cannot save file: no citations found."
+no_citations_to_save = "\n" + break_with_lines + \
+    "\nCannot save file: no citations found."
 
 no_file_selected = "No file selected."
 

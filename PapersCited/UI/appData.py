@@ -5,11 +5,11 @@ import UI.messages as ms
 import os
 
 class AppData:
-    def __init__(self, startup_filename, startup_results):
+    def __init__(self, startup_filename, startup_text):
         self.input_filepath = startup_filename
         self.output_filepath = ""
         self.citations = []
-        self.active_results = startup_results
+        self.active_results = startup_text
         
         # Options for dynamic trimming of displayed filename
         self.__right_edge_buffer_px = 0
@@ -18,7 +18,7 @@ class AppData:
         # What to display when no file chosen:
         self.__no_file_selected_txt = ""
         
-    def set_new_filename(self, filename, list_affected_wg):
+    def set_new_filename(self, filename):
         user_filepath = filename
         if user_filepath == "":
             user_filepath = self.__no_file_selected_txt
@@ -26,18 +26,8 @@ class AppData:
         self.input_filepath = user_filepath
         self.__set_output_filepath()
         
-        # Display the document title in main window
-        input_filename = os.path.basename(user_filepath)
-        
-        if input_filename == self.__no_file_selected_txt:
-            input_filename = "PapersCited"
-        else:
-            input_filename = input_filename + " - PapersCited"
-        
-        for widget in list_affected_wg:
-            widget.title(input_filename)
             
-    def set_new_results_citations(self, citations, list_affected_wg):
+    def set_new_results_citations(self, citations):
         self.citations = citations
         citations_as_string = tc.citations_to_string_pretty(
             citations[0], citations[1]
@@ -47,30 +37,7 @@ class AppData:
             citations_as_string = ms.no_citations_found
         
         self.active_results = citations_as_string
-        for widget in list_affected_wg:
-            widget.config(state = "normal")
-            widget.delete("1.0", tk.END)
-            widget.insert("1.0", self.active_results)
-            widget.config(state = "disabled")
-    
-    def update_text_widget(self, update_text, list_affected_wg):
-        # Add new text to window, like success messages.
-        
-        for widget in list_affected_wg:
-            widget.config(state = "normal")
-            widget.insert(tk.END, update_text)
-            widget.config(state = "disabled")
-            widget.see(tk.END)
             
-    def warning_in_text_widget(self, warning_text, list_affected_wg):
-        # Add new text to window, like success messages.
-        
-        for widget in list_affected_wg:
-            widget.config(state = "normal")
-            widget.insert('1.0', warning_text + "\n")
-            widget.config(state = "disabled")
-            widget.see('1.0')
-    
     def get_input_filepath(self):
         return(self.input_filepath)
     
@@ -137,14 +104,9 @@ class AppData:
     def get_active_results(self):
         return(self.active_results)
     
-    def reset_on_error(self, error, list_affected_wg):
+    def reset_on_error(self, error):
         # Failing to read a file should clear the textbox and
         # the stored citations
         self.citations = []
         self.active_results = error
-        for widget in list_affected_wg:
-            widget.config(state = "normal")
-            widget.delete("1.0", tk.END)
-            widget.insert("1.0", self.active_results)
-            widget.config(state = "disabled")
     

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from UI.windowUI import main_window
+from UI.mainWindow import main_window
 from UI.messages import version
 
 # Welcome message, before loading anything
@@ -10,8 +10,10 @@ if __name__ == "__main__":
 # MAIN ----
 
 def main():
-    main_window.focus_force()
-    main_window.mainloop()
+    UI = main_window()
+    
+    UI.focus_force()
+    UI.mainloop()
 
 if __name__ == "__main__":
     main()
