@@ -117,9 +117,10 @@ class main_window(tk.Tk):
         
     def create_event_bindings(self):
         # Bind functionality to UI parts. Functions itself defined in btn_functions
-        self.btn_choose.bind("<Button-1>", lambda event, btn = self.btn_choose:
-            bfn.fn_btn_choose(event, self.btn_choose, master = self, data = self.data, text_component = self.txt_results))
-        self.btn_choose.bind("<ButtonRelease>", lambda event, btn = self.btn_choose: bfn.fn_btn_release(event, btn))
+        self.btn_choose.bind("<Button-1>", lambda event:
+            bfn.fn_btn_choose(event, self.btn_choose, master = self, data = self.data))
+        self.btn_choose.bind(
+            "<ButtonRelease>", lambda event: bfn.fn_btn_release(event, self.btn_choose))
         
     def update_text_widget(self, new_text, replace = False, position = "end", scroll_to_update = False):
         text_wg = self.txt_results

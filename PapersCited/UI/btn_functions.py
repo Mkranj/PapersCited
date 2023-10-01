@@ -9,7 +9,7 @@ def fn_btn_release(event, btn):
     return("break")
 
 
-def fn_btn_choose(event, btn_choose, master, data, text_component):
+def fn_btn_choose(event, btn_choose, master, data):
     btn_choose.config(relief="sunken")
     
     filepath = filedialog.askopenfilename(
