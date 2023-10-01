@@ -1,11 +1,6 @@
 import tkinter as tk
 import tkinter as tk
-from tkinter import filedialog
-from tkinter import messagebox
-
-import UI.fileManipulation as fm
 import UI.messages as ms
-from UI.messages import version
 from UI.appData import AppData
 import UI.btnFunctions as bfn
 
