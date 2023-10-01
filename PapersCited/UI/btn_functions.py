@@ -1,15 +1,32 @@
+# Individual functions that are meant to be bound to UI elements when clicked.
 import UI.fileManipulation as fm
 import tkinter as tk
 from tkinter import filedialog
 import os
 
-# Helper function for raising a pressed button
 def fn_btn_release(event, btn):
+    """Helper function for raising a pressed button
+
+    Args:
+        event (event): UI event
+        btn (tk.Button): Button for which to apply de-pressing. Should be the same one the bind method is called on.
+    """
     btn.config(relief = "raised")
     return("break")
 
 
 def fn_btn_choose(event, btn_choose, master, data):
+    """Clicking on Choose document button
+    
+    A popup for choosing a file appears. The chosen filepath is stored in application data. The filename is reflected
+    in the program title bar, and the file contents are scanned for citations.
+
+    Args:
+        event (event): UI event
+        btn_choose (tk.Button): The button this function should be bound to.
+        master (main_window): The master window.
+        data (AppData): Application data belonging to master.
+    """
     btn_choose.config(relief="sunken")
     
     filepath = filedialog.askopenfilename(

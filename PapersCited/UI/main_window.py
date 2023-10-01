@@ -123,6 +123,15 @@ class main_window(tk.Tk):
             "<ButtonRelease>", lambda event: bfn.fn_btn_release(event, self.btn_choose))
         
     def update_text_widget(self, new_text, replace = False, position = "end", scroll_to_update = False):
+        """Change displayed text.
+
+        Args:
+            new_text (string): What should be displayed in the text widget.
+            replace (bool, optional): Should this text replace existing content instead of being appended? Defaults to False.
+            position (str, optional): Where should this text be appended? Possible values are "start" and "end".
+                If replace is true, doesn't affect the result. Defaults to "end".
+            scroll_to_update (bool, optional): Should the text widget scroll to the newly added text? Defaults to False.
+        """
         text_wg = self.txt_results
         
         if position == "start":
