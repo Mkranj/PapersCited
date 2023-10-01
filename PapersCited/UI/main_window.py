@@ -121,6 +121,11 @@ class main_window(tk.Tk):
             bfn.fn_btn_choose(event, self.btn_choose, master = self, data = self.data))
         self.btn_choose.bind(
             "<ButtonRelease>", lambda event: bfn.fn_btn_release(event, self.btn_choose))
+
+        self.btn_from_clipboard.bind("<Button-1>", lambda event:
+            bfn.fn_btn_from_clipboard(event, self.btn_from_clipboard, master=self, data=self.data))
+        self.btn_from_clipboard.bind(
+            "<ButtonRelease>", lambda event: bfn.fn_btn_release(event, self.btn_from_clipboard))
         
     def update_text_widget(self, new_text, replace = False, position = "end", scroll_to_update = False):
         """Change displayed text.

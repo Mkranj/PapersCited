@@ -70,3 +70,42 @@ def fn_btn_choose(event, btn_choose, master, data):
         master.update_text_widget(message + "\n", position = "start")
 
     return("break")
+
+
+def fn_btn_from_clipboard(event, btn_from_clipboard, master, data):
+    """Clicking on From clipboard button
+    
+    The filepath is set to empty, and the clipboard contents are scanned for citations.
+
+    Args:
+        event (event): UI event
+        btn_from_clipboard (tk.Button): The button this function should be bound to.
+        master (main_window): The master window.
+        data (AppData): Application data belonging to master.
+    """
+    btn_from_clipboard.config(relief="sunken")
+
+    # clipboard_get() errors when clipboard is empty
+    try:
+        clipboard_text = master.clipboard_get()
+
+    except Exception as e:
+        clipboard_text = ""
+
+    data.set_new_filename(filename="")
+    master.title("PapersCited")
+    
+    try:
+        citations = fm.find_citations(clipboard_text)
+
+    except Exception as e:
+        error = str(e)
+        data.reset_on_error(error)
+        master.update_text_widget(data.active_results, replace=True)
+        return("break")
+
+    data.set_new_results_citations(citations)
+
+    master.update_text_widget(data.active_results, replace = True)
+    
+    return("break")
