@@ -7,6 +7,7 @@ import UI.fileManipulation as fm
 import UI.messages as ms
 from UI.messages import version
 from UI.appData import AppData
+import UI.btn_functions as bfn
 
 # Variables ----
 
@@ -35,7 +36,9 @@ class main_window(tk.Tk):
         self.rowconfigure(1, weight = 2, minsize = 400)
         self.rowconfigure(2, weight = 0, minsize = 30)
         
+        self.data = app_data
         self.create_widgets()
+        self.create_event_bindings()
         
     def create_widgets(self):
         # Sets up individual UI elements
@@ -111,4 +114,10 @@ class main_window(tk.Tk):
         btn_save_txt.grid(row = 2, column = 4, sticky = "SE",
                         padx = 10, pady = 5)
         self.btn_save_txt = btn_save_txt
+        
+    def create_event_bindings(self):
+        # Bind functionality to UI parts. Functions itself defined in btn_functions
+        self.btn_choose.bind("<Button-1>", lambda event, btn = self.btn_choose:
+            bfn.fn_btn_choose(event, self.btn_choose, master = self, data = self.data, text_component = self.txt_results))
+        self.btn_choose.bind("<ButtonRelease>", lambda event, btn = self.btn_choose: bfn.fn_btn_release(event, btn))
     
