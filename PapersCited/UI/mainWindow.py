@@ -19,7 +19,7 @@ startup_text = ms.intro_message
 citations_font = "Segoe UI Variable"
 citations_font_size = 11
 
-class main_window(tk.Tk):
+class mainWindow(tk.Tk):
     def __init__(self):
         super().__init__()
         
