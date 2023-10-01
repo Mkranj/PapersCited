@@ -138,3 +138,32 @@ def fn_btn_save_xlsx(event, btn_save_xlsx, master, data):
 
     master.update_text_widget(message, position = "end", scroll_to_update = True)
     return("break")
+
+
+def fn_btn_save_txt(event, btn_save_txt, master, data):
+    btn_save_txt.config(relief="sunken")
+    citations = data.get_citations()
+
+    if not data.any_citations_recorded():
+        master.update_text_widget(
+            ms.no_citations_to_save, position="end", scroll_to_update=True)
+        return("break")
+
+    # Ask user where to save, notify if cancelled
+    try:
+        doc_filename = data.popup_ask_save_file(".txt")
+    except Exception as e:
+        master.update_text_widget(ms.saving_cancelled, position = "end", scroll_to_update = True)
+        return("break")
+
+    try:
+        message = fm.write_txt(doc_filename,
+                            citations[0], citations[1])
+    except Exception as e:
+        error = str(e)
+        master.update_text_widget(ms.cant_write_file(doc_filename) + f"\n\n{error}",
+                                  position="end", scroll_to_update=True)
+        return("break")
+
+    master.update_text_widget(message, position="end", scroll_to_update=True)
+    return("break")

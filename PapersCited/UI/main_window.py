@@ -130,6 +130,11 @@ class main_window(tk.Tk):
         self.btn_save_xlsx.bind(
             "<ButtonRelease>", lambda event: bfn.fn_btn_release(event, self.btn_save_xlsx))
         
+        self.btn_save_txt.bind("<Button-1>", lambda event:
+            bfn.fn_btn_save_txt(event, self.btn_save_txt, master=self, data=self.data))
+        self.btn_save_txt.bind(
+            "<ButtonRelease>", lambda event: bfn.fn_btn_release(event, self.btn_save_txt))
+        
     def update_text_widget(self, new_text, replace = False, position = "end", scroll_to_update = False):
         """Change displayed text.
 
