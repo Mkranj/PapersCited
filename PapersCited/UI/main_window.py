@@ -120,4 +120,23 @@ class main_window(tk.Tk):
         self.btn_choose.bind("<Button-1>", lambda event, btn = self.btn_choose:
             bfn.fn_btn_choose(event, self.btn_choose, master = self, data = self.data, text_component = self.txt_results))
         self.btn_choose.bind("<ButtonRelease>", lambda event, btn = self.btn_choose: bfn.fn_btn_release(event, btn))
+        
+    def update_text_widget(self, new_text, replace = False, position = "end", scroll_to_update = False):
+        text_wg = self.txt_results
+        
+        if position == "start":
+            place_to_write = "1.0"
+        elif position == "end":
+            place_to_write = tk.END
+        else:
+            Exception("Incorrect position argument!")
+
+        text_wg.config(state = "normal")
+        if replace:
+            text_wg.delete("1.0", tk.END)
+        text_wg.insert(place_to_write, new_text)
+        text_wg.config(state = "disabled")
+        
+        if scroll_to_update:
+            text_wg.see(position)
     

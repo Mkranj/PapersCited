@@ -50,15 +50,9 @@ def fn_btn_choose(event, btn_choose, master, data, text_component):
 
     data.set_new_results_citations(citations)
     
-    text_component.config(state = "normal")
-    text_component.delete("1.0", tk.END)
-    text_component.insert("1.0", data.active_results)
-    text_component.config(state = "disabled")
+    master.update_text_widget(data.active_results, replace = True)
 
     if message:
-        text_component.config(state="normal")
-        text_component.insert('1.0', message + "\n")
-        text_component.config(state="disabled")
-        text_component.see('1.0')
+        master.update_text_widget(message + "\n", position = "start")
 
     return("break")
