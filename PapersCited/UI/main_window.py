@@ -42,8 +42,8 @@ class main_window(tk.Tk):
         self.__build_btn_choose()
         self.__build_btn_from_clipboard()
         self.__build_results()
-        self.__build_save_excel()
-        self.__build_save_text()
+        self.__build_save_xlsx()
+        self.__build_save_txt()
         
     def __build_btn_choose(self):
         btn_choose = tk.Button(master = self,
@@ -53,6 +53,7 @@ class main_window(tk.Tk):
                         )
 
         btn_choose.grid(row = 0, column = 0, sticky = "NW", padx = 10, pady = 5)
+        self.btn_choose = btn_choose
         
     def __build_btn_from_clipboard(self):
         btn_from_clipboard = tk.Button(master = self,
@@ -62,6 +63,7 @@ class main_window(tk.Tk):
                         )
 
         btn_from_clipboard.grid(row = 0, column = 1, sticky = "NW", padx = 5, pady = 5)
+        self.btn_from_clipboard = btn_from_clipboard
         
     def __build_results(self):
         # Frame element
@@ -88,8 +90,9 @@ class main_window(tk.Tk):
         txt_results.config(state = "normal")
         txt_results.grid(row = 0, column = 0, sticky="NSWE")
         txt_results.config(state = "disabled")
+        self.txt_results = txt_results
         
-    def __build_save_excel(self):
+    def __build_save_xlsx(self):
         btn_save_xlsx = tk.Button(master = self,
                           text = "Save as .xlsx",
                         borderwidth = 2,
@@ -97,8 +100,9 @@ class main_window(tk.Tk):
 
         btn_save_xlsx.grid(row = 2, column = 3, sticky = "SE",
                         padx = 10, pady = 5)
+        self.btn_save_xlsx = btn_save_xlsx
         
-    def __build_save_text(self):
+    def __build_save_txt(self):
         btn_save_txt = tk.Button(master = self,
                           text = "Save as .txt",
                         borderwidth = 2,
@@ -106,5 +110,5 @@ class main_window(tk.Tk):
 
         btn_save_txt.grid(row = 2, column = 4, sticky = "SE",
                         padx = 10, pady = 5)
-        
-    #
+        self.btn_save_txt = btn_save_txt
+    
