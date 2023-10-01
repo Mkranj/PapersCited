@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from UI.main_window import main_window
+from UI.mainWindow import main_window
 from UI.messages import version
 
 # Welcome message, before loading anything

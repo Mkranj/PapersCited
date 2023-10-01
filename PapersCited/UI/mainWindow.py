@@ -7,7 +7,7 @@ import UI.fileManipulation as fm
 import UI.messages as ms
 from UI.messages import version
 from UI.appData import AppData
-import UI.btn_functions as bfn
+import UI.btnFunctions as bfn
 
 # Constants ----
 
