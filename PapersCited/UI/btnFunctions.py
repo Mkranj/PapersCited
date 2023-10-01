@@ -16,7 +16,7 @@ def fn_btn_release(event, btn):
     return("break")
 
 
-def fn_btn_choose(event, btn_choose, master, data):
+def fn_btn_choose(event, btn_choose, master):
     """Clicking on Choose document button
     
     A popup for choosing a file appears. The chosen filepath is stored in application data. The filename is reflected
@@ -34,7 +34,7 @@ def fn_btn_choose(event, btn_choose, master, data):
         title="Select a document to search for citations:"
     )
     
-    data.set_new_filename(filepath)
+    master.data.set_new_filename(filepath)
   
     # Display the document title in main window
     input_filename = os.path.basename(filepath)
@@ -58,14 +58,14 @@ def fn_btn_choose(event, btn_choose, master, data):
         # Failure to read file
         error = str(e)
         
-        data.reset_on_error(error)
+        master.data.reset_on_error(error)
         
-        master.update_text_widget(data.get_active_results(), replace=True)
+        master.update_text_widget(master.data.get_active_results(), replace=True)
         return("break")
 
-    data.set_new_results_citations(citations)
+    master.data.set_new_results_citations(citations)
     
-    master.update_text_widget(data.get_active_results(), replace = True)
+    master.update_text_widget(master.data.get_active_results(), replace = True)
 
     if message:
         master.update_text_widget(message + "\n", position = "start")
@@ -73,7 +73,7 @@ def fn_btn_choose(event, btn_choose, master, data):
     return("break")
 
 
-def fn_btn_from_clipboard(event, btn_from_clipboard, master, data):
+def fn_btn_from_clipboard(event, btn_from_clipboard, master):
     """Clicking on From clipboard button
     
     The filepath is set to empty, and the clipboard contents are scanned for citations.
@@ -93,7 +93,7 @@ def fn_btn_from_clipboard(event, btn_from_clipboard, master, data):
     except Exception as e:
         clipboard_text = ""
 
-    data.set_new_filename(filename="")
+    master.data.set_new_filename(filename="")
     master.title("PapersCited")
     
     try:
@@ -101,28 +101,28 @@ def fn_btn_from_clipboard(event, btn_from_clipboard, master, data):
 
     except Exception as e:
         error = str(e)
-        data.reset_on_error(error)
-        master.update_text_widget(data.get_active_results(), replace=True)
+        master.data.reset_on_error(error)
+        master.update_text_widget(master.data.get_active_results(), replace=True)
         return("break")
 
-    data.set_new_results_citations(citations)
+    master.data.set_new_results_citations(citations)
 
-    master.update_text_widget(data.get_active_results(), replace=True)
+    master.update_text_widget(master.data.get_active_results(), replace=True)
     
     return("break")
 
 
-def fn_btn_save_xlsx(event, btn_save_xlsx, master, data):
+def fn_btn_save_xlsx(event, btn_save_xlsx, master):
     btn_save_xlsx.config(relief="sunken")
-    citations = data.get_citations()
+    citations = master.data.get_citations()
 
-    if not data.any_citations_recorded():
+    if not master.data.any_citations_recorded():
         master.update_text_widget(ms.no_citations_to_save, position = "end", scroll_to_update = True)
         return("break")
 
     # Ask user where to save, notify if cancelled
     try:
-        doc_filename = data.popup_ask_save_file(".xlsx")
+        doc_filename = master.data.popup_ask_save_file(".xlsx")
     except Exception as e:
         master.update_text_widget(ms.saving_cancelled, position = "end", scroll_to_update = True)
         return("break")
@@ -140,18 +140,18 @@ def fn_btn_save_xlsx(event, btn_save_xlsx, master, data):
     return("break")
 
 
-def fn_btn_save_txt(event, btn_save_txt, master, data):
+def fn_btn_save_txt(event, btn_save_txt, master):
     btn_save_txt.config(relief="sunken")
-    citations = data.get_citations()
+    citations = master.data.get_citations()
 
-    if not data.any_citations_recorded():
+    if not master.data.any_citations_recorded():
         master.update_text_widget(
             ms.no_citations_to_save, position="end", scroll_to_update=True)
         return("break")
 
     # Ask user where to save, notify if cancelled
     try:
-        doc_filename = data.popup_ask_save_file(".txt")
+        doc_filename = master.data.popup_ask_save_file(".txt")
     except Exception as e:
         master.update_text_widget(ms.saving_cancelled, position = "end", scroll_to_update = True)
         return("break")

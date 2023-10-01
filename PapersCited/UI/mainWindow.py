@@ -126,22 +126,22 @@ class main_window(tk.Tk):
     def create_event_bindings(self):
         # Bind functionality to UI parts. Functions itself defined in btn_functions
         self.btn_choose.bind("<Button-1>", lambda event:
-            bfn.fn_btn_choose(event, self.btn_choose, master = self, data = self.data))
+            bfn.fn_btn_choose(event, self.btn_choose, master = self))
         self.btn_choose.bind(
             "<ButtonRelease>", lambda event: bfn.fn_btn_release(event, self.btn_choose))
 
         self.btn_from_clipboard.bind("<Button-1>", lambda event:
-            bfn.fn_btn_from_clipboard(event, self.btn_from_clipboard, master=self, data=self.data))
+            bfn.fn_btn_from_clipboard(event, self.btn_from_clipboard, master=self))
         self.btn_from_clipboard.bind(
             "<ButtonRelease>", lambda event: bfn.fn_btn_release(event, self.btn_from_clipboard))
         
         self.btn_save_xlsx.bind("<Button-1>", lambda event:
-            bfn.fn_btn_save_xlsx(event, self.btn_save_xlsx, master=self, data=self.data))
+            bfn.fn_btn_save_xlsx(event, self.btn_save_xlsx, master=self))
         self.btn_save_xlsx.bind(
             "<ButtonRelease>", lambda event: bfn.fn_btn_release(event, self.btn_save_xlsx))
         
         self.btn_save_txt.bind("<Button-1>", lambda event:
-            bfn.fn_btn_save_txt(event, self.btn_save_txt, master=self, data=self.data))
+            bfn.fn_btn_save_txt(event, self.btn_save_txt, master=self))
         self.btn_save_txt.bind(
             "<ButtonRelease>", lambda event: bfn.fn_btn_release(event, self.btn_save_txt))
         
