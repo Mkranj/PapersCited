@@ -1,35 +1,64 @@
 import UI.fileManipulation as fm
+import tkinter as tk
 from tkinter import filedialog
+import os
 
 # Helper function for raising a pressed button
 def fn_btn_release(event, btn):
-  btn.config(relief = "raised")
-  return("break")
+    btn.config(relief = "raised")
+    return("break")
 
 
 def fn_btn_choose(event, btn_choose, master, data, text_component):
-  btn_choose.config(relief="sunken")
-  filename = filedialog.askopenfilename(
-      title="Select a document to search for citations:"
-  )
-  data.set_new_filename(filename,
-                            list_affected_wg=[master])
-  try:
-    reading_operation = fm.read_document(filename)
+    btn_choose.config(relief="sunken")
+    
+    filepath = filedialog.askopenfilename(
+        title="Select a document to search for citations:"
+    )
+    
+    data.set_new_filename(filepath)
+  
+    # Display the document title in main window
+    input_filename = os.path.basename(filepath)
 
-    message = reading_operation["status_message"]
-    contents = reading_operation["document_text"]
-    citations = fm.find_citations(contents)
+    if input_filename == "":
+        input_filename = "PapersCited"
+    else:
+        input_filename = input_filename + " - PapersCited"
 
-  except Exception as e:
-    error = str(e)
-    data.reset_on_error(error, list_affected_wg=[text_component])
+    master.title(input_filename)
+    
+    # Read document text and find citations
+    try:
+        reading_operation = fm.read_document(filepath)
+
+        message = reading_operation["status_message"]
+        contents = reading_operation["document_text"]
+        citations = fm.find_citations(contents)
+
+    except Exception as e:
+        # Failure to read file
+        error = str(e)
+        
+        data.reset_on_error(error)
+        
+        text_component.config(state = "normal")
+        text_component.delete("1.0", tk.END)
+        text_component.insert("1.0", data.active_results)
+        text_component.config(state = "disabled")
+        return("break")
+
+    data.set_new_results_citations(citations)
+    
+    text_component.config(state = "normal")
+    text_component.delete("1.0", tk.END)
+    text_component.insert("1.0", data.active_results)
+    text_component.config(state = "disabled")
+
+    if message:
+        text_component.config(state="normal")
+        text_component.insert('1.0', message + "\n")
+        text_component.config(state="disabled")
+        text_component.see('1.0')
+
     return("break")
-
-  data.set_new_results_citations(citations,
-                                     list_affected_wg=[text_component])
-
-  if message:
-    data.warning_in_text_widget(message, list_affected_wg=[text_component])
-
-  return("break")
