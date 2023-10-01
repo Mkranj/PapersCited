@@ -35,6 +35,11 @@ class main_window(tk.Tk):
         self.rowconfigure(2, weight = 0, minsize = 30)
         
         self.data = AppData(startup_filename, startup_text)
+        
+        # Create an icon for the main window
+        PC_icon = tk.PhotoImage(file = "UI/miniicon.png")
+        self.iconphoto(True, PC_icon)
+        
         self.create_widgets()
         self.create_event_bindings()
         
