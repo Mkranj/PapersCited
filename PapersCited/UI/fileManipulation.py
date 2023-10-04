@@ -3,11 +3,8 @@ import UI.messages as ms
 import UI.transformCitations as tc
 
 import os
-import sys
 import textract
 import xlsxwriter
-import tkinter
-from tkinter import filedialog
 from docx2python import docx2python
 
 def check_file(filename):

@@ -1,4 +1,3 @@
-import tkinter as tk
 from tkinter.filedialog import asksaveasfilename
 import UI.transformCitations as tc
 import UI.messages as ms

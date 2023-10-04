@@ -1,11 +1,6 @@
 import tkinter as tk
 import tkinter as tk
-from tkinter import filedialog
-from tkinter import messagebox
-
-import UI.fileManipulation as fm
 import UI.messages as ms
-from UI.messages import version
 from UI.appData import AppData
 import UI.btnFunctions as bfn
 
@@ -19,7 +14,7 @@ startup_text = ms.intro_message
 citations_font = "Segoe UI Variable"
 citations_font_size = 11
 
-class main_window(tk.Tk):
+class mainWindow(tk.Tk):
     def __init__(self):
         super().__init__()
         

@@ -26,7 +26,6 @@ def fn_btn_choose(event, btn_choose, master):
         event (event): UI event
         btn_choose (tk.Button): The button this function should be bound to.
         master (main_window): The master window.
-        data (AppData): Application data belonging to master.
     """
     btn_choose.config(relief="sunken")
     
@@ -49,22 +48,18 @@ def fn_btn_choose(event, btn_choose, master):
     # Read document text and find citations
     try:
         reading_operation = fm.read_document(filepath)
-
-        message = reading_operation["status_message"]
-        contents = reading_operation["document_text"]
-        citations = fm.find_citations(contents)
-
     except Exception as e:
         # Failure to read file
         error = str(e)
-        
         master.data.reset_on_error(error)
-        
         master.update_text_widget(master.data.get_active_results(), replace=True)
         return("break")
 
-    master.data.set_new_results_citations(citations)
+    message = reading_operation["status_message"]
+    contents = reading_operation["document_text"]
     
+    citations = fm.find_citations(contents)
+    master.data.set_new_results_citations(citations)
     master.update_text_widget(master.data.get_active_results(), replace = True)
 
     if message:
@@ -82,7 +77,6 @@ def fn_btn_from_clipboard(event, btn_from_clipboard, master):
         event (event): UI event
         btn_from_clipboard (tk.Button): The button this function should be bound to.
         master (main_window): The master window.
-        data (AppData): Application data belonging to master.
     """
     btn_from_clipboard.config(relief="sunken")
 
@@ -90,23 +84,14 @@ def fn_btn_from_clipboard(event, btn_from_clipboard, master):
     try:
         clipboard_text = master.clipboard_get()
 
-    except Exception as e:
+    except tk.TclError as e:
         clipboard_text = ""
 
     master.data.set_new_filename(filename="")
     master.title("PapersCited")
     
-    try:
-        citations = fm.find_citations(clipboard_text)
-
-    except Exception as e:
-        error = str(e)
-        master.data.reset_on_error(error)
-        master.update_text_widget(master.data.get_active_results(), replace=True)
-        return("break")
-
+    citations = fm.find_citations(clipboard_text)
     master.data.set_new_results_citations(citations)
-
     master.update_text_widget(master.data.get_active_results(), replace=True)
     
     return("break")
