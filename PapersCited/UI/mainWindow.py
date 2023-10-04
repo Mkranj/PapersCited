@@ -32,8 +32,8 @@ class mainWindow(tk.Tk):
         self.data = AppData(startup_filename, startup_text)
         
         # Create an icon for the main window
-        PC_icon = tk.PhotoImage(file = "UI/miniicon.png")
-        self.iconphoto(True, PC_icon)
+        PC_icon = tk.PhotoImage(file = "UI/P_icon.png")
+        self.wm_iconphoto(True, PC_icon)
         
         self.create_widgets()
         self.create_event_bindings()
