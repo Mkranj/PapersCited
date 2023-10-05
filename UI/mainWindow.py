@@ -3,6 +3,7 @@ import tkinter as tk
 import UI.messages as ms
 from UI.appData import AppData
 import UI.btnFunctions as bfn
+import os.path
 
 # Constants ----
 
@@ -32,7 +33,9 @@ class mainWindow(tk.Tk):
         self.data = AppData(startup_filename, startup_text)
         
         # Create an icon for the main window
-        PC_icon = tk.PhotoImage(file = "UI/P_icon.png")
+        UI_dir = os.path.dirname(os.path.abspath(__file__))
+        PC_icon_file = os.path.join(UI_dir, "P_icon.png")
+        PC_icon = tk.PhotoImage(file = PC_icon_file)
         self.wm_iconphoto(True, PC_icon)
         
         self.create_widgets()
