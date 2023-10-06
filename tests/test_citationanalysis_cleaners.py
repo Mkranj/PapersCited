@@ -1,7 +1,7 @@
-import pytest
+# Test fns in citationAnalysis that don't find matches itself, but perform
+# cleanup, characters removal, duplicates removal etc.
 import citationAnalysis.citationAnalysis as ca
 
-# Test class behavour
 def test_PhrasesToChange_has_all_attributes():
   phrases = ca.PhrasesToChange()
   assert isinstance(phrases.characters_to_exclude, list)
