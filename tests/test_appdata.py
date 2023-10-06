@@ -59,3 +59,13 @@ def test_startup_text_reflected_in_results():
     appdata = AppData("", startup_text)
       
     assert appdata.get_active_results() == startup_text
+    
+def test_result_on_error_no_citations_records_error():
+    startup_text = "Howdy"
+    appdata = AppData("", startup_text)
+      
+    error_text = "My error"  
+    appdata.reset_on_error(error_text)  
+      
+    assert appdata.get_active_results() == error_text
+    assert appdata.get_citations() == []
