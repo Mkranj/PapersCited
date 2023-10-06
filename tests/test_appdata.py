@@ -69,3 +69,16 @@ def test_result_on_error_no_citations_records_error():
       
     assert appdata.get_active_results() == error_text
     assert appdata.get_citations() == []
+    
+    # Store some citations, then cleanup on error should empty them
+    narrow_citations = CitationType(["First 2010", "Second 2020"])
+    wide_citations_none = CitationType([])
+    appdata.set_new_results_citations([narrow_citations, wide_citations_none])
+    
+    assert appdata.get_citations != []
+    assert appdata.get_active_results != error_text
+    
+    appdata.reset_on_error(error_text)
+    
+    assert appdata.get_active_results() == error_text
+    assert appdata.get_citations() == []
