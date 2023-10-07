@@ -3,11 +3,8 @@ import UI.messages as ms
 import UI.transformCitations as tc
 
 import os
-import sys
 import textract
 import xlsxwriter
-import tkinter
-from tkinter import filedialog
 from docx2python import docx2python
 
 def check_file(filename):
@@ -15,7 +12,7 @@ def check_file(filename):
     file_exists = os.path.isfile(filename)
 
     if file_exists == False:
-        raise Exception("No file selected")
+        raise Exception(ms.no_file_selected)
 
     warning = None
     
@@ -56,7 +53,7 @@ def read_document(filename):
     try: 
         message = check_file(filename)
     except:
-        raise Exception("No file selected")
+        raise Exception(ms.no_file_selected)
     
     file_extension = os.path.splitext(filename)[1].casefold()
     
@@ -164,20 +161,11 @@ def write_txt(filename, citations, wider_citations):
     citations_string = tc.citations_to_string_pretty(citations, wider_citations)
     
     # Create a file
-    with open(output_filename, 'w') as f:
+    with open(output_filename, 'w', encoding = "utf-8") as f:
         f.write(citations_string)
     
     success_message = ms.report_found_citations(output_filename, citations, wider_citations)
     
     return(success_message)
-
-def shorten_filename(filename, nchar = 50):
-    f_length = len(filename)
-    if f_length <= nchar: return(filename)
-    
-    cutoff_length = nchar - 2
-    first_part = filename[0:(cutoff_length - 1)]
-    shortened_name = first_part + "..."
-    return(shortened_name)
 
     
