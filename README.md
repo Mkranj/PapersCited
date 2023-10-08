@@ -2,10 +2,10 @@
 Find all citations mentioned in a document. Build and check your reference lists quickly and easily.  
 
 ## About:
-***PapersCited*** is a program designed to help you with **writing and reviewing reference lists** in your scientific articles. It reads through a document of your choice and takes a note every time something is cited. At the end, it lists all of those citations in alphabetical order, omitting duplicate entries. You can also save them in an Excel or textual file.
-Now you can easily go through your reference list and note if you cited something but didn't include it or, conversely, you wrote a reference that isn't cited anywhere in the article. It is also handy for writing a reference list from stratch. You no longer need to manually go over the whole article and note all the times you cite another source.  
+***PapersCited*** is a program designed to help you with **writing and reviewing reference lists** in your scientific articles. It reads through a document of your choice and notes every time something is cited. At the end, it lists all of those citations in alphabetical order, omitting duplicate entries. You can also save them in an Excel or textual file.
+Now you can easily go through your reference list and note if you cited something but didn't include it or, conversely, you wrote a reference that isn't cited anywhere in the article. It is also handy for writing a reference list from stratch.
 
-PapersCited covers **APA style** and **Vancouver style** citations excellently, but **Chicago style** and similar should work as well. The program was built with texts written in **English** and **Croatian** in mind. Some sources may be detected incorrectly in other languages.
+PapersCited handles **APA style** citations excellently, but **Chicago style** and similar should work as well. The program was built with texts written in **English** and **Croatian** in mind. Some sources may be detected incorrectly in other languages.
 
 Tested on Windows 10 using .docx, .txt, .doc and .pdf files. 
 
@@ -18,7 +18,8 @@ Found PapersCited useful? How about [**buying me a coffee**](https://www.buymeac
 - Click the *Choose document* button and select a file you want to analyse.
 - After inspecting the results, you can save them as .xlsx or .txt via appropriate buttons.
 
-The program comes with a file called "*example.docx*" if you want to experiment with the program and preview what the output looks like.
+The program comes with a file called "*example.docx*" if you want to experiment with the program and preview what the output looks like.  
+For non-Windows OS, please see *Running the latest version of the Python script*.
 
 ### Excel output layout
 The first column in the Excel file is empty so you can easily mark certain citations as "OK" or "needs double-checking" when reviewing a reference list.
@@ -50,7 +51,7 @@ Before running the script, install the Miniconda distribution to run Python scri
 https://docs.conda.io/en/latest/miniconda.html  
 Keep the default values for all the settings **except** the checkbox asking to put Miniconda on your Path variable. That is off by default, **turn it on**.  
 
-After installing Miniconda, open the start menu and search for Windows Powershell, then open it. Install the two modules required by the program, as described in **Dependencies**.
+After installing Miniconda, open the start menu and search for Windows Powershell, then open it. Install PIP, the package manager for Python. Then install the modules required by the program, as described in **Dependencies**.
 
 With all that done, the *PapersCited.py* script should run when double-clicked. If it asks you which program to open it with, choose to *look for another app on this PC* and navigate to C:\Users\\*(your username)*\miniconda3 and select *python.exe*. Now you can just double-click on the script to run it.
 
