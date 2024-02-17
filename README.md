@@ -5,6 +5,8 @@ Find all citations mentioned in a document. Build and check your reference lists
 ***PapersCited*** is a program designed to help you with **writing and reviewing reference lists** in your scientific articles. It reads through a document of your choice and notes every time something is cited. At the end, it lists all of those citations in alphabetical order, omitting duplicate entries. You can also save them in an Excel or textual file.
 Now you can easily go through your reference list and note if you cited something but didn't include it or, conversely, you wrote a reference that isn't cited anywhere in the article. It is also handy for writing a reference list from stratch.
 
+![Example of detecting citations](https://github.com/Mkranj/PapersCited/blob/main/example_ui.png?raw=true)
+
 PapersCited handles **APA style** citations excellently, but **Chicago style** and similar should work as well. The program was built with texts written in **English** and **Croatian** in mind. Some sources may be detected incorrectly in other languages.
 
 Tested on Windows 10 using .docx, .txt, .doc and .pdf files. 
